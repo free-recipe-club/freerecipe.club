@@ -2,7 +2,7 @@
 
 Your always-ad-free source for recipes from the heart.
 
-> 🥖 **Here for Hacktoberfest?** More details are coming. Think about a recipe that means something special to you!
+> 🎃 **Here for Hacktoberfest?** More details are coming. Think about a recipe that means something special to you!
 
 ## 🥖 Project Structure
 
