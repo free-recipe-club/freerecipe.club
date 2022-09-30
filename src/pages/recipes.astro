@@ -1,16 +1,24 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { RecipeCard } from '../components/RecipeCard';
-import fs from 'node:fs/promises';
+import fs from 'node:fs';
 import yaml from 'yaml';
 import { Recipe } from '../interfaces/Recipe';
 
-const file = await fs.readFile('./src/recipes/pumpkin_doughnut.yml', 'utf8');
-const recipe = yaml.parse(file) as Recipe;
+const recipePath = './src/recipes/';
+let recipes: Recipe[] = [];
+const filenames = fs.readdirSync(recipePath);
+filenames.forEach((filename) => {
+	const file = fs.readFileSync(`${recipePath}${filename}`, 'utf8');
+	const recipe = yaml.parse(file) as Recipe;
+	recipes.push(recipe);
+});
 ---
 
 <Layout title="Recipes.">
 	<main>
-		<RecipeCard recipe={recipe} />
+		{recipes.map((recipe) => (
+			<RecipeCard recipe={recipe} />
+		))}
 	</main>
 </Layout>
