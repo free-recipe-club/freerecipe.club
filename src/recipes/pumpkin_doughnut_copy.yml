@@ -26,10 +26,12 @@ directions:
   - Bake doughnuts about 15 minutes. Check with toothpick.
   - Stir sugar and cinnamon in bowl. Brush doughnuts with butter and dip in cinnamon sugar.
   - Serve warm or room temperature.
-image: pumpkin_doughnut.png
 background: Our family really loves doughnuts! With it being fall, I needed to find a pumpkin recipe. I found the directions easy to follow and they came out delicious! This recipe is a keeper!
 links:
   -
-    text: Source
+    text: Recipe Source
     url: https://www.foodnetwork.com/recipes/valerie-bertinelli/baked-pumpkin-doughnuts-3514394
+  -
+    text: Image Source
+    url: https://commons.wikimedia.org/wiki/File:Bake_these_(pumpkins_in_Toronto).jpg
 flavor: Pumpkin spice season is coming.

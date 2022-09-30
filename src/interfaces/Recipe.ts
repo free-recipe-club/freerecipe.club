@@ -6,7 +6,6 @@ export interface Recipe {
     location: string,
     components: string[][],
     directions: string[],
-    image: string,
     background: string,
     links: Link[],
     flavor: string,
