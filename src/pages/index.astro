@@ -1,19 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Character } from "../components/Character";
 ---
 
 <Layout title="Free Recipe Club." favicon="Pizza">
-	<main>
-		<h1
-			class="text-6xl text-center pt-10 sm:px-5 sm:text-left transition-all duration-700 lg:text-7xl xl:text-8xl 2xl:text-9xl font-medium"
-		>
-			Something delicious <br /> is cooking
-		</h1>
-		<div
-			class="absolute w-full sm:w-auto flex justify-center sm:right-10 bottom-10"
-		>
-			<Character client:load character="Soda" mood="Neutral" />
+	<div class="relative max-w-5xl mx-auto pt-20 sm:pt-24 lg:pt-32">
+		<div class="text-center text-slate-600 text-xl sm:text-2xl lg:text-3xl">
+			[Something delicious is <a href="https://en.wikipedia.org/wiki/Cooking" title="Wikipedia article for cooking" class="text-indigo-500 visited:text-indigo-400 animate-pulse underline">cooking</a>]
 		</div>
-	</main>
+	</div>
 </Layout>

@@ -13,7 +13,7 @@ const recipes: Recipe[] = fs.readdirSync(recipePath).map((filename) => {
 });
 ---
 
-<Layout title="Recipes." favicon="Paper">
+<Layout title="Recipes." favicon="MiniFridge">
 	<main>
 		{recipes.map((recipe: Recipe) => <RecipeCard {...recipe} />)}
 	</main>
