@@ -1,23 +1,33 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import fs from 'node:fs';
-import yaml from 'yaml';
-import type { Recipe } from '../interfaces/Recipe';
+import { getCollection } from 'astro:content';
+import { RecipeCard } from '../components/RecipeCard';
 
-const recipePath = './src/recipes/';
-let recipes: Recipe[] = [];
-const filenames = fs.readdirSync(recipePath);
-filenames.forEach((filename) => {
-	const file = fs.readFileSync(`${recipePath}${filename}`, 'utf8');
-	const recipe = yaml.parse(file) as Recipe;
-	recipes.push(recipe);
-});
+const recipes = await getCollection('recipes');
 ---
 
 <Layout title="Recipes.">
-	<main>
-		{recipes.map((recipe) => (
-			<h1>{recipe.title}</h1>
-		))}
+	<nav class="bg-white shadow-sm border-b">
+		<div class="container mx-auto px-4 py-4">
+			<div class="flex justify-between items-center">
+				<div class="flex items-center space-x-2">
+					<img src="/frying_pan.svg" alt="frying pan" class="h-8 w-8" />
+					<a href="/" class="text-xl font-bold text-gray-800">Free Recipe Club</a>
+				</div>
+				<div class="space-x-4">
+					<a href="/" class="text-gray-600 hover:text-gray-800">Home</a>
+					<a href="/recipes" class="text-gray-600 hover:text-gray-800 font-semibold">Recipes</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	
+	<main class="container mx-auto px-4 py-8">
+		<h1 class="text-4xl font-bold text-center mb-8">Our Recipe Collection</h1>
+		<div class="max-w-4xl mx-auto">
+			{recipes.map((recipe) => (
+				<RecipeCard recipe={recipe} client:load />
+			))}
+		</div>
 	</main>
 </Layout>

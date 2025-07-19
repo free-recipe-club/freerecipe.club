@@ -5,6 +5,9 @@ import react from "@astrojs/react";
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), react()],
+  image: {
+    remotePatterns: [{ hostname: "*.wikimedia.org" }]
+  },
   vite: {
     optimizeDeps: {
       exclude: ['yaml']

@@ -7,12 +7,17 @@ const { title } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" transition:animate="fade">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/frying_pan.svg" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content="Free Recipe Club - A community of shared recipes and culinary experiences" />
+		<meta name="keywords" content="recipes, cooking, food, community, free" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content="Free Recipe Club - A community of shared recipes and culinary experiences" />
+		<meta property="og:type" content="website" />
 		<title>{title}</title>
 	</head>
 	<body>
@@ -52,5 +57,10 @@ const { title } = Astro.props;
 	:global(code) {
 		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
 			Bitstream Vera Sans Mono, Courier New, monospace;
+	}
+	
+	/* View transitions */
+	@view-transition {
+		navigation: auto;
 	}
 </style>

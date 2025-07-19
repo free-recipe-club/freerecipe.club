@@ -3,11 +3,51 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Welcome to the Free Recipe Club.">
-	<main>
-		<h1>Something <span class="text-gradient">exciting</span> is cooking.</h1>
-		<div>
-			<!-- https://www.svgrepo.com/svg/17106/frying-pan -->
-			<img src="frying_pan.svg" alt="frying pan" class="motion-safe:hover:animate-[wiggle_1s_ease-in-out_infinite] h-96" />
+	<nav class="bg-white shadow-sm border-b">
+		<div class="container mx-auto px-4 py-4">
+			<div class="flex justify-between items-center">
+				<div class="flex items-center space-x-2">
+					<img src="frying_pan.svg" alt="frying pan" class="h-8 w-8" />
+					<a href="/" class="text-xl font-bold text-gray-800">Free Recipe Club</a>
+				</div>
+				<div class="space-x-4">
+					<a href="/" class="text-gray-600 hover:text-gray-800">Home</a>
+					<a href="/recipes" class="text-gray-600 hover:text-gray-800">Recipes</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	
+	<main class="container mx-auto px-4 py-8">
+		<div class="text-center max-w-3xl mx-auto">
+			<h1 class="text-5xl font-bold mb-6">
+				Something <span class="text-gradient">exciting</span> is cooking.
+			</h1>
+			
+			<p class="text-xl text-gray-600 mb-8">
+				Welcome to Free Recipe Club - a community where we share our favorite recipes and culinary stories.
+			</p>
+			
+			<div class="mb-8">
+				<img 
+					src="frying_pan.svg" 
+					alt="frying pan" 
+					class="motion-safe:hover:animate-[wiggle_1s_ease-in-out_infinite] h-96 mx-auto" 
+				/>
+			</div>
+			
+			<div class="space-y-4">
+				<a 
+					href="/recipes" 
+					class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-shadow"
+				>
+					Browse Our Recipes
+				</a>
+				
+				<p class="text-gray-600">
+					Discover delicious recipes shared by our community members from around the world.
+				</p>
+			</div>
 		</div>
 	</main>
 </Layout>
@@ -15,16 +55,6 @@ import Layout from '../layouts/Layout.astro';
 <style>
 	:root {
 		--astro-gradient: linear-gradient(0deg, #4f39fa, #da62c4);
-	}
-
-	h1 {
-		margin: 2rem 0;
-	}
-
-	main {
-		margin: auto;
-		padding: 1em;
-		max-width: 60ch;
 	}
 
 	.text-gradient {
@@ -48,26 +78,8 @@ import Layout from '../layouts/Layout.astro';
 		}
 	}
 
-	.instructions {
-		line-height: 1.6;
-		margin: 1rem 0;
-		background: #4f39fa;
-		padding: 1rem;
-		border-radius: 0.4rem;
-		color: var(--color-bg);
-	}
-
-	.instructions code {
-		font-size: 0.875em;
-		border: 0.1em solid var(--color-border);
-		border-radius: 4px;
-		padding: 0.15em 0.25em;
-	}
-
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
+	@keyframes wiggle {
+		0%, 100% { transform: rotate(-3deg); }
+		50% { transform: rotate(3deg); }
 	}
 </style>
