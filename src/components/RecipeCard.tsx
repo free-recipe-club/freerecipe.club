@@ -1,14 +1,10 @@
-import { Component } from 'react';
-import { Recipe } from '../interfaces/Recipe';
+import React from 'react';
+import type { Recipe } from '../interfaces/Recipe';
 
 type RecipeCardProps = {
-  recipe: Recipe,
+  recipe: Recipe;
 };
 
-export class RecipeCard extends Component<RecipeCardProps> {
-  render() {
-    const { recipe } = this.props;
-
-    return <h1>{recipe.title}</h1>;
-  }
+export function RecipeCard({ recipe }: RecipeCardProps) {
+  return <h1>{recipe.title}</h1>;
 }

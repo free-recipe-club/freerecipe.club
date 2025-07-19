@@ -1,9 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { RecipeCard } from '../components/RecipeCard';
 import fs from 'node:fs';
 import yaml from 'yaml';
-import { Recipe } from '../interfaces/Recipe';
+import type { Recipe } from '../interfaces/Recipe';
 
 const recipePath = './src/recipes/';
 let recipes: Recipe[] = [];
@@ -18,7 +17,7 @@ filenames.forEach((filename) => {
 <Layout title="Recipes.">
 	<main>
 		{recipes.map((recipe) => (
-			<RecipeCard recipe={recipe} />
+			<h1>{recipe.title}</h1>
 		))}
 	</main>
 </Layout>
