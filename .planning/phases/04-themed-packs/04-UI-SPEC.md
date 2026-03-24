@@ -5,6 +5,7 @@ status: draft
 shadcn_initialized: false
 preset: none
 created: 2026-03-24
+revised: 2026-03-24
 ---
 
 # Phase 4 — UI Design Contract
@@ -129,7 +130,7 @@ Inherited from Phase 2 baseline. Pack-specific usages noted:
 |-------|-------|-------------------|
 | xs | 4px | Badge icon gap from badge text |
 | sm | 8px | Badge internal padding, theme picker option gaps |
-| md | 16px | Pack card internal padding, page horizontal padding (mobile), theme picker container padding |
+| md | 16px | Pack card internal padding, page horizontal padding (mobile), theme picker container padding, nav vertical padding |
 | lg | 24px | Gap between pack cards on index, gap between recipe cards on pack page |
 | xl | 32px | Pack page header vertical padding, pack feature section padding on home page |
 | 2xl | 48px | Pack page hero section vertical padding |
@@ -144,12 +145,11 @@ Exceptions: none
 | Role | Size | Weight | Line Height | Font Stack | Tailwind Class |
 |------|------|--------|-------------|------------|----------------|
 | Body | 16px | 400 | 1.5 | `var(--theme-body-font)` | `text-base` |
-| Body large | 18px | 400 | 1.6 | `var(--theme-body-font)` | `text-lg leading-relaxed` |
-| Label | 14px | 600 | 1.4 | `var(--theme-body-font)` | `text-sm font-semibold` |
+| Label | 14px | 700 | 1.4 | `var(--theme-body-font)` | `text-sm font-bold` |
 | Heading | 24px | 700 | 1.2 | `var(--theme-heading-font)` | `text-2xl font-bold` |
 | Display | 36px | 700 | 1.1 | `var(--theme-heading-font)` | `text-4xl font-bold` |
 
-**Weights used:** 400 (regular), 600 (semibold), 700 (bold) — 400 and 700 inherited from Phases 2–3; 600 added for labels/badges.
+**Weights used:** 400 (regular), 700 (bold) — inherited from Phases 2–3.
 
 **Per-pack font override:** Autumn Harvest uses `Georgia, "Times New Roman", serif` for headings (`--theme-heading-font`). This gives pack pages an editorial, seasonal-magazine quality without loading web fonts (zero third-party scripts per CORE-01). Body text remains system sans-serif for readability.
 
@@ -158,17 +158,17 @@ Exceptions: none
 | Context | Role Applied |
 |---------|-------------|
 | Pack page title (h1) | Display (36px bold, heading font) |
-| Pack description paragraph | Body large (18px regular) |
+| Pack description paragraph | Body (16px regular, `leading-relaxed`) |
 | Pack card title on index | Heading (24px bold, heading font) |
 | Pack card description snippet | Body (16px regular) |
 | Recipe card title within pack page | Heading (24px bold, heading font) |
-| Recipe card byline/location | Label (14px semibold) |
-| Pack badge text | Label (14px semibold) |
-| Theme picker label | Label (14px semibold) |
+| Recipe card byline/location | Label (14px bold) |
+| Pack badge text | Label (14px bold) |
+| Theme picker label | Label (14px bold) |
 | Nav bar site name | Heading (24px bold, heading font) |
 | Nav links | Body (16px regular) |
 | Home page pack feature heading | Heading (24px bold, heading font) |
-| Home page pack feature CTA | Body (16px, 600 weight) |
+| Home page pack feature CTA | Body (16px bold) |
 
 ---
 
@@ -201,8 +201,8 @@ Exceptions: none
 ### Accent Reserved For (exhaustive list)
 - Nav bar site name link color
 - Recipe title links on listing/pack pages
-- "Explore Pack" CTA button on home page
-- "Browse Recipes" CTA on pack page
+- "Explore the Collection" CTA link on home page pack feature
+- "Start Cooking" CTA text on pack page recipe cards (visible link text below byline)
 - Pack badge background
 - Progress bar fill in cooking mode
 - Navigation buttons in cooking mode (Previous / Next / Finish Cooking)
@@ -238,7 +238,7 @@ Extends Phase 2 nav with pack link and theme picker.
 | Center-right | `Recipes` | 16px, accent color, links to `/recipes` |
 | Center-right | `Packs` | 16px, accent color, links to `/packs` |
 | Right | Theme picker toggle | 14px, icon + label, triggers picker dropdown |
-| Container | `max-w-2xl mx-auto px-4 py-3` | Consistent with content width |
+| Container | `max-w-2xl mx-auto px-4 py-4` | Consistent with content width |
 | Background | `var(--theme-nav-bg)` | Subtle tinted background to separate nav from content |
 | Print | Hidden | `print:hidden` |
 
@@ -254,7 +254,7 @@ A small dropdown toggled by clicking a palette icon (🎨) in the nav. Persists 
 |---------|-------|
 | Pack option row | 44px height, 16px horizontal padding, flex row |
 | Pack color swatch | 24px × 24px circle showing pack's accent color |
-| Pack name | 14px semibold, `var(--theme-text)` |
+| Pack name | 14px bold, `var(--theme-text)` |
 | Active indicator | 2px left border in accent color on the currently active pack |
 | Container | `var(--theme-surface)` background, `var(--theme-border)` border, 8px border-radius |
 
@@ -297,15 +297,15 @@ A new section on the home page showcasing the active pack. Placed between the he
 |---------|-------|
 | Feature card | `var(--theme-surface)` background, `var(--theme-border)` border, 8px border-radius, 24px padding |
 | Pack icon + name | 24px bold, `var(--theme-heading-font)`, accent color |
-| Description | 16px regular, `var(--theme-text-secondary)` |
-| CTA link | 16px semibold, accent color, hover underline, links to `/packs/autumn-harvest` |
+| Description | 16px regular, `leading-relaxed`, `var(--theme-text-secondary)` |
+| CTA link | 16px bold, accent color, hover underline, links to `/packs/autumn-harvest` |
 
 ### Pack Index Page (`/packs`)
 
 Visual card grid — deliberate departure from the text-list recipe index (per D-09).
 
 **Page title:** Display (36px bold), `var(--theme-heading-font)`
-**Subtitle:** Body large (18px), `var(--theme-text-secondary)`
+**Subtitle:** Body (16px, `leading-relaxed`), `var(--theme-text-secondary)`
 
 **Pack Cards:**
 
@@ -333,7 +333,7 @@ Visual card grid — deliberate departure from the text-list recipe index (per D
 | Color stripe | 4px top border using that pack's accent color — provides visual taste of the pack's identity |
 | Pack icon | 32px, displayed above pack name |
 | Pack name | Heading (24px bold, heading font), `var(--theme-text)` |
-| Recipe count | Label (14px semibold), `var(--theme-text-secondary)` |
+| Recipe count | Label (14px bold), `var(--theme-text-secondary)` |
 | Card hover | Background transitions to `var(--theme-surface-hover)`, subtle shadow |
 | Card link | Entire card is clickable (wrapped in `<a>`) |
 
@@ -359,6 +359,7 @@ Full theme immersion — the page renders using that pack's theme class regardle
 │  │  Pumpkin Doughnut          🍂  │ │
 │  │  Michelle Weinfeld-Geller      │ │
 │  │  Michigan                      │ │
+│  │  Start Cooking →               │ │
 │  └─────────────────────────────────┘ │
 │  ┌─────────────────────────────────┐ │
 │  │  (next recipe)             🍂  │ │
@@ -372,7 +373,7 @@ Full theme immersion — the page renders using that pack's theme class regardle
 |---------|-------|
 | Pack icon | 48px, displayed before title |
 | Pack title (h1) | Display (36px bold), `var(--theme-heading-font)`, `var(--theme-text)` |
-| Pack description | Body large (18px regular), `var(--theme-text-secondary)`, max-width 640px |
+| Pack description | Body (16px regular, `leading-relaxed`), `var(--theme-text-secondary)`, max-width 640px |
 | Separator | 1px `var(--theme-divider)`, full content width, 32px vertical margin |
 
 **Recipe cards within pack:**
@@ -381,7 +382,8 @@ Full theme immersion — the page renders using that pack's theme class regardle
 | Card | `var(--theme-surface)` background, 1px `var(--theme-border)` border, 8px border-radius, 16px padding |
 | Card layout | Flex row: content left, badge right |
 | Recipe title | Heading (24px bold, heading font), accent color on hover |
-| Byline + location | Label (14px semibold), `var(--theme-text-secondary)` |
+| Byline + location | Label (14px bold), `var(--theme-text-secondary)` |
+| CTA text | "Start Cooking →" — 16px bold, accent color, displayed below byline as visible link text |
 | Pack badge | 🍂 emoji, 14px, `var(--theme-badge-bg)` circle (24px diameter), positioned top-right of card |
 | Card hover | Background → `var(--theme-surface-hover)` |
 | Card link | Entire card clickable, links to `/recipes/:slug` |
@@ -395,7 +397,7 @@ A small badge on recipe detail pages and recipe listing cards indicating pack me
 | Element | Style |
 |---------|-------|
 | Badge | Inline-flex, 8px horizontal padding, 4px vertical padding, `var(--theme-badge-bg)` background, `var(--theme-badge-text)` text, 9999px border-radius (pill shape) |
-| Badge content | Pack icon emoji + pack name, 14px semibold |
+| Badge content | Pack icon emoji + pack name, 14px bold |
 | Placement on recipe detail | After the recipe title in the header, on a new line below the byline |
 | Placement on recipe listing | Right-aligned within the list item |
 | Non-pack recipes | No badge displayed. Recipe renders normally under the active theme |
@@ -452,7 +454,7 @@ active: "autumn-harvest"
 | Element | Copy |
 |---------|------|
 | Primary CTA (home page) | `Explore the Collection →` |
-| Primary CTA (pack page) | `Start Cooking →` (on individual recipe cards — links to recipe) |
+| Primary CTA (pack page recipe cards) | `Start Cooking →` — visible link text below byline on each recipe card, links to `/recipes/:slug` |
 | Pack index page title | `Themed Packs` |
 | Pack index subtitle | `Curated collections that transform the site.` |
 | Empty state heading (pack index, no packs) | `Packs coming soon` |
