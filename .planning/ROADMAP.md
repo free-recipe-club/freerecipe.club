@@ -70,11 +70,12 @@ Plans:
   2. The screen stays awake while cooking mode is active (Screen Wake Lock API)
   3. User can navigate between steps with large tap targets (48px+) suitable for wet or messy hands
   4. The active step highlights its relevant ingredients so the user knows what to prep
-**Plans**: 2 plans
+**Plans**: 3 plans
 
 Plans:
 - [x] 03-01-PLAN.md — Cooking mode route, controller, and ingredient-matched HTML
 - [ ] 03-02-PLAN.md — Client JS, cooking mode CSS, dark/light mode, Start Cooking button, human verify
+- [ ] 03-03-PLAN.md — YAML ingredient format validation and extraction fix
 **UI hint**: yes
 
 ### Phase 4: Themed Packs
