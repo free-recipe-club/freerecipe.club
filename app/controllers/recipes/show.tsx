@@ -33,7 +33,7 @@ function renderRecipe(recipe: Recipe, slug: string): string {
     ? `<p class="text-lg leading-relaxed text-gray-600 italic mb-4">${escapeHtml(recipe.flavor)}</p>`
     : ''
   let backgroundHtml = recipe.background
-    ? `<p class="text-lg leading-relaxed text-gray-600 italic recipe-background-text">${escapeHtml(recipe.background)}</p>`
+    ? `<p class="text-lg leading-relaxed text-gray-600 italic recipe-background-text mb-8">${escapeHtml(recipe.background)}</p>`
     : ''
 
   let linksHtml = recipe.links.length > 0
