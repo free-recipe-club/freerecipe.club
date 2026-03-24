@@ -70,7 +70,11 @@ Plans:
   2. The screen stays awake while cooking mode is active (Screen Wake Lock API)
   3. User can navigate between steps with large tap targets (48px+) suitable for wet or messy hands
   4. The active step highlights its relevant ingredients so the user knows what to prep
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Cooking mode route, controller, and ingredient-matched HTML
+- [ ] 03-02-PLAN.md — Client JS, cooking mode CSS, dark/light mode, Start Cooking button, human verify
 **UI hint**: yes
 
 ### Phase 4: Themed Packs
@@ -116,7 +120,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Foundation & Data Layer | 0/3 | Planned | - |
 | 2. Recipe Display & SEO | 3/3 | Complete | 2026-03-24 |
-| 3. Cooking Mode | 0/TBD | Not started | - |
+| 3. Cooking Mode | 0/2 | Planned | - |
 | 4. Themed Packs | 0/TBD | Not started | - |
 | 5. Community & Contributions | 0/TBD | Not started | - |
 | 6. Annotations & Versioning | 0/TBD | Not started | - |
