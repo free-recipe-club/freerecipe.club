@@ -17,6 +17,9 @@ provides:
   - Progress bar animation with reduced-motion support
   - "Start Cooking" entry point button on recipe detail page
   - Focus management for screen reader announcements
+  - Grouped directions schema — directions field accepts (string | string[])[] for explicit section grouping
+  - Section labels in cooking mode derived from YAML groups (no smart matching)
+  - Print-optimized layout for both cooking mode and recipe show page
 
 affects: [03-03, cooking-mode-enhancements]
 
@@ -26,6 +29,7 @@ tech-stack:
     - "Vanilla JS progressive enhancement — no build step, var-based for browser compat"
     - "CSS custom properties for dark/light theming scoped under .cook-mode"
     - "Wake Lock API with visibilitychange re-acquisition pattern"
+    - "Explicit YAML grouping over smart inference — directions mirror components structure"
 
 key-files:
   created:
@@ -33,12 +37,24 @@ key-files:
   modified:
     - app/styles/input.css
     - app/controllers/recipes/show.tsx
+    - app/controllers/recipes/cook.tsx
+    - app/data/recipe-schema.ts
+    - data/recipes/pumpkin_doughnut.yml
 
 key-decisions:
   - "Previous button uses visibility:hidden (not display:none) to keep layout stable"
   - "Wake Lock uses .then() instead of async/await for broader browser compat"
   - "No animations on step transitions — instant show/hide via hidden property"
   - "Focus moves to .cook-step-text on navigation for screen reader announcements"
+  - "Replaced ~130 lines of ingredient-matching algorithm with explicit YAML direction groups"
+  - "directions field changed from string[] to (string | string[])[] — groups use first element as section name"
+  - "Section labels come from YAML, not inferred from ingredient matching"
+  - "Print styles reduce font sizes: 11pt body, 14pt headings for recipe show; 14px for cooking mode"
+
+deviations:
+  - description: "Removed ingredient matching algorithm in favor of explicit YAML grouping"
+    reason: "User feedback: 'not a good idea to make this thing too smart' — prefer explicit data over inference"
+    impact: "Plan 03-03 Task 2 (simplify extractIngredientName regex) is now moot — function was deleted"
 
 patterns-established:
   - "Progressive enhancement: server-rendered HTML works without JS, JS adds interactivity"
