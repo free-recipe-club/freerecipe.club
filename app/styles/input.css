@@ -6,3 +6,28 @@
   --color-brand-cream-muted: #f0ead4;
   --font-sans: "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", sans-serif;
 }
+
+@media print {
+  nav { display: none; }
+  .recipe-image { display: none; }
+  .recipe-background-text { display: none; }
+  input[type="checkbox"] { display: none; }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .bg-brand-cream-muted {
+    background: transparent !important;
+  }
+
+  a {
+    color: black !important;
+    text-decoration: none !important;
+  }
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+}
