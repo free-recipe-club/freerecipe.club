@@ -3,5 +3,6 @@
 @theme {
   --color-brand-green: #2d5016;
   --color-brand-cream: #fdf6e3;
+  --color-brand-cream-muted: #f0ead4;
   --font-sans: "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", sans-serif;
 }
