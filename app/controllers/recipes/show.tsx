@@ -43,8 +43,12 @@ function renderRecipe(recipe: Recipe, slug: string): string {
     : ''
 
   return `<main class="max-w-2xl mx-auto px-4 py-8">
-  <header class="mb-8">
-    <h1 class="text-3xl font-bold text-brand-green">${escapeHtml(recipe.title)}</h1>
+  <header class="flex items-start gap-4 mb-8">
+    <img src="/recipes/${encodeURIComponent(getRecipeFilename(slug))}.jpg" alt="${escapeHtml(recipe.title)}" width="80" height="80"
+         class="w-20 h-20 rounded object-cover flex-shrink-0 recipe-image">
+    <div>
+      <h1 class="text-3xl font-bold text-brand-green">${escapeHtml(recipe.title)}</h1>
+    </div>
   </header>
 
   <section class="mb-8">
