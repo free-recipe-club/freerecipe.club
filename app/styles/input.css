@@ -137,28 +137,26 @@
   outline: none;
 }
 
-.cook-ingredients {
-  background: var(--cook-surface);
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 24px;
-  width: 100%;
-  max-height: 40vh;
-  overflow-y: auto;
+.cook-section-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--cook-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
 }
 
-.cook-ingredient-list {
-  list-style: none;
-  padding: 0;
-  margin: 8px 0 0 0;
+.cook-ingredient {
+  background: color-mix(in srgb, var(--cook-accent) 10%, transparent);
+  border-radius: 4px;
+  padding: 1px 4px;
+  margin: 0 -4px;
 }
 
-.cook-ingredient-list li {
-  font-size: 20px;
-  font-weight: 400;
-  color: var(--cook-text);
-  line-height: 1.4;
-  padding: 4px 0;
+.cook-qty {
+  color: var(--cook-accent);
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .cook-nav {
@@ -195,16 +193,41 @@
 /* Desktop */
 @media (min-width: 1024px) {
   .cook-step {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 24px;
     max-width: 900px;
   }
-  .cook-ingredients {
-    flex: 0 0 240px;
-    margin-bottom: 0;
+}
+
+/* Print */
+@media print {
+  .cook-mode {
+    min-height: auto;
   }
   .cook-step-text {
-    flex: 1;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .cook-step {
+    padding: 8px 0;
+    page-break-inside: avoid;
+  }
+  .cook-nav,
+  .cook-top-bar,
+  .cook-progress {
+    display: none;
+  }
+  .cook-step[hidden] {
+    display: flex !important;
+  }
+  .cook-ingredient {
+    background: none;
+  }
+  .cook-ingredient-heading {
+    font-size: 14px;
+  }
+  .cook-ingredient-list li {
+    font-size: 14px;
+  }
+  .cook-section-label {
+    font-size: 11px;
   }
 }

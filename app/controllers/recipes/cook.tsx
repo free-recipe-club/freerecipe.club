@@ -20,13 +20,51 @@ const COMMON_ADJECTIVES = new Set([
   'cold', 'hot', 'room', 'softened', 'packed', 'sifted',
 ])
 
-function matchIngredientsToStep(
+function extractQuantity(ingredient: string): string {
+  let name = extractIngredientName(ingredient)
+  let idx = ingredient.toLowerCase().indexOf(name.toLowerCase())
+  if (idx <= 0) return ''
+  return ingredient.substring(0, idx).trim()
+}
+
+function findMatch(stepLower: string, name: string): { start: number; length: number } | null {
+  let idx = stepLower.indexOf(name)
+  if (idx >= 0) return { start: idx, length: name.length }
+
+  if (name.endsWith('s')) {
+    let singular = name.slice(0, -1)
+    idx = stepLower.indexOf(singular)
+    if (idx >= 0) return { start: idx, length: singular.length }
+  } else {
+    idx = stepLower.indexOf(name + 's')
+    if (idx >= 0) return { start: idx, length: name.length + 1 }
+  }
+
+  let words = name.split(/\s+/).filter(w => w.length >= 4 && !COMMON_ADJECTIVES.has(w))
+  for (let word of words) {
+    let re = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + 's?\\b', 'i')
+    let match = re.exec(stepLower)
+    if (match) return { start: match.index, length: match[0].length }
+  }
+
+  return null
+}
+
+type IngredientMatch = {
+  name: string
+  quantity: string
+  group: string
+  start: number
+  end: number
+}
+
+function annotateStep(
   step: string,
   components: string[][]
-): string[] {
+): { html: string; groups: string[] } {
   let stepLower = step.toLowerCase()
-  // Track matches per group to pick the best group for duplicates
-  let groupMatches = new Map<string, { ingredient: string; name: string }[]>()
+  let allMatches: IngredientMatch[] = []
+  let groupMatchCounts = new Map<string, number>()
 
   for (let group of components) {
     let groupName = group[0]
@@ -34,75 +72,83 @@ function matchIngredientsToStep(
 
     for (let ingredient of ingredients) {
       let name = extractIngredientName(ingredient).toLowerCase()
-      let matched = false
+      let quantity = extractQuantity(ingredient)
+      let found = findMatch(stepLower, name)
 
-      // Pass 1: exact substring match
-      if (stepLower.includes(name)) {
-        matched = true
-      }
-
-      // Also try without trailing 's' or with added 's'
-      if (!matched) {
-        let nameSingular = name.endsWith('s') ? name.slice(0, -1) : null
-        let namePlural = name + 's'
-        if ((nameSingular && stepLower.includes(nameSingular)) || stepLower.includes(namePlural)) {
-          matched = true
-        }
-      }
-
-      // Pass 2: significant word matching
-      if (!matched) {
-        let words = name.split(/\s+/).filter(
-          w => w.length >= 4 && !COMMON_ADJECTIVES.has(w)
-        )
-        matched = words.some(word => {
-          let re = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + 's?\\b', 'i')
-          return re.test(step)
+      if (found) {
+        allMatches.push({
+          name,
+          quantity,
+          group: groupName,
+          start: found.start,
+          end: found.start + found.length,
         })
-      }
-
-      if (matched) {
-        let list = groupMatches.get(groupName)
-        if (!list) {
-          list = []
-          groupMatches.set(groupName, list)
-        }
-        list.push({ ingredient, name })
+        groupMatchCounts.set(groupName, (groupMatchCounts.get(groupName) || 0) + 1)
       }
     }
   }
 
-  if (groupMatches.size === 0) return []
+  if (allMatches.length === 0) return { html: escapeHtml(step), groups: [] }
 
-  // For ingredients whose name appears in multiple groups,
-  // keep only the version from the group with the most total matches
-  let seen = new Map<string, { ingredient: string; groupSize: number }>()
-  for (let [, items] of groupMatches) {
-    for (let item of items) {
-      let existing = seen.get(item.name)
-      if (!existing || items.length > existing.groupSize) {
-        seen.set(item.name, { ingredient: item.ingredient, groupSize: items.length })
-      }
+  // Dedup: for names matched from multiple groups, keep the group with most hits
+  let byName = new Map<string, IngredientMatch[]>()
+  for (let m of allMatches) {
+    let list = byName.get(m.name) || []
+    list.push(m)
+    byName.set(m.name, list)
+  }
+
+  let deduped: IngredientMatch[] = []
+  for (let [, matches] of byName) {
+    if (matches.length === 1) {
+      deduped.push(matches[0])
+    } else {
+      matches.sort((a, b) => (groupMatchCounts.get(b.group) || 0) - (groupMatchCounts.get(a.group) || 0))
+      deduped.push(matches[0])
     }
   }
 
-  return Array.from(seen.values()).map(v => v.ingredient)
+  deduped.sort((a, b) => a.start - b.start)
+
+  // Remove overlapping
+  let filtered: IngredientMatch[] = []
+  let lastEnd = -1
+  for (let m of deduped) {
+    if (m.start >= lastEnd) {
+      filtered.push(m)
+      lastEnd = m.end
+    }
+  }
+
+  // Build HTML with inline quantity annotations
+  let html = ''
+  let cursor = 0
+  for (let m of filtered) {
+    html += escapeHtml(step.slice(cursor, m.start))
+    if (m.quantity) {
+      html += '<span class="cook-ingredient"><b class="cook-qty">' + escapeHtml(m.quantity) + '</b> ' + escapeHtml(step.slice(m.start, m.end)) + '</span>'
+    } else {
+      html += escapeHtml(step.slice(m.start, m.end))
+    }
+    cursor = m.end
+  }
+  html += escapeHtml(step.slice(cursor))
+
+  let groups = [...new Set(filtered.map(m => m.group))]
+  return { html, groups }
 }
 
 function renderCookingMode(recipe: Recipe, slug: string): Response {
   let total = recipe.directions.length
 
   let stepsHtml = recipe.directions.map((step, i) => {
-    let matched = matchIngredientsToStep(step, recipe.components)
-    let ingredientHtml = ''
+    let { html: stepHtml, groups } = annotateStep(step, recipe.components)
+    let labelHtml = groups.length > 0
+      ? `\n      <div class="cook-section-label">${groups.map(g => escapeHtml(g)).join(', ')}</div>`
+      : ''
 
-    if (matched.length > 0) {
-      let itemsHtml = matched.map(item => `<li>${escapeHtml(item)}</li>`).join('\n          ')
-      ingredientHtml = `\n      <div class="cook-ingredients">\n        <ul class="cook-ingredient-list">\n          ${itemsHtml}\n        </ul>\n      </div>`
-    }
-
-    return `    <div class="cook-step" data-step="${i + 1}">${ingredientHtml}
-      <div class="cook-step-text" tabindex="-1">${escapeHtml(step)}</div>
+    return `    <div class="cook-step" data-step="${i + 1}">${labelHtml}
+      <div class="cook-step-text" tabindex="-1">${stepHtml}</div>
     </div>`
   }).join('\n')
 
