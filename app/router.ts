@@ -2,6 +2,7 @@ import { createRouter } from 'remix/fetch-router'
 import { staticFiles } from 'remix/static-middleware'
 import { routes } from './routes.ts'
 import { home } from './controllers/home/controller.tsx'
+import { recipeShow } from './controllers/recipes/show.tsx'
 
 export function createAppRouter() {
   let router = createRouter({
@@ -13,6 +14,7 @@ export function createAppRouter() {
   })
 
   router.get(routes.home, home)
+  router.get(routes.recipes.show, recipeShow)
 
   return router
 }

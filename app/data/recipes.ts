@@ -35,6 +35,10 @@ export function getRecipeSlug(filename: string): string {
   return filename.replace(/\.yml$/, '').replace(/_/g, '-')
 }
 
+export function getRecipeFilename(slug: string): string {
+  return slug.replace(/-/g, '_')
+}
+
 export function listRecipeSlugs(recipesDir: string = RECIPES_DIR): string[] {
   return fs.readdirSync(recipesDir)
     .filter(f => f.endsWith('.yml'))
