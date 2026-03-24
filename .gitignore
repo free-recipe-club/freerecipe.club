@@ -1,6 +1,6 @@
 # build output
-#dist/
 .output/
+public/styles/output.css
 
 # dependencies
 node_modules/
