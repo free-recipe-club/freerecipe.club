@@ -9,17 +9,12 @@
 
 @media print {
   nav { display: none; }
-  .recipe-image { display: none; }
   .recipe-background-text { display: none; }
   input[type="checkbox"] { display: none; }
 
   body {
     background: white !important;
     color: black !important;
-  }
-
-  .bg-brand-cream-muted {
-    background: transparent !important;
   }
 
   a {

@@ -30,16 +30,10 @@ function renderDirections(directions: string[]): string {
 
 function renderRecipe(recipe: Recipe, slug: string): string {
   let flavorHtml = recipe.flavor
-    ? `<p class="text-lg leading-relaxed text-gray-600 mb-4">${escapeHtml(recipe.flavor)}</p>`
+    ? `<p class="text-lg leading-relaxed text-gray-600 italic mb-4">${escapeHtml(recipe.flavor)}</p>`
     : ''
   let backgroundHtml = recipe.background
-    ? `<p class="text-lg leading-relaxed text-gray-600 recipe-background-text">${escapeHtml(recipe.background)}</p>`
-    : ''
-  let mutedSection = (recipe.flavor || recipe.background)
-    ? `<section class="bg-brand-cream-muted rounded p-6 mb-8">
-    ${flavorHtml}
-    ${backgroundHtml}
-  </section>`
+    ? `<p class="text-lg leading-relaxed text-gray-600 italic recipe-background-text">${escapeHtml(recipe.background)}</p>`
     : ''
 
   let linksHtml = recipe.links.length > 0
@@ -49,13 +43,8 @@ function renderRecipe(recipe: Recipe, slug: string): string {
     : ''
 
   return `<main class="max-w-2xl mx-auto px-4 py-8">
-  <header class="flex items-start gap-4 mb-8">
-    <img src="/recipes/${encodeURIComponent(slug)}.jpg" alt="${escapeHtml(recipe.title)}" width="80" height="80"
-         class="w-20 h-20 rounded object-cover flex-shrink-0 recipe-image">
-    <div>
-      <h1 class="text-3xl font-bold text-brand-green">${escapeHtml(recipe.title)}</h1>
-      <p class="text-sm text-gray-600">${escapeHtml(recipe.byline)}, ${escapeHtml(recipe.location)}</p>
-    </div>
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-brand-green">${escapeHtml(recipe.title)}</h1>
   </header>
 
   <section class="mb-8">
@@ -65,12 +54,16 @@ function renderRecipe(recipe: Recipe, slug: string): string {
 
   <section class="mb-8">
     <h2 class="text-xl font-bold mb-4">Directions</h2>
+    <p class="text-sm text-gray-500 mb-3">Tap a step to cross it off.</p>
     <ol class="list-decimal list-inside space-y-3">
       ${renderDirections(recipe.directions)}
     </ol>
   </section>
 
-  ${mutedSection}
+  <p class="text-sm text-gray-600 mb-8">${escapeHtml(recipe.byline)}, ${escapeHtml(recipe.location)}</p>
+
+  ${flavorHtml}
+  ${backgroundHtml}
 
   ${linksHtml}
 </main>`
