@@ -40,8 +40,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 Plans:
 - [x] 01-01-PLAN.md — Scaffold Remix 3 + Tailwind v4 + styled home page
-- [ ] 01-02-PLAN.md — Zod schema + YAML loading + validation script
-- [ ] 01-03-PLAN.md — GitHub Actions CI/CD + Fly.io hosting deployment
+- [x] 01-02-PLAN.md — Zod schema + YAML loading + validation script
+- [x] 01-03-PLAN.md — GitHub Actions CI/CD + Fly.io hosting deployment
 
 ### Phase 2: Recipe Display & SEO
 **Goal**: Users can browse and read recipes in a clean, responsive, recipe-first layout with proper SEO and SSR
