@@ -36,7 +36,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Existing YAML recipe files are parsed and validated by Zod schemas at the build/load boundary without errors
   3. A push to the main branch triggers a CI build that succeeds and deploys to the determined hosting provider
   4. The deployed site contains zero third-party scripts, zero tracking, and no authentication flow
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold Remix 3 + Tailwind v4 + styled home page
+- [ ] 01-02-PLAN.md — Zod schema + YAML loading + validation script
+- [ ] 01-03-PLAN.md — GitHub Actions CI/CD + Fly.io hosting deployment
 
 ### Phase 2: Recipe Display & SEO
 **Goal**: Users can browse and read recipes in a clean, responsive, recipe-first layout with proper SEO and SSR
@@ -104,7 +109,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Data Layer | 0/TBD | Not started | - |
+| 1. Foundation & Data Layer | 0/3 | Planned | - |
 | 2. Recipe Display & SEO | 0/TBD | Not started | - |
 | 3. Cooking Mode | 0/TBD | Not started | - |
 | 4. Themed Packs | 0/TBD | Not started | - |
