@@ -1,7 +1,7 @@
 ---
 phase: 3
 slug: cooking-mode
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-03-24
@@ -104,7 +104,7 @@ Warm stone neutrals to match the analog kitchen aesthetic. Cooking-mode-only —
 
 ### Accent Reserved For (exhaustive list)
 - Progress bar fill
-- Navigation button backgrounds (Previous / Next / Done)
+- Navigation button backgrounds (Previous / Next / Finish Cooking)
 - "Start Cooking" button on recipe detail page (brand-green, recipe page only)
 - Never for body text, borders, or decorative elements within cooking mode
 
@@ -376,11 +376,11 @@ No component library or third-party registries. All elements are hand-authored H
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** approved 2026-03-24
