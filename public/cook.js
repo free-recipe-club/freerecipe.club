@@ -26,16 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Progress bar
     if (progressFill) progressFill.style.width = ((currentStep + 1) / totalSteps * 100) + '%'
     if (progressBar) progressBar.setAttribute('aria-valuenow', String(currentStep + 1))
-    // Previous button: hidden on step 1
-    if (prevBtn) prevBtn.hidden = (currentStep === 0)
-    // Next button: width adjustment when prev is hidden
-    if (nextBtn && prevBtn) {
-      if (currentStep === 0) {
-        nextBtn.style.flex = '1 1 100%'
-      } else {
-        nextBtn.style.flex = ''
-      }
-    }
+    // Previous button: invisible on step 1 (keeps layout stable)
+    if (prevBtn) prevBtn.style.visibility = (currentStep === 0) ? 'hidden' : 'visible'
     // Next button label: "Finish Cooking" on last step
     if (nextBtn) nextBtn.textContent = (currentStep === totalSteps - 1) ? 'Finish Cooking' : 'Next'
     // Focus management: move focus to step text for screen reader announcement

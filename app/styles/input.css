@@ -143,13 +143,8 @@
   padding: 16px;
   margin-bottom: 24px;
   width: 100%;
-}
-
-.cook-ingredient-heading {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--cook-text);
-  line-height: 1.3;
+  max-height: 40vh;
+  overflow-y: auto;
 }
 
 .cook-ingredient-list {
@@ -164,10 +159,6 @@
   color: var(--cook-text);
   line-height: 1.4;
   padding: 4px 0;
-}
-
-.cook-ingredient-group + .cook-ingredient-group {
-  margin-top: 16px;
 }
 
 .cook-nav {

@@ -23,9 +23,10 @@ const COMMON_ADJECTIVES = new Set([
 function matchIngredientsToStep(
   step: string,
   components: string[][]
-): { group: string; ingredient: string }[] {
-  let matches: { group: string; ingredient: string }[] = []
+): string[] {
   let stepLower = step.toLowerCase()
+  // Track matches per group to pick the best group for duplicates
+  let groupMatches = new Map<string, { ingredient: string; name: string }[]>()
 
   for (let group of components) {
     let groupName = group[0]
@@ -33,36 +34,59 @@ function matchIngredientsToStep(
 
     for (let ingredient of ingredients) {
       let name = extractIngredientName(ingredient).toLowerCase()
+      let matched = false
 
       // Pass 1: exact substring match
       if (stepLower.includes(name)) {
-        matches.push({ group: groupName, ingredient })
-        continue
+        matched = true
       }
 
       // Also try without trailing 's' or with added 's'
-      let nameSingular = name.endsWith('s') ? name.slice(0, -1) : null
-      let namePlural = name + 's'
-      if ((nameSingular && stepLower.includes(nameSingular)) || stepLower.includes(namePlural)) {
-        matches.push({ group: groupName, ingredient })
-        continue
+      if (!matched) {
+        let nameSingular = name.endsWith('s') ? name.slice(0, -1) : null
+        let namePlural = name + 's'
+        if ((nameSingular && stepLower.includes(nameSingular)) || stepLower.includes(namePlural)) {
+          matched = true
+        }
       }
 
       // Pass 2: significant word matching
-      let words = name.split(/\s+/).filter(
-        w => w.length >= 4 && !COMMON_ADJECTIVES.has(w)
-      )
-      let found = words.some(word => {
-        let re = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + 's?\\b', 'i')
-        return re.test(step)
-      })
-      if (found) {
-        matches.push({ group: groupName, ingredient })
+      if (!matched) {
+        let words = name.split(/\s+/).filter(
+          w => w.length >= 4 && !COMMON_ADJECTIVES.has(w)
+        )
+        matched = words.some(word => {
+          let re = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + 's?\\b', 'i')
+          return re.test(step)
+        })
+      }
+
+      if (matched) {
+        let list = groupMatches.get(groupName)
+        if (!list) {
+          list = []
+          groupMatches.set(groupName, list)
+        }
+        list.push({ ingredient, name })
       }
     }
   }
 
-  return matches
+  if (groupMatches.size === 0) return []
+
+  // For ingredients whose name appears in multiple groups,
+  // keep only the version from the group with the most total matches
+  let seen = new Map<string, { ingredient: string; groupSize: number }>()
+  for (let [, items] of groupMatches) {
+    for (let item of items) {
+      let existing = seen.get(item.name)
+      if (!existing || items.length > existing.groupSize) {
+        seen.set(item.name, { ingredient: item.ingredient, groupSize: items.length })
+      }
+    }
+  }
+
+  return Array.from(seen.values()).map(v => v.ingredient)
 }
 
 function renderCookingMode(recipe: Recipe, slug: string): Response {
@@ -73,28 +97,8 @@ function renderCookingMode(recipe: Recipe, slug: string): Response {
     let ingredientHtml = ''
 
     if (matched.length > 0) {
-      let groups = new Map<string, string[]>()
-      for (let m of matched) {
-        let list = groups.get(m.group)
-        if (!list) {
-          list = []
-          groups.set(m.group, list)
-        }
-        list.push(m.ingredient)
-      }
-
-      let groupsHtml = Array.from(groups.entries())
-        .map(([groupName, items]) =>
-          `<div class="cook-ingredient-group">
-            <div class="cook-ingredient-heading">${escapeHtml(groupName)}</div>
-            <ul class="cook-ingredient-list">
-              ${items.map(item => `<li>${escapeHtml(item)}</li>`).join('\n              ')}
-            </ul>
-          </div>`
-        )
-        .join('\n        ')
-
-      ingredientHtml = `\n      <div class="cook-ingredients">\n        ${groupsHtml}\n      </div>`
+      let itemsHtml = matched.map(item => `<li>${escapeHtml(item)}</li>`).join('\n          ')
+      ingredientHtml = `\n      <div class="cook-ingredients">\n        <ul class="cook-ingredient-list">\n          ${itemsHtml}\n        </ul>\n      </div>`
     }
 
     return `    <div class="cook-step" data-step="${i + 1}">${ingredientHtml}
@@ -122,7 +126,7 @@ function renderCookingMode(recipe: Recipe, slug: string): Response {
 ${stepsHtml}
   </div>
   <div class="cook-nav" id="cook-nav">
-    <button type="button" id="cook-prev" class="cook-btn" hidden>Previous</button>
+    <button type="button" id="cook-prev" class="cook-btn" style="visibility:hidden">Previous</button>
     <button type="button" id="cook-next" class="cook-btn">${total === 1 ? 'Finish Cooking' : 'Next'}</button>
   </div>
   <script src="/cook.js" defer></script>
