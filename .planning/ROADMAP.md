@@ -20,7 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Foundation & Data Layer** - Scaffold alpha Remix with Tailwind v4, Zod-validated YAML recipes, CI/CD, and hosting determination
 - [x] **Phase 2: Recipe Display & SEO** - Clean, responsive, recipe-first pages with SSR, print CSS, clean URLs, and sitemap
-- [ ] **Phase 3: Cooking Mode** - Immersive step-by-step kitchen experience with wake lock and ingredient highlighting
+- [x] **Phase 3: Cooking Mode** - Immersive step-by-step kitchen experience with wake lock and ingredient highlighting
 - [ ] **Phase 4: Themed Packs** - CSS theme system, first curated pack, and pack landing page for launch
 - [ ] **Phase 5: Community & Contributions** - PR templates, CI validation, Hacktoberfest readiness, and non-technical contribution docs
 - [ ] **Phase 6: Annotations & Versioning** - Inline community annotations pinned to recipe elements, with variant forking
@@ -74,8 +74,8 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md — Cooking mode route, controller, and ingredient-matched HTML
-- [ ] 03-02-PLAN.md — Client JS, cooking mode CSS, dark/light mode, Start Cooking button, human verify
-- [ ] 03-03-PLAN.md — YAML ingredient format validation and extraction fix
+- [x] 03-02-PLAN.md — Client JS, cooking mode CSS, dark/light mode, Start Cooking button, human verify
+- [x] 03-03-PLAN.md — YAML ingredient format validation and extraction fix
 **UI hint**: yes
 
 ### Phase 4: Themed Packs
