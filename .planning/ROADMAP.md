@@ -56,8 +56,8 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Recipe detail page + render() enhancement + navigation bar
-- [ ] 02-02-PLAN.md — Recipe listing page + sitemap XML + 404 handler
+- [x] 02-01-PLAN.md — Recipe detail page + render() enhancement + navigation bar
+- [x] 02-02-PLAN.md — Recipe listing page + sitemap XML + 404 handler
 - [ ] 02-03-PLAN.md — Print stylesheet + responsive polish + human verification
 **UI hint**: yes
 
