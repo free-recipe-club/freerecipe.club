@@ -141,8 +141,22 @@ function annotateStep(
 function renderCookingMode(recipe: Recipe, slug: string): Response {
   let total = recipe.directions.length
 
+  // First pass: annotate all steps and collect matched groups
+  let annotations = recipe.directions.map(step => annotateStep(step, recipe.components))
+
+  // Second pass: carry forward last known section for unmatched steps
+  let lastGroups: string[] = []
+  let stepGroups = annotations.map(a => {
+    if (a.groups.length > 0) {
+      lastGroups = a.groups
+      return a.groups
+    }
+    return lastGroups
+  })
+
   let stepsHtml = recipe.directions.map((step, i) => {
-    let { html: stepHtml, groups } = annotateStep(step, recipe.components)
+    let stepHtml = annotations[i].html
+    let groups = stepGroups[i]
     let labelHtml = groups.length > 0
       ? `\n      <div class="cook-section-label">${groups.map(g => escapeHtml(g)).join(', ')}</div>`
       : ''
