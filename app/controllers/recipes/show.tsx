@@ -51,7 +51,7 @@ function renderRecipe(recipe: Recipe, slug: string): string {
 
   let linksHtml = recipe.links.length > 0
     ? `<footer class="text-sm text-gray-600">
-    ${recipe.links.map(link => `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" class="text-brand-green hover:underline">${escapeHtml(link.text)}</a>`).join(', ')}
+    ${recipe.links.map(link => `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" class="hover:underline" style="color:var(--theme-accent)">${escapeHtml(link.text)}</a>`).join(', ')}
   </footer>`
     : ''
 
@@ -60,12 +60,12 @@ function renderRecipe(recipe: Recipe, slug: string): string {
     <img src="/recipes/${encodeURIComponent(getRecipeFilename(slug))}.jpg" alt="${escapeHtml(recipe.title)}" width="80" height="80"
          class="w-20 h-20 rounded object-cover flex-shrink-0 recipe-image">
     <div>
-      <h1 class="text-3xl font-bold text-brand-green">${escapeHtml(recipe.title)}</h1>
+      <h1 class="text-3xl font-bold" style="color:var(--theme-accent)">${escapeHtml(recipe.title)}</h1>
     </div>
   </header>
 
   <a href="/recipes/${encodeURIComponent(slug)}/cook"
-     class="block w-full py-3 text-center text-xl font-bold text-white bg-brand-green rounded-lg hover:opacity-90 focus:outline-2 focus:outline-brand-green focus:outline-offset-2 print:hidden mb-8">
+     class="block w-full py-3 text-center text-xl font-bold rounded-lg hover:opacity-90 focus:outline-2 focus:outline-offset-2 print:hidden mb-8" style="background:var(--theme-accent);color:var(--theme-accent-text)">
     Start Cooking
   </a>
 
@@ -104,7 +104,7 @@ export function recipeShow(request: Request): Response {
   } catch {
     let html = `<main class="max-w-2xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-4">Recipe not found</h1>
-    <p class="text-gray-600">We couldn't find that recipe. Browse <a href="/recipes" class="text-brand-green hover:underline">all recipes</a> to find something to cook.</p>
+    <p style="color:var(--theme-text-secondary)">We couldn't find that recipe. Browse <a href="/recipes" class="hover:underline" style="color:var(--theme-accent)">all recipes</a> to find something to cook.</p>
   </main>`
     return new Response(
       render('Recipe not found', html).body,

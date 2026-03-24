@@ -25,7 +25,7 @@ export function recipesIndex() {
         : ''
       return `<li class="py-4">
     <a href="/recipes/${encodeURIComponent(slug)}" class="block group">
-      <span class="text-xl font-bold text-brand-green group-hover:underline">${escapeHtml(recipe.title)}</span>
+      <span class="text-xl font-bold group-hover:underline" style="color:var(--theme-accent)">${escapeHtml(recipe.title)}</span>
       <p class="text-sm text-gray-600">${escapeHtml(recipe.byline)}, ${escapeHtml(recipe.location)}</p>${flavorHtml}
     </a>
   </li>`
@@ -33,7 +33,7 @@ export function recipesIndex() {
 
     content = `<main class="max-w-2xl mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold mb-8">Recipes</h1>
-  <ul class="divide-y divide-brand-cream-muted">
+  <ul class="divide-y" style="border-color:var(--theme-divider)">
   ${items}
   </ul>
 </main>`
