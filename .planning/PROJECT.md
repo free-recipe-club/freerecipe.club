@@ -16,10 +16,14 @@ Someone finds a recipe and actually cooks from it.
 - ✓ Recipe type system (TypeScript interfaces for Recipe and Link) — existing
 - ✓ Static recipe images with matching names — existing
 - ✓ Git-based contribution workflow (public repo) — existing
+- ✓ Alpha Remix 3 scaffold with Tailwind v4 — Validated in Phase 01
+- ✓ Zod-validated YAML recipe loading — Validated in Phase 01
+- ✓ GitHub Actions CI/CD pipeline — Validated in Phase 01
+- ✓ Fly.io hosting deployment — Validated in Phase 01
+- ✓ No ads, no tracking, no accounts, no dark patterns — Validated in Phase 01 (zero third-party scripts)
 
 ### Active
 
-- [ ] Migrate from Astro to React Router v7 (framework mode — what Remix became)
 - [ ] Free hosting tied to GitHub (supports SSR — Cloudflare Pages recommended)
 - [ ] Recipe display — clean, no-nonsense, recipe-first layout
 - [ ] Full cooking mode — step-by-step checkboxes, large text, screen-on
@@ -30,9 +34,7 @@ Someone finds a recipe and actually cooks from it.
 - [ ] Multi-device responsive design (kitchen-friendly)
 - [ ] Themed recipe packs with matching site visual themes (seasonal editions)
 - [ ] Hacktoberfest participation and contributor-friendly repo setup
-- [ ] No ads, no tracking, no accounts, no dark patterns
 - [ ] Enhance YAML recipe schema (structured ingredients, timing, Schema.org fields)
-- [ ] Deployment pipeline (Cloudflare Pages + GitHub integration)
 
 ### Out of Scope
 
@@ -45,7 +47,7 @@ Someone finds a recipe and actually cooks from it.
 
 ## Context
 
-- **Existing codebase:** Astro v1 static site with React/Tailwind. Two recipe YAML files, a stub RecipeCard component, and a landing page. All dependencies are significantly outdated (2022 era). The existing code is being replaced, not evolved.
+- **Existing codebase:** Alpha Remix 3 app with Tailwind v4, Zod-validated YAML recipes, and GitHub Actions CI/CD deploying to Fly.io. Phase 01 complete — foundation is live.
 - **Hosting migration:** Moving from Digital Ocean to free GitHub-tied hosting. Cloudflare Pages recommended — free tier with unlimited bandwidth, edge SSR, and an official React Router v7 template.
 - **Framework correction:** Remix has fully merged into React Router v7 (stable since Nov 2024). Use `react-router` packages exclusively — `@remix-run/*` is legacy. Same concepts (loaders, actions, nested routes), new package names.
 - **Contribution philosophy:** Git-first for developers. For non-technical contributors, email and physical letters are accepted and converted to GitHub issues by maintainers. Accessible to anyone.
@@ -91,4 +93,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-23 after initialization*
+*Last updated: 2026-03-24 after Phase 01 completion*
