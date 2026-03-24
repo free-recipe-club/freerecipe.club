@@ -1,0 +1,7 @@
+node_modules
+.planning
+.git
+.github
+src
+*.md
+!README.md
