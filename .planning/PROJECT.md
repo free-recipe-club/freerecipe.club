@@ -19,8 +19,8 @@ Someone finds a recipe and actually cooks from it.
 
 ### Active
 
-- [ ] Migrate from Astro to Remix
-- [ ] Free hosting tied to GitHub (supports SSR — Cloudflare Pages, Vercel, or similar)
+- [ ] Migrate from Astro to React Router v7 (framework mode — what Remix became)
+- [ ] Free hosting tied to GitHub (supports SSR — Cloudflare Pages recommended)
 - [ ] Recipe display — clean, no-nonsense, recipe-first layout
 - [ ] Full cooking mode — step-by-step checkboxes, large text, screen-on
 - [ ] Recipe organization — by ingredients (shopping view) and by steps (cooking view)
@@ -31,8 +31,8 @@ Someone finds a recipe and actually cooks from it.
 - [ ] Themed recipe packs with matching site visual themes (seasonal editions)
 - [ ] Hacktoberfest participation and contributor-friendly repo setup
 - [ ] No ads, no tracking, no accounts, no dark patterns
-- [ ] Determine best recipe data format (YAML, MDX, or whatever fits Remix idiomatically)
-- [ ] GitHub Actions deployment pipeline
+- [ ] Enhance YAML recipe schema (structured ingredients, timing, Schema.org fields)
+- [ ] Deployment pipeline (Cloudflare Pages + GitHub integration)
 
 ### Out of Scope
 
@@ -46,8 +46,8 @@ Someone finds a recipe and actually cooks from it.
 ## Context
 
 - **Existing codebase:** Astro v1 static site with React/Tailwind. Two recipe YAML files, a stub RecipeCard component, and a landing page. All dependencies are significantly outdated (2022 era). The existing code is being replaced, not evolved.
-- **Hosting migration:** Moving from Digital Ocean to free GitHub-tied hosting. GitHub Pages is static-only, so an SSR-capable free host (Cloudflare Pages, Vercel free tier) is needed for Remix.
-- **Remix is alpha:** The team knows and accepts this. Remix (post-React Router merger) is the chosen framework.
+- **Hosting migration:** Moving from Digital Ocean to free GitHub-tied hosting. Cloudflare Pages recommended — free tier with unlimited bandwidth, edge SSR, and an official React Router v7 template.
+- **Framework correction:** Remix has fully merged into React Router v7 (stable since Nov 2024). Use `react-router` packages exclusively — `@remix-run/*` is legacy. Same concepts (loaders, actions, nested routes), new package names.
 - **Contribution philosophy:** Git-first for developers. For non-technical contributors, email and physical letters are accepted and converted to GitHub issues by maintainers. Accessible to anyone.
 - **Analog ethos:** Despite being a website, the feel should be minimal tech footprint — no dark patterns, no aggressive interactivity, no mandatory JavaScript for reading recipes.
 - **Anti-pattern:** Every design decision is informed by what mainstream recipe sites do wrong — scroll-to-recipe syndrome, popup/ad hell, bad navigation, life stories before ingredients.
@@ -56,7 +56,7 @@ Someone finds a recipe and actually cooks from it.
 
 ## Constraints
 
-- **Framework**: Remix (alpha) — accepted risk for modern React patterns, SSR, and nested routing
+- **Framework**: React Router v7 (framework mode) — stable since Nov 2024, successor to Remix
 - **Hosting**: Must be free and tied to GitHub repo — no paid hosting services
 - **Privacy**: Zero tracking, zero cookies beyond technical necessity, no third-party scripts
 - **Data**: Recipes stored as flat files in the repo — no database
@@ -66,8 +66,8 @@ Someone finds a recipe and actually cooks from it.
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Migrate from Astro to Remix | Astro v1 outdated, Remix offers SSR + modern React patterns | — Pending |
-| Free GitHub-tied hosting over GitHub Pages | Remix needs SSR runtime; GH Pages is static-only | — Pending |
+| Migrate from Astro to React Router v7 | Astro v1 outdated, RR7 offers SSR + modern React + is what Remix became | — Pending |
+| Cloudflare Pages for hosting | Free tier, unlimited bandwidth, edge SSR, official RR7 template | — Pending |
 | No user accounts | Minimal tech footprint; reduces complexity and privacy concerns | — Pending |
 | Git-first contributions | Public repo, developer audience, Hacktoberfest alignment | — Pending |
 | Inline annotations over flat comments | Better signal-to-noise than comment sections; pins context to specific recipe parts | — Pending |
