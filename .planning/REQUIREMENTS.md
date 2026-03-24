@@ -9,8 +9,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Scaffolding
 
-- [ ] **SCAF-01**: Project scaffolded with alpha Remix framework (remix-run/remix)
-- [ ] **SCAF-02**: Tailwind v4 configured with CSS-first approach
+- [x] **SCAF-01**: Project scaffolded with alpha Remix framework (remix-run/remix)
+- [x] **SCAF-02**: Tailwind v4 configured with CSS-first approach
 - [ ] **SCAF-03**: GitHub Actions CI/CD pipeline for build and deployment
 - [ ] **SCAF-04**: Hosting solution determined (static/SPA output from Remix, or fallback framework if needed)
 
@@ -54,7 +54,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Core Principles
 
-- [ ] **CORE-01**: Zero ads, zero tracking, zero third-party scripts, zero dark patterns
+- [x] **CORE-01**: Zero ads, zero tracking, zero third-party scripts, zero dark patterns
 - [ ] **CORE-02**: No accounts required — readers are anonymous, contributors use GitHub identity
 - [ ] **CORE-03**: Multi-device responsive design (phones, tablets, desktops — kitchen-first)
 
@@ -110,13 +110,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SCAF-01 | Phase 1 | Pending |
-| SCAF-02 | Phase 1 | Pending |
+| SCAF-01 | Phase 1 | Complete |
+| SCAF-02 | Phase 1 | Complete |
 | SCAF-03 | Phase 1 | Pending |
 | SCAF-04 | Phase 1 | Pending |
 | DATA-01 | Phase 1 | Pending |
 | DATA-02 | Phase 1 | Pending |
-| CORE-01 | Phase 1 | Pending |
+| CORE-01 | Phase 1 | Complete |
 | CORE-02 | Phase 1 | Pending |
 | DISP-01 | Phase 2 | Pending |
 | DISP-02 | Phase 2 | Pending |
