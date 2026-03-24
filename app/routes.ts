@@ -6,4 +6,5 @@ export let routes = route({
     index: '/recipes',
     show: '/recipes/:slug',
   },
+  sitemap: '/sitemap.xml',
 })
