@@ -25,13 +25,13 @@ Someone finds a recipe and actually cooks from it.
 ### Active
 
 - [ ] Free hosting tied to GitHub (supports SSR — Cloudflare Pages recommended)
-- [ ] Recipe display — clean, no-nonsense, recipe-first layout
+- [x] Recipe display — clean, no-nonsense, recipe-first layout — Validated in Phase 02
 - [ ] Full cooking mode — step-by-step checkboxes, large text, screen-on
 - [ ] Recipe organization — by ingredients (shopping view) and by steps (cooking view)
 - [ ] Community annotations — inline substitutions, tips, and modifications on specific recipe parts
 - [ ] Recipe versioning — substantial annotation sets can become standalone recipe versions
 - [ ] Git-native contribution flow (PRs for recipes)
-- [ ] Multi-device responsive design (kitchen-friendly)
+- [x] Multi-device responsive design (kitchen-friendly) — Validated in Phase 02
 - [ ] Themed recipe packs with matching site visual themes (seasonal editions)
 - [ ] Hacktoberfest participation and contributor-friendly repo setup
 - [ ] Enhance YAML recipe schema (structured ingredients, timing, Schema.org fields)
