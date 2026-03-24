@@ -1,7 +1,7 @@
 ---
 phase: 2
 slug: recipe-display-seo
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-03-24
@@ -271,11 +271,15 @@ No component registry in use. All UI is hand-authored HTML with Tailwind utility
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: FLAG (non-blocking — no explicit focal point declared; checkbox check icon vs sr-only divergence from D-08)
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Recommendations (non-blocking):**
+1. Declare primary visual focal point explicitly (recipe title h1 in brand-green is the implicit anchor)
+2. Consider making checkbox visible as small inline check icon to match D-08 "check icon" language, or confirm strikethrough-only is sufficient
+
+**Approval:** approved 2026-03-24
