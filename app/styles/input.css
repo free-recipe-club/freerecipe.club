@@ -27,3 +27,193 @@
     font-size: 0.8em;
   }
 }
+
+/* Cooking mode */
+.cook-mode {
+  --cook-bg: #fdf6e3;
+  --cook-surface: #f0ead4;
+  --cook-text: #111827;
+  --cook-text-secondary: #4b5563;
+  --cook-accent: #2d5016;
+  --cook-btn-bg: #2d5016;
+  --cook-btn-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cook-mode {
+    --cook-bg: #1c1917;
+    --cook-surface: #292524;
+    --cook-text: #fafaf9;
+    --cook-text-secondary: #a8a29e;
+    --cook-accent: #86c166;
+    --cook-btn-bg: #86c166;
+    --cook-btn-text: #1c1917;
+  }
+}
+
+.cook-mode {
+  background: var(--cook-bg);
+  color: var(--cook-text);
+  font-family: var(--font-sans, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif);
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cook-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 8px 16px;
+}
+
+.cook-exit {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--cook-text-secondary);
+  font-size: 14px;
+  text-decoration: none;
+  padding: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cook-step-counter {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cook-text-secondary);
+}
+
+.cook-progress {
+  width: 100%;
+  height: 4px;
+  background: var(--cook-surface);
+}
+
+.cook-progress-fill {
+  height: 100%;
+  background: var(--cook-accent);
+  transition: width 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cook-progress-fill {
+    transition: none;
+  }
+}
+
+#cook-steps {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cook-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.cook-step-text {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--cook-text);
+  outline: none;
+}
+
+.cook-ingredients {
+  background: var(--cook-surface);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.cook-ingredient-heading {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--cook-text);
+  line-height: 1.3;
+}
+
+.cook-ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+
+.cook-ingredient-list li {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--cook-text);
+  line-height: 1.4;
+  padding: 4px 0;
+}
+
+.cook-ingredient-group + .cook-ingredient-group {
+  margin-top: 16px;
+}
+
+.cook-nav {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+.cook-btn {
+  flex: 1;
+  height: 56px;
+  background: var(--cook-btn-bg);
+  color: var(--cook-btn-text);
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.cook-btn:focus-visible {
+  outline: 2px solid var(--cook-accent);
+  outline-offset: 2px;
+}
+
+/* Tablet+ */
+@media (min-width: 768px) {
+  .cook-step { padding: 24px; }
+  .cook-nav { max-width: 640px; margin: 0 auto; width: 100%; }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .cook-step {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+    max-width: 900px;
+  }
+  .cook-ingredients {
+    flex: 0 0 240px;
+    margin-bottom: 0;
+  }
+  .cook-step-text {
+    flex: 1;
+  }
+}

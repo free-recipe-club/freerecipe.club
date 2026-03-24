@@ -98,7 +98,7 @@ function renderCookingMode(recipe: Recipe, slug: string): Response {
     }
 
     return `    <div class="cook-step" data-step="${i + 1}">${ingredientHtml}
-      <div class="cook-step-text">${escapeHtml(step)}</div>
+      <div class="cook-step-text" tabindex="-1">${escapeHtml(step)}</div>
     </div>`
   }).join('\n')
 

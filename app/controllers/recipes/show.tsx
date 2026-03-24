@@ -51,6 +51,11 @@ function renderRecipe(recipe: Recipe, slug: string): string {
     </div>
   </header>
 
+  <a href="/recipes/${encodeURIComponent(slug)}/cook"
+     class="block w-full py-3 text-center text-xl font-bold text-white bg-brand-green rounded-lg hover:opacity-90 focus:outline-2 focus:outline-brand-green focus:outline-offset-2 print:hidden mb-8">
+    Start Cooking
+  </a>
+
   <section class="mb-8">
     <h2 class="text-xl font-bold mb-4">Ingredients</h2>
     ${renderIngredients(recipe.components)}
