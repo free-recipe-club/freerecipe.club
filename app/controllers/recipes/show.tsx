@@ -19,8 +19,21 @@ function renderIngredients(components: string[][]): string {
   }).join('\n  ')
 }
 
-function renderDirections(directions: string[]): string {
-  return directions.map((step, i) => `<li class="text-lg leading-relaxed">
+function flattenDirections(directions: (string | string[])[]): string[] {
+  let steps: string[] = []
+  for (let entry of directions) {
+    if (typeof entry === 'string') {
+      steps.push(entry)
+    } else {
+      // Grouped: first element is section name, rest are steps
+      for (let i = 1; i < entry.length; i++) steps.push(entry[i])
+    }
+  }
+  return steps
+}
+
+function renderDirections(directions: (string | string[])[]): string {
+  return flattenDirections(directions).map((step, i) => `<li class="text-lg leading-relaxed">
       <label class="cursor-pointer">
         <input type="checkbox" class="peer sr-only">
         <span class="peer-checked:line-through peer-checked:text-gray-400">${escapeHtml(step)}</span>

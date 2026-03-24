@@ -146,15 +146,6 @@
   margin-bottom: 12px;
 }
 
-.cook-ingredient {
-  color: var(--cook-accent);
-}
-
-.cook-qty {
-  font-weight: 700;
-  white-space: nowrap;
-}
-
 .cook-nav {
   display: flex;
   gap: 16px;
@@ -213,9 +204,6 @@
   }
   .cook-step[hidden] {
     display: flex !important;
-  }
-  .cook-ingredient {
-    background: none;
   }
   .cook-ingredient-heading {
     font-size: 14px;

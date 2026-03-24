@@ -5,164 +5,34 @@ function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }
 
-function extractIngredientName(ingredient: string): string {
-  let stripped = ingredient.replace(
-    /^[\d\s./]+(?:c|tsp|tbsp|oz|lb|lg|sm|med|cups?|cans?|pkg|pt|qt|gal|ml|g|kg|inch|cloves?|bunch|head|sticks?|pinch|dash|slices?)\b\s*/i,
-    ''
-  )
-  if (stripped !== ingredient) return stripped.trim()
-  return ingredient.replace(/^[\d\s./]+/, '').trim()
-}
+type CookStep = { text: string; section: string | null }
 
-const COMMON_ADJECTIVES = new Set([
-  'fresh', 'large', 'ground', 'unsalted', 'melted', 'small', 'medium',
-  'chopped', 'diced', 'minced', 'sliced', 'dried', 'whole', 'warm',
-  'cold', 'hot', 'room', 'softened', 'packed', 'sifted',
-])
-
-function extractQuantity(ingredient: string): string {
-  let name = extractIngredientName(ingredient)
-  let idx = ingredient.toLowerCase().indexOf(name.toLowerCase())
-  if (idx <= 0) return ''
-  return ingredient.substring(0, idx).trim()
-}
-
-function findMatch(stepLower: string, name: string): { start: number; length: number } | null {
-  let idx = stepLower.indexOf(name)
-  if (idx >= 0) return { start: idx, length: name.length }
-
-  if (name.endsWith('s')) {
-    let singular = name.slice(0, -1)
-    idx = stepLower.indexOf(singular)
-    if (idx >= 0) return { start: idx, length: singular.length }
-  } else {
-    idx = stepLower.indexOf(name + 's')
-    if (idx >= 0) return { start: idx, length: name.length + 1 }
-  }
-
-  let words = name.split(/\s+/).filter(w => w.length >= 4 && !COMMON_ADJECTIVES.has(w))
-  for (let word of words) {
-    let re = new RegExp('\\b' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + 's?\\b', 'i')
-    let match = re.exec(stepLower)
-    if (match) return { start: match.index, length: match[0].length }
-  }
-
-  return null
-}
-
-type IngredientMatch = {
-  name: string
-  quantity: string
-  group: string
-  start: number
-  end: number
-}
-
-function annotateStep(
-  step: string,
-  components: string[][]
-): { html: string; groups: string[] } {
-  let stepLower = step.toLowerCase()
-  let allMatches: IngredientMatch[] = []
-  let groupMatchCounts = new Map<string, number>()
-
-  for (let group of components) {
-    let groupName = group[0]
-    let ingredients = group.slice(1)
-
-    for (let ingredient of ingredients) {
-      let name = extractIngredientName(ingredient).toLowerCase()
-      let quantity = extractQuantity(ingredient)
-      let found = findMatch(stepLower, name)
-
-      if (found) {
-        allMatches.push({
-          name,
-          quantity,
-          group: groupName,
-          start: found.start,
-          end: found.start + found.length,
-        })
-        groupMatchCounts.set(groupName, (groupMatchCounts.get(groupName) || 0) + 1)
+function flattenDirections(directions: (string | string[])[]): CookStep[] {
+  let steps: CookStep[] = []
+  for (let entry of directions) {
+    if (typeof entry === 'string') {
+      steps.push({ text: entry, section: null })
+    } else {
+      let section = entry[0]
+      for (let i = 1; i < entry.length; i++) {
+        steps.push({ text: entry[i], section })
       }
     }
   }
-
-  if (allMatches.length === 0) return { html: escapeHtml(step), groups: [] }
-
-  // Dedup: for names matched from multiple groups, keep the group with most hits
-  let byName = new Map<string, IngredientMatch[]>()
-  for (let m of allMatches) {
-    let list = byName.get(m.name) || []
-    list.push(m)
-    byName.set(m.name, list)
-  }
-
-  let deduped: IngredientMatch[] = []
-  for (let [, matches] of byName) {
-    if (matches.length === 1) {
-      deduped.push(matches[0])
-    } else {
-      matches.sort((a, b) => (groupMatchCounts.get(b.group) || 0) - (groupMatchCounts.get(a.group) || 0))
-      deduped.push(matches[0])
-    }
-  }
-
-  deduped.sort((a, b) => a.start - b.start)
-
-  // Remove overlapping
-  let filtered: IngredientMatch[] = []
-  let lastEnd = -1
-  for (let m of deduped) {
-    if (m.start >= lastEnd) {
-      filtered.push(m)
-      lastEnd = m.end
-    }
-  }
-
-  // Build HTML with inline quantity annotations
-  let html = ''
-  let cursor = 0
-  for (let m of filtered) {
-    html += escapeHtml(step.slice(cursor, m.start))
-    if (m.quantity) {
-      html += '<span class="cook-ingredient"><b class="cook-qty">' + escapeHtml(m.quantity) + '</b> ' + escapeHtml(step.slice(m.start, m.end)) + '</span>'
-    } else {
-      html += escapeHtml(step.slice(m.start, m.end))
-    }
-    cursor = m.end
-  }
-  html += escapeHtml(step.slice(cursor))
-
-  let groups = [...new Set(filtered.map(m => m.group))]
-  return { html, groups }
+  return steps
 }
 
 function renderCookingMode(recipe: Recipe, slug: string): Response {
-  let total = recipe.directions.length
+  let steps = flattenDirections(recipe.directions)
+  let total = steps.length
 
-  // First pass: annotate all steps and collect matched groups
-  let annotations = recipe.directions.map(step => annotateStep(step, recipe.components))
-
-  // Second pass: carry forward last known section for unmatched steps
-  let lastGroups: string[] = []
-  let stepGroups = annotations.map(a => {
-    if (a.groups.length > 0) {
-      lastGroups = a.groups
-      return a.groups
-    }
-    return lastGroups
-  })
-
-  let stepsHtml = recipe.directions.map((step, i) => {
-    let stepHtml = annotations[i].html
-    let groups = stepGroups[i]
-    let labelHtml = groups.length > 0
-      ? `\n      <div class="cook-section-label">${groups.map(g => escapeHtml(g)).join(', ')}</div>`
+  let stepsHtml = steps.map((step, i) => {
+    let labelHtml = step.section
+      ? `\n      <div class="cook-section-label">${escapeHtml(step.section)}</div>`
       : ''
 
     return `    <div class="cook-step" data-step="${i + 1}">${labelHtml}
-      <div class="cook-step-text" tabindex="-1">${stepHtml}</div>
+      <div class="cook-step-text" tabindex="-1">${escapeHtml(step.text)}</div>
     </div>`
   }).join('\n')
 

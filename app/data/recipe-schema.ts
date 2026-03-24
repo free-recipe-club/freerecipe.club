@@ -10,7 +10,7 @@ export const RecipeSchema = z.object({
   byline: z.string().min(1),
   location: z.string().min(1),
   components: z.array(z.array(z.string())).min(1),
-  directions: z.array(z.string().min(1)).min(1),
+  directions: z.array(z.union([z.string().min(1), z.array(z.string())])).min(1),
   background: z.string().default(''),
   links: z.array(LinkSchema).default([]),
   flavor: z.string().default(''),
