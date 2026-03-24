@@ -16,6 +16,21 @@
   body {
     background: white !important;
     color: black !important;
+    font-size: 12pt;
+  }
+
+  main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  h1 { font-size: 18pt; }
+  h2 { font-size: 14pt; }
+  h3 { font-size: 12pt; }
+
+  li, p {
+    font-size: 11pt;
+    line-height: 1.4;
   }
 
   a {
