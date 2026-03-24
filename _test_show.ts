@@ -15,7 +15,7 @@ let checks: [string, boolean][] = [
   ['peer-checked:line-through', html.includes('peer-checked:line-through')],
   ['recipe-background-text', html.includes('recipe-background-text')],
   ['noopener noreferrer', html.includes('noopener noreferrer')],
-  ['bg-brand-cream-muted', html.includes('bg-brand-cream-muted')],
+  ['theme-aware divider', html.includes('var(--theme-')],
   ['Doughnuts group', html.includes('Doughnuts')],
   ['Topping group', html.includes('Topping')],
   ['meta description', html.includes('meta name="description"')],

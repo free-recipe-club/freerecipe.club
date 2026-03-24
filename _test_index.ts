@@ -11,7 +11,7 @@ let checks: [string, boolean][] = [
   ['Recipes heading', html.includes('Recipes')],
   ['pumpkin-doughnut link', html.includes('pumpkin-doughnut')],
   ['Pumpkin Doughnut title', html.includes('Pumpkin Doughnut')],
-  ['divide-brand-cream-muted', html.includes('divide-brand-cream-muted')],
+  ['theme-aware divider', html.includes('var(--theme-divider)')],
   ['byline', html.includes('Michelle Weinfeld-Geller')],
   ['flavor', html.includes('Pumpkin spice season')],
   ['nav bar', html.includes('<nav')],
