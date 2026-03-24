@@ -1,5 +1,6 @@
 import { render } from '../render.tsx'
 import { loadRecipe, getRecipeFilename } from '../../data/recipes.ts'
+import { loadPack } from '../../data/packs.ts'
 import type { Recipe } from '../../data/recipe-schema.ts'
 
 function escapeHtml(str: string): string {
@@ -41,6 +42,16 @@ function renderDirections(directions: (string | string[])[]): string {
     </li>`).join('\n    ')
 }
 
+function getBadgeHtml(recipe: Recipe): string {
+  if (!recipe.pack) return ''
+  try {
+    let pack = loadPack(recipe.pack)
+    return `<span class="inline-flex items-center gap-1 px-2 py-1 text-sm font-bold rounded-full mt-1 print:hidden" style="background:var(--theme-badge-bg);color:var(--theme-badge-text)"><span aria-hidden="true">${pack.icon}</span> ${escapeHtml(pack.name)}</span>`
+  } catch {
+    return ''
+  }
+}
+
 function renderRecipe(recipe: Recipe, slug: string): string {
   let flavorHtml = recipe.flavor
     ? `<p class="text-lg leading-relaxed text-gray-600 italic mb-4">${escapeHtml(recipe.flavor)}</p>`
@@ -61,6 +72,7 @@ function renderRecipe(recipe: Recipe, slug: string): string {
          class="w-20 h-20 rounded object-cover flex-shrink-0 recipe-image">
     <div>
       <h1 class="text-3xl font-bold" style="color:var(--theme-accent)">${escapeHtml(recipe.title)}</h1>
+      ${getBadgeHtml(recipe)}
     </div>
   </header>
 
