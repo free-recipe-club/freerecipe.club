@@ -39,9 +39,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [x] 01-01-PLAN.md — Scaffold Remix 3 + Tailwind v4 + styled home page
-- [x] 01-02-PLAN.md — Zod schema + YAML loading + validation script
-- [x] 01-03-PLAN.md — GitHub Actions CI/CD + Fly.io hosting deployment
+- [ ] 01-01-PLAN.md — Scaffold Remix 3 + Tailwind v4 + styled home page
+- [ ] 01-02-PLAN.md — Zod schema + YAML loading + validation script
+- [ ] 01-03-PLAN.md — GitHub Actions CI/CD + Fly.io hosting deployment
 
 ### Phase 2: Recipe Display & SEO
 **Goal**: Users can browse and read recipes in a clean, responsive, recipe-first layout with proper SEO and SSR
@@ -53,7 +53,12 @@ Plans:
   3. Recipe renders fully via SSR — the complete recipe is readable with JavaScript disabled
   4. User can print a recipe and gets a clean, chrome-free printout; a phone user can comfortably read and navigate with properly sized text and tap targets
   5. An XML sitemap at `/sitemap.xml` lists all recipes for search engine discovery
-**Plans**: TBD
+**Plans**: 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Recipe detail page + render() enhancement + navigation bar
+- [ ] 02-02-PLAN.md — Recipe listing page + sitemap XML + 404 handler
+- [ ] 02-03-PLAN.md — Print stylesheet + responsive polish + human verification
 **UI hint**: yes
 
 ### Phase 3: Cooking Mode
