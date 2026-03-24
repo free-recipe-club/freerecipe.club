@@ -73,7 +73,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Cooking mode route, controller, and ingredient-matched HTML
+- [x] 03-01-PLAN.md — Cooking mode route, controller, and ingredient-matched HTML
 - [ ] 03-02-PLAN.md — Client JS, cooking mode CSS, dark/light mode, Start Cooking button, human verify
 **UI hint**: yes
 
