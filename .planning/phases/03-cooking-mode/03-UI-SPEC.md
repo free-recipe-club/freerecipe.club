@@ -54,12 +54,12 @@ Exceptions:
 | Ingredient item | 20px | 400 | 1.4 | `text-xl` |
 | Ingredient group heading | 20px | 700 | 1.3 | `text-xl font-bold` |
 | Step counter | 16px | 700 | 1.5 | `text-base font-bold` |
-| Button label | 18px | 700 | 1.0 | `text-lg font-bold` |
+| Button label | 20px | 700 | 1.0 | `text-xl font-bold` |
 | Exit label | 14px | 400 | 1.0 | `text-sm` |
 
 **Weights used:** 400 (regular) and 700 (bold) — consistent with Phase 2.
 
-**Scale rationale:** 24px step text (D-12) is sized for reading at arm's length — a phone propped on a counter ~60 cm away. Ingredient items at 20px are secondary but still comfortably legible. The "Start Cooking" button on the recipe detail page uses 18px bold (matching Phase 2 body/subheading weight).
+**Scale rationale:** 24px step text (D-12) is sized for reading at arm's length — a phone propped on a counter ~60 cm away. Ingredient items at 20px are secondary but still comfortably legible. Button labels share the 20px tier with ingredients — bold weight differentiates them.
 
 ---
 
@@ -194,6 +194,8 @@ Full-viewport immersive experience. No navigation bar, no header, no footer (D-1
 
 **Step text area:**
 
+**Primary focal point:** Step text, vertically centered at 24px — the dominant reading element on every step card. All other elements (progress bar, ingredient panel, navigation) are secondary to this.
+
 | Property | Value |
 |----------|-------|
 | Alignment | Vertically centered in space between progress bar and nav buttons |
@@ -210,10 +212,10 @@ Full-viewport immersive experience. No navigation bar, no header, no footer (D-1
 | Margins | 16px horizontal, 16px bottom (safe area for notched phones) |
 | Height | 56px |
 | Background | `--cook-btn-bg` |
-| Text | `--cook-btn-text`, 18px bold |
+| Text | `--cook-btn-text`, 20px bold |
 | Border radius | 8px |
 | Step 1 | Previous hidden; Next takes full width |
-| Last step | Next label changes to "Done" |
+| Last step | Next label changes to "Finish Cooking" |
 | Focus state | 2px outline in `--cook-accent`, 2px offset |
 
 **No-JS fallback (D-04):**
@@ -234,7 +236,7 @@ Full-viewport immersive experience. No navigation bar, no header, no footer (D-1
 | Width | Full content width (within `max-w-2xl` container) |
 | Height | 48px |
 | Background | `brand-green` (`#2d5016`) |
-| Text | White (`#ffffff`), 18px bold, centered |
+| Text | White (`#ffffff`), 20px bold, centered |
 | Border radius | 8px |
 | Label | "Start Cooking" |
 | Link | `/recipes/:slug/cook` |
@@ -253,8 +255,8 @@ Full-viewport immersive experience. No navigation bar, no header, no footer (D-1
 | Mechanism | Client-side JavaScript — show/hide step elements |
 | Initial state | Step 1 visible, all others hidden via JS on load |
 | Previous button | Reveals previous step, hides current. Hidden on step 1. |
-| Next button | Reveals next step, hides current. Label changes to "Done" on last step. |
-| Done action | Navigates to `/recipes/:slug` (returns to recipe page) |
+| Next button | Reveals next step, hides current. Label changes to "Finish Cooking" on last step. |
+| Finish Cooking action | Navigates to `/recipes/:slug` (returns to recipe page) |
 | Keyboard | Left arrow = previous, Right arrow = next, Escape = exit |
 | Animation | None — instant show/hide (no transition library, keeps bundle minimal) |
 | State | Current step index stored in JS variable. No URL hash or localStorage. |
@@ -334,7 +336,7 @@ Mobile-first. Cooking mode is designed for a phone propped on a kitchen counter.
 | Step counter | "Step {n} of {total}" (e.g., "Step 3 of 8") |
 | Previous button | "Previous" |
 | Next button | "Next" |
-| Last step button | "Done" |
+| Last step button | "Finish Cooking" |
 | Exit button | "✕" (visual) with `aria-label="Exit cooking mode"` |
 | Ingredient panel heading | Component group name from recipe data (e.g., "Doughnuts", "Topping") |
 | No ingredients for step | Panel hidden — no placeholder text |
