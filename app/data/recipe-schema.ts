@@ -27,6 +27,7 @@ export const RecipeSchema = z.object({
   background: z.string().default(''),
   links: z.array(LinkSchema).default([]),
   flavor: z.string().default(''),
+  pack: z.string().optional(),
 })
 
 export type Recipe = z.infer<typeof RecipeSchema>
