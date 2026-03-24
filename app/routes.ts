@@ -7,5 +7,9 @@ export let routes = route({
     cook: '/recipes/:slug/cook',
     show: '/recipes/:slug',
   },
+  packs: {
+    index: '/packs',
+    show: '/packs/:slug',
+  },
   sitemap: '/sitemap.xml',
 })

@@ -5,6 +5,8 @@ import { home } from './controllers/home/controller.tsx'
 import { recipesIndex } from './controllers/recipes/index.tsx'
 import { recipeShow } from './controllers/recipes/show.tsx'
 import { recipeCook } from './controllers/recipes/cook.tsx'
+import { packsIndex } from './controllers/packs/index.tsx'
+import { packShow } from './controllers/packs/show.tsx'
 import { sitemap } from './controllers/sitemap.ts'
 
 export function createAppRouter() {
@@ -20,6 +22,8 @@ export function createAppRouter() {
   router.get(routes.recipes.index, recipesIndex)
   router.get(routes.recipes.cook, recipeCook)
   router.get(routes.recipes.show, recipeShow)
+  router.get(routes.packs.index, packsIndex)
+  router.get(routes.packs.show, packShow)
   router.get(routes.sitemap, sitemap)
 
   return router
