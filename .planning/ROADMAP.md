@@ -98,7 +98,11 @@ Plans:
   2. A submitted recipe PR triggers CI validation that checks format correctness and reports pass/fail
   3. The repo has Hacktoberfest labels, a contributor guide, CODE_OF_CONDUCT, and a welcoming README for first-timers
   4. A non-technical person can find clear instructions for submitting a recipe via email or letter
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — GitHub PR/issue templates + enhanced CI validation
+- [ ] 05-02-PLAN.md — Contributor docs (CONTRIBUTING, CODE_OF_CONDUCT, README rewrite) + home page blurb + Hacktoberfest setup
 
 ### Phase 6: Annotations & Versioning
 **Goal**: Community members can contribute contextual tips on recipes, and popular annotation sets can become recipe variants
