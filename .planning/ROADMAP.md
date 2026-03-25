@@ -101,8 +101,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — GitHub PR/issue templates + enhanced CI validation
-- [ ] 05-02-PLAN.md — Contributor docs (CONTRIBUTING, CODE_OF_CONDUCT, README rewrite) + home page blurb + Hacktoberfest setup
+- [x] 05-01-PLAN.md — GitHub PR/issue templates + enhanced CI validation
+- [x] 05-02-PLAN.md — Contributor docs (CONTRIBUTING, CODE_OF_CONDUCT, README rewrite) + home page blurb + Hacktoberfest setup
 
 ### Phase 6: Annotations & Versioning
 **Goal**: Community members can contribute contextual tips on recipes, and popular annotation sets can become recipe variants
