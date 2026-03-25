@@ -87,7 +87,49 @@ for (let file of files) {
     }
   }
 
-  // Step 4: Image presence check
+  // Step 4: Annotation quality checks
+  function checkAnnotations(item: unknown, location: string) {
+    if (typeof item === 'object' && item !== null && 'annotations' in item) {
+      let annItem = item as { text: string; annotations: { text: string; type: string; contributor: string }[] }
+      for (let ann of annItem.annotations) {
+        if (ann.text.trim().length === 0) {
+          errors.push(`${file}: ${location}: annotation on "${annItem.text}" has empty text`)
+        }
+        if (ann.type !== 'substitution' && ann.type !== 'tip') {
+          errors.push(`${file}: ${location}: annotation on "${annItem.text}" has invalid type "${ann.type}"`)
+        }
+        if (ann.contributor.trim().length === 0) {
+          errors.push(`${file}: ${location}: annotation on "${annItem.text}" has empty contributor`)
+        }
+      }
+    }
+  }
+
+  for (let group of recipe.components) {
+    for (let i = 1; i < group.length; i++) {
+      checkAnnotations(group[i], 'components')
+    }
+  }
+
+  for (let entry of recipe.directions) {
+    if (typeof entry === 'string') continue
+    if (Array.isArray(entry)) {
+      for (let i = 1; i < entry.length; i++) checkAnnotations(entry[i], 'directions')
+    } else {
+      checkAnnotations(entry, 'directions')
+    }
+  }
+
+  // Step 5: Variant reference check
+  if (recipe.variant_of) {
+    let parentFile = recipe.variant_of.replace(/-/g, '_') + '.yml'
+    let parentPath = path.join(RECIPES_DIR, parentFile)
+    if (!fs.existsSync(parentPath)) {
+      warnings.push(`${file}: variant_of references "${recipe.variant_of}" but ${parentFile} not found`)
+    }
+  }
+
+  // Step 6: Image presence check
   let baseName = file.replace(/\.yml$/, '')
   let imagePath = path.join(IMAGES_DIR, `${baseName}.jpg`)
   if (!fs.existsSync(imagePath)) {

@@ -45,6 +45,18 @@ export function listRecipeSlugs(recipesDir: string = RECIPES_DIR): string[] {
     .map(f => getRecipeSlug(f))
 }
 
+export function findVariants(parentSlug: string, recipesDir: string = RECIPES_DIR): { recipe: Recipe; slug: string }[] {
+  let slugs = listRecipeSlugs(recipesDir)
+  let results: { recipe: Recipe; slug: string }[] = []
+  for (let s of slugs) {
+    let recipe = loadRecipe(getRecipeFilename(s), recipesDir)
+    if (recipe.variant_of === parentSlug) {
+      results.push({ recipe, slug: s })
+    }
+  }
+  return results
+}
+
 export function countSteps(recipe: Recipe): number {
   let count = 0
   for (let entry of recipe.directions) {

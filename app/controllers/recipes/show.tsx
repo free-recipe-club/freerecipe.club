@@ -1,5 +1,5 @@
 import { render } from '../render.tsx'
-import { loadRecipe, getRecipeFilename, collectAnnotations } from '../../data/recipes.ts'
+import { loadRecipe, getRecipeFilename, collectAnnotations, findVariants } from '../../data/recipes.ts'
 import { loadPack } from '../../data/packs.ts'
 import type { Recipe, AnnotatedItem } from '../../data/recipe-schema.ts'
 
@@ -140,6 +140,29 @@ function renderRecipe(recipe: Recipe, slug: string): string {
   let verb = recipe.make_verb || 'Make'
   let verbIng = verb.endsWith('e') ? verb.slice(0, -1) + 'ing' : verb + 'ing'
 
+  let backLinkHtml = ''
+  if (recipe.variant_of) {
+    try {
+      let parent = loadRecipe(getRecipeFilename(recipe.variant_of))
+      backLinkHtml = `<p class="text-sm mb-4" style="color:var(--theme-text-secondary)">Based on: <a href="/recipes/${encodeURIComponent(recipe.variant_of)}" class="hover:underline" style="color:var(--theme-accent)">${escapeHtml(parent.title)}</a></p>`
+    } catch {
+      // Parent recipe not found — skip back-link
+    }
+  }
+
+  let variants = findVariants(slug)
+  let variantHtml = ''
+  if (variants.length > 0) {
+    variantHtml = `<section class="mt-8">
+    <h2 class="text-xl font-bold mb-4">See Also</h2>
+    <div class="grid gap-4 sm:grid-cols-2">
+      ${variants.map(v => `<a href="/recipes/${encodeURIComponent(v.slug)}" class="block p-4 rounded-lg hover:opacity-90" style="background:var(--theme-surface)">
+        <span class="text-lg font-bold" style="color:var(--theme-accent)">${escapeHtml(v.recipe.title)}</span>
+      </a>`).join('\n      ')}
+    </div>
+  </section>`
+  }
+
   return `<main class="max-w-2xl mx-auto px-4 py-8">
   <header class="flex items-start gap-4 mb-8">
     <img src="/recipes/${encodeURIComponent(getRecipeFilename(slug))}.jpg" alt="${escapeHtml(recipe.title)}" width="80" height="80"
@@ -149,6 +172,8 @@ function renderRecipe(recipe: Recipe, slug: string): string {
       ${getBadgeHtml(recipe)}
     </div>
   </header>
+
+  ${backLinkHtml}
 
   <a id="start-making-link" href="/recipes/${encodeURIComponent(slug)}/make"
      class="block w-full py-3 text-center text-xl font-bold rounded-lg hover:opacity-90 focus:outline-2 focus:outline-offset-2 print:hidden mb-8" style="background:var(--theme-accent);color:var(--theme-accent-text)">
@@ -176,6 +201,7 @@ function renderRecipe(recipe: Recipe, slug: string): string {
   ${backgroundHtml}
 
   ${linksHtml}
+  ${variantHtml}
   ${hasAnnotations ? '<script src="/annotations.js" defer></script>' : ''}
 </main>`
 }
