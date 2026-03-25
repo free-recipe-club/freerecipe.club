@@ -14,8 +14,8 @@ const DIST = path.join(process.cwd(), 'dist')
 const PUBLIC = path.join(process.cwd(), 'public')
 const ORIGIN = 'https://freerecipe.club'
 
-function fakeRequest(pathname: string): Request {
-  return new Request(`${ORIGIN}${pathname}`)
+function fakeContext(pathname: string, params: Record<string, string> = {}): { params: Record<string, string>; url: URL } {
+  return { params, url: new URL(`${ORIGIN}${pathname}`) }
 }
 
 async function writePage(filePath: string, response: Response) {
@@ -63,7 +63,7 @@ async function build() {
   for (let slug of recipeSlugs) {
     await writePage(
       path.join(DIST, 'recipes', slug, 'index.html'),
-      recipeShow(fakeRequest(`/recipes/${slug}`))
+      recipeShow(fakeContext(`/recipes/${slug}`, { slug }))
     )
     pages++
 
@@ -72,13 +72,13 @@ async function build() {
     let totalSteps = countSteps(recipe)
     await writePage(
       path.join(DIST, 'recipes', slug, 'make', 'index.html'),
-      recipeMake(fakeRequest(`/recipes/${slug}/make`))
+      recipeMake(fakeContext(`/recipes/${slug}/make`, { slug, step: '1' }))
     )
     pages++
     for (let step = 2; step <= totalSteps; step++) {
       await writePage(
         path.join(DIST, 'recipes', slug, 'make', String(step), 'index.html'),
-        recipeMake(fakeRequest(`/recipes/${slug}/make/${step}`))
+        recipeMake(fakeContext(`/recipes/${slug}/make/${step}`, { slug, step: String(step) }))
       )
       pages++
     }
@@ -88,7 +88,7 @@ async function build() {
   for (let slug of packSlugs) {
     await writePage(
       path.join(DIST, 'packs', slug, 'index.html'),
-      packShow(fakeRequest(`/packs/${slug}`))
+      packShow(fakeContext(`/packs/${slug}`, { slug }))
     )
     pages++
   }
@@ -96,7 +96,7 @@ async function build() {
   // Sitemap
   await writePage(
     path.join(DIST, 'sitemap.xml'),
-    sitemap(fakeRequest('/sitemap.xml'))
+    sitemap(fakeContext('/sitemap.xml'))
   )
   pages++
 

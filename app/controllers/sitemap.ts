@@ -1,8 +1,8 @@
 import { listRecipeSlugs } from '../data/recipes.ts'
 
-export function sitemap(request: Request): Response {
+export function sitemap(context: { url: URL }): Response {
   let slugs = listRecipeSlugs()
-  let origin = new URL(request.url).origin
+  let origin = context.url.origin
   let urls = [
     `  <url><loc>${origin}/</loc></url>`,
     `  <url><loc>${origin}/recipes</loc></url>`,

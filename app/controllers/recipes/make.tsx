@@ -180,14 +180,10 @@ function renderMakeMode(recipe: Recipe, slug: string, activeAnnIds: Set<number>,
   })
 }
 
-export function recipeMake(request: Request): Response {
-  let url = new URL(request.url)
-  let segments = url.pathname.split('/')
-  // /recipes/:slug/make → segments = ['', 'recipes', ':slug', 'make']
-  // /recipes/:slug/make/:step → segments = ['', 'recipes', ':slug', 'make', ':step']
-  let slug = segments[2] || ''
-  let stepParam = segments[4] || ''
-  let currentStep = parseInt(stepParam, 10) || 1
+export function recipeMake(context: { params: Record<string, string>; url: URL }): Response {
+  let { params, url } = context
+  let slug = params.slug || ''
+  let currentStep = parseInt(params.step || '', 10) || 1
   let filename = getRecipeFilename(slug)
 
   try {

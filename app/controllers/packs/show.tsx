@@ -7,9 +7,8 @@ function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }
 
-export function packShow(request: Request): Response {
-  let url = new URL(request.url)
-  let slug = url.pathname.split('/').pop() || ''
+export function packShow(context: { params: Record<string, string> }): Response {
+  let slug = context.params.slug || ''
 
   let pack: Pack
   try {

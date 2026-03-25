@@ -63,7 +63,7 @@ for (let file of files) {
   }
 
   let markerRe = /\{([^}]+)\}/g
-  function checkMarkers(text: string, location: string) {
+  let checkMarkers = (text: string, location: string) => {
     let match
     while ((match = markerRe.exec(text)) !== null) {
       let ref = match[1]
@@ -88,7 +88,7 @@ for (let file of files) {
   }
 
   // Step 4: Annotation quality checks
-  function checkAnnotations(item: unknown, location: string) {
+  let checkAnnotations = (item: unknown, location: string) => {
     if (typeof item === 'object' && item !== null && 'annotations' in item) {
       let annItem = item as { text: string; annotations: { text: string; type: string; contributor: string }[] }
       for (let ann of annItem.annotations) {

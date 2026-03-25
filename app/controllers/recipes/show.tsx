@@ -206,9 +206,8 @@ function renderRecipe(recipe: Recipe, slug: string): string {
 </main>`
 }
 
-export function recipeShow(request: Request): Response {
-  let url = new URL(request.url)
-  let slug = url.pathname.split('/').pop() || ''
+export function recipeShow(context: { params: Record<string, string> }): Response {
+  let slug = context.params.slug || ''
   let filename = getRecipeFilename(slug)
 
   try {
