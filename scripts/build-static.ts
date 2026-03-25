@@ -7,7 +7,7 @@ import { recipeMake } from '../app/controllers/recipes/make.tsx'
 import { packsIndex } from '../app/controllers/packs/index.tsx'
 import { packShow } from '../app/controllers/packs/show.tsx'
 import { sitemap } from '../app/controllers/sitemap.ts'
-import { listRecipeSlugs } from '../app/data/recipes.ts'
+import { listRecipeSlugs, loadRecipe, countSteps } from '../app/data/recipes.ts'
 import { loadPacks } from '../app/data/packs.ts'
 
 const DIST = path.join(process.cwd(), 'dist')
@@ -67,11 +67,21 @@ async function build() {
     )
     pages++
 
+    // Make mode: one page per step
+    let recipe = loadRecipe(slug.replace(/-/g, '_'))
+    let totalSteps = countSteps(recipe)
     await writePage(
       path.join(DIST, 'recipes', slug, 'make', 'index.html'),
       recipeMake(fakeRequest(`/recipes/${slug}/make`))
     )
     pages++
+    for (let step = 2; step <= totalSteps; step++) {
+      await writePage(
+        path.join(DIST, 'recipes', slug, 'make', String(step), 'index.html'),
+        recipeMake(fakeRequest(`/recipes/${slug}/make/${step}`))
+      )
+      pages++
+    }
   }
 
   // Pack pages

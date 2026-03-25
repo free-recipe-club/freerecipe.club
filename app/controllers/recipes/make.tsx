@@ -86,7 +86,14 @@ function renderInlineIngredients(text: string, subMap?: Map<string, string>): st
   return parts.join('')
 }
 
-function renderMakeMode(recipe: Recipe, slug: string, activeAnnIds: Set<number>): Response {
+function stepUrl(slug: string, stepNum: number, annQuery: string): string {
+  let base = stepNum <= 1
+    ? `/recipes/${encodeURIComponent(slug)}/make`
+    : `/recipes/${encodeURIComponent(slug)}/make/${stepNum}`
+  return base + annQuery
+}
+
+function renderMakeMode(recipe: Recipe, slug: string, activeAnnIds: Set<number>, currentStep: number): Response {
   // Build substitution map from active ingredient annotations
   let subMap = new Map<string, string>()
   let idCounter = { value: 1 }
@@ -110,49 +117,60 @@ function renderMakeMode(recipe: Recipe, slug: string, activeAnnIds: Set<number>)
   let verbIng = verb.endsWith('e') ? verb.slice(0, -1) + 'ing' : verb + 'ing'
   let annQuery = activeAnnIds.size > 0 ? '?ann=' + [...activeAnnIds].sort((a, b) => a - b).join(',') : ''
 
-  let stepsHtml = steps.map((step, i) => {
-    let labelHtml = step.section
-      ? `\n      <div class="make-section-label">${escapeHtml(step.section)}</div>`
-      : ''
-    let displayText = resolveStepText(step, activeAnnIds)
-    let stepHtml = renderInlineIngredients(displayText, subMap)
+  // Clamp step to valid range (1-indexed)
+  if (currentStep < 1) currentStep = 1
+  if (currentStep > total) currentStep = total
+  let idx = currentStep - 1
+  let step = steps[idx]
 
-    let tips = (step.annotations || []).filter(a => a.annotation.type === 'tip')
-    let tipsHtml = tips.length > 0
-      ? `\n      <details class="make-tip" style="margin-top:12px">
+  let labelHtml = step.section
+    ? `\n      <div class="make-section-label">${escapeHtml(step.section)}</div>`
+    : ''
+  let displayText = resolveStepText(step, activeAnnIds)
+  let stepHtml = renderInlineIngredients(displayText, subMap)
+
+  let tips = (step.annotations || []).filter(a => a.annotation.type === 'tip')
+  let tipsHtml = tips.length > 0
+    ? `\n      <details class="make-tip" style="margin-top:12px">
         <summary>💡 ${tips.length === 1 ? 'Tip' : tips.length + ' Tips'}</summary>
         ${tips.map(t => `<p class="make-tip-text">${escapeHtml(t.annotation.text)} <span style="opacity:0.6">— ${escapeHtml(t.annotation.contributor)}</span></p>`).join('\n        ')}
       </details>`
-      : ''
+    : ''
 
-    return `    <div class="make-step" data-step="${i + 1}">${labelHtml}
-      <div class="make-step-text" tabindex="-1">${stepHtml}</div>${tipsHtml}
-    </div>`
-  }).join('\n')
+  let prevHref = currentStep > 1 ? stepUrl(slug, currentStep - 1, annQuery) : null
+  let nextHref = currentStep < total ? stepUrl(slug, currentStep + 1, annQuery) : null
+  let exitHref = `/recipes/${encodeURIComponent(slug)}${annQuery}`
+
+  let prevLink = prevHref
+    ? `<a href="${prevHref}" class="make-btn make-btn-link">Previous</a>`
+    : `<span class="make-btn" style="visibility:hidden">Previous</span>`
+  let nextLink = nextHref
+    ? `<a href="${nextHref}" class="make-btn make-btn-link">Next</a>`
+    : `<a href="${exitHref}" class="make-btn make-btn-link">Finish ${escapeHtml(verbIng)}</a>`
 
   let html = `<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHtml(recipe.title)} — ${escapeHtml(verbIng)} — freerecipe.club</title>
+  <title>${escapeHtml(recipe.title)} — Step ${currentStep} — ${escapeHtml(verbIng)} — freerecipe.club</title>
   <link rel="stylesheet" href="/styles/output.css">
 </head>
-<body class="${themeClass} make-mode" data-verb-ing="${escapeHtml(verbIng)}" style="background:var(--make-bg);color:var(--make-text);margin:0;min-height:100vh;min-height:100dvh">
+<body class="${themeClass} make-mode" style="background:var(--make-bg);color:var(--make-text);margin:0;min-height:100vh;min-height:100dvh"${nextHref ? ` data-next="${nextHref}"` : ''}>
   <div class="make-top-bar">
-    <a href="/recipes/${encodeURIComponent(slug)}${annQuery}" aria-label="Exit ${escapeHtml(verbIng.toLowerCase())} mode" class="make-exit">✕</a>
-    <span class="make-step-counter" id="make-step-counter">Step 1 of ${total}</span>
+    <a href="${exitHref}" aria-label="Exit ${escapeHtml(verbIng.toLowerCase())} mode" class="make-exit">✕</a>
+    <span class="make-step-counter">Step ${currentStep} of ${total}</span>
   </div>
-  <div role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="${total}" aria-label="${escapeHtml(verbIng)} progress" class="make-progress">
-    <div class="make-progress-fill" id="make-progress-fill" style="width:${(1 / total * 100).toFixed(1)}%"></div>
+  <div role="progressbar" aria-valuenow="${currentStep}" aria-valuemin="1" aria-valuemax="${total}" aria-label="${escapeHtml(verbIng)} progress" class="make-progress">
+    <div class="make-progress-fill" style="width:${(currentStep / total * 100).toFixed(1)}%"></div>
   </div>
-  <div id="make-steps" aria-live="polite">
-${stepsHtml}
+  <div class="make-step" aria-live="polite">${labelHtml}
+      <div class="make-step-text">${stepHtml}</div>${tipsHtml}
   </div>
-  <div class="make-nav" id="make-nav">
-    <button type="button" id="make-prev" class="make-btn" style="visibility:hidden">Previous</button>
-    <button type="button" id="make-next" class="make-btn">${total === 1 ? `Finish ${escapeHtml(verbIng)}` : 'Next'}</button>
-  </div>
+  <nav class="make-nav">
+    ${prevLink}
+    ${nextLink}
+  </nav>
   <script src="/make.js" defer></script>
 </body>
 </html>`
@@ -166,14 +184,17 @@ export function recipeMake(request: Request): Response {
   let url = new URL(request.url)
   let segments = url.pathname.split('/')
   // /recipes/:slug/make → segments = ['', 'recipes', ':slug', 'make']
+  // /recipes/:slug/make/:step → segments = ['', 'recipes', ':slug', 'make', ':step']
   let slug = segments[2] || ''
+  let stepParam = segments[4] || ''
+  let currentStep = parseInt(stepParam, 10) || 1
   let filename = getRecipeFilename(slug)
 
   try {
     let recipe = loadRecipe(filename)
     let annParam = url.searchParams.get('ann') || ''
     let activeAnnIds = new Set(annParam.split(',').filter(Boolean).map(Number))
-    return renderMakeMode(recipe, slug, activeAnnIds)
+    return renderMakeMode(recipe, slug, activeAnnIds, currentStep)
   } catch {
     let html = `<!doctype html>
 <html lang="en">

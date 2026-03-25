@@ -45,6 +45,20 @@ export function listRecipeSlugs(recipesDir: string = RECIPES_DIR): string[] {
     .map(f => getRecipeSlug(f))
 }
 
+export function countSteps(recipe: Recipe): number {
+  let count = 0
+  for (let entry of recipe.directions) {
+    if (typeof entry === 'string') {
+      count++
+    } else if (Array.isArray(entry)) {
+      count += entry.length - 1 // first element is section header
+    } else {
+      count++
+    }
+  }
+  return count
+}
+
 export type CollectedAnnotation = {
   id: number
   annotation: Annotation

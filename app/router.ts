@@ -20,6 +20,7 @@ export function createAppRouter() {
 
   router.get(routes.home, home)
   router.get(routes.recipes.index, recipesIndex)
+  router.get(routes.recipes.makeStep, recipeMake)
   router.get(routes.recipes.make, recipeMake)
   router.get(routes.recipes.show, recipeShow)
   router.get(routes.packs.index, packsIndex)
