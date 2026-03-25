@@ -39,12 +39,14 @@ export function packShow(request: Request): Response {
   </div>`
   } else {
     let cards = packRecipes.map(({ recipe, slug: recipeSlug }) => {
+      let verb = recipe.make_verb || 'Make'
+      let verbIng = verb.endsWith('e') ? verb.slice(0, -1) + 'ing' : verb + 'ing'
       return `<a href="/recipes/${encodeURIComponent(recipeSlug)}" class="block rounded-lg p-4 transition-colors" style="background:var(--theme-surface);border:1px solid var(--theme-border)" onmouseover="this.style.background='var(--theme-surface-hover)'" onmouseout="this.style.background='var(--theme-surface)'">
       <div class="flex items-start justify-between">
         <div>
           <h2 class="text-2xl font-bold mb-1" style="font-family:var(--theme-heading-font)">${escapeHtml(recipe.title)}</h2>
           <p class="text-sm font-bold" style="color:var(--theme-text-secondary)">${escapeHtml(recipe.byline)}, ${escapeHtml(recipe.location)}</p>
-          <p class="text-base font-bold mt-2" style="color:var(--theme-accent)">Start Cooking →</p>
+          <p class="text-base font-bold mt-2" style="color:var(--theme-accent)">Start ${escapeHtml(verbIng)} →</p>
         </div>
         <span class="flex items-center justify-center w-6 h-6 rounded-full text-sm flex-shrink-0" style="background:var(--theme-badge-bg);color:var(--theme-badge-text)" aria-hidden="true">${pack.icon}</span>
       </div>
