@@ -4,7 +4,7 @@ import { routes } from './routes.ts'
 import { home } from './controllers/home/controller.tsx'
 import { recipesIndex } from './controllers/recipes/index.tsx'
 import { recipeShow } from './controllers/recipes/show.tsx'
-import { recipeCook } from './controllers/recipes/cook.tsx'
+import { recipeMake } from './controllers/recipes/make.tsx'
 import { packsIndex } from './controllers/packs/index.tsx'
 import { packShow } from './controllers/packs/show.tsx'
 import { sitemap } from './controllers/sitemap.ts'
@@ -20,7 +20,7 @@ export function createAppRouter() {
 
   router.get(routes.home, home)
   router.get(routes.recipes.index, recipesIndex)
-  router.get(routes.recipes.cook, recipeCook)
+  router.get(routes.recipes.make, recipeMake)
   router.get(routes.recipes.show, recipeShow)
   router.get(routes.packs.index, packsIndex)
   router.get(routes.packs.show, packShow)

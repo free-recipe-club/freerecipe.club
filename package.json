@@ -4,11 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npm run dev:server & npm run dev:css",
+    "dev": "npm run dev:server & npm run dev:css & npm run dev:js",
     "dev:server": "tsx watch server.ts",
     "dev:css": "npx @tailwindcss/cli -i ./app/styles/input.css -o ./public/styles/output.css --watch",
+    "dev:js": "tsx scripts/build-scripts.ts --watch",
     "start": "tsx server.ts",
+    "build": "npm run build:css && npm run build:js && npm run build:static",
     "build:css": "npx @tailwindcss/cli -i ./app/styles/input.css -o ./public/styles/output.css --minify",
+    "build:js": "tsx scripts/build-scripts.ts",
+    "build:static": "tsx scripts/build-static.ts",
     "typecheck": "tsc --noEmit",
     "validate": "tsx scripts/validate-recipes.ts"
   },

@@ -11,35 +11,45 @@ function isAnnotated(item: unknown): item is AnnotatedItem {
   return typeof item === 'object' && item !== null && 'annotations' in item
 }
 
+function stripMarkers(text: string): string {
+  return text.replace(/[{}]/g, '')
+}
+
 function renderAnnotatedItem(item: AnnotatedItem, idCounter: { value: number }): string {
-  let parts: string[] = []
-  for (let ann of item.annotations) {
+  let subs = item.annotations.filter(a => a.type === 'substitution')
+  let tips = item.annotations.filter(a => a.type === 'tip')
+
+  let subsHtml = subs.map(ann => {
     let id = idCounter.value++
-    if (ann.type === 'substitution') {
-      parts.push(`<li class="text-lg leading-relaxed ann-item" data-ann-id="${id}">
-        <div class="flex items-start gap-3">
-          <button type="button" role="switch" aria-checked="false" aria-label="Swap: ${escapeHtml(ann.text)}, by ${escapeHtml(ann.contributor)}" class="ann-toggle ann-toggle-switch" data-ann-id="${id}"><span class="sr-only">Toggle substitution</span></button>
-          <div>
-            <span class="ann-original-text">${escapeHtml(item.text)}</span>
-            <div class="ann-substitution-text text-base pl-2 mt-1" style="background:var(--ann-substitution-bg);border-left:2px solid var(--ann-substitution-border);padding:4px 8px;border-radius:4px">
-              ${escapeHtml(ann.text)}
-              <span class="text-sm" style="color:var(--theme-text-secondary)"> — ${escapeHtml(ann.contributor)}</span>
-            </div>
-          </div>
-        </div>
-      </li>`)
-    } else {
-      parts.push(`<li class="text-lg leading-relaxed">
-        ${escapeHtml(item.text)}
-        <button type="button" aria-expanded="false" aria-controls="tip-${id}" class="ann-tip-trigger text-sm font-bold ml-2" style="color:var(--theme-text-secondary);cursor:pointer;background:none;border:none;padding:2px 6px">💡 Tip <span class="ann-chevron">▾</span></button>
-        <div id="tip-${id}" class="ann-tip-body" style="display:none">
-          <span class="text-base">${escapeHtml(ann.text)}</span>
-          <span class="text-sm" style="color:var(--theme-text-secondary)"> — ${escapeHtml(ann.contributor)}</span>
-        </div>
-      </li>`)
-    }
-  }
-  return parts.join('\n        ')
+    let explanationHtml = ann.explanation
+      ? ` <span class="text-sm" style="color:var(--theme-text-secondary)">${escapeHtml(ann.explanation)}</span>`
+      : ''
+    return `<div class="ann-sub" data-ann-id="${id}" data-swap-text="${escapeHtml(ann.text)}" style="margin-top:4px;padding:4px 8px;border-left:2px solid var(--ann-substitution-border);border-radius:4px;background:var(--ann-substitution-bg)">
+          <span class="text-sm"><strong>Swap:</strong> ${escapeHtml(ann.text)}${explanationHtml} <em style="color:var(--theme-text-secondary)">— ${escapeHtml(ann.contributor)}</em></span>
+          <button type="button" class="ann-apply text-sm font-bold ml-2 print:hidden" data-ann-id="${id}" style="color:var(--theme-accent);background:none;border:none;cursor:pointer;padding:0">Use this</button>
+        </div>`
+  }).join('\n        ')
+
+  let tipLabel = tips.length === 1 ? '💡 Tip' : `💡 ${tips.length} Tips`
+  let tipsHtml = tips.length > 0
+    ? `<details class="ann-tip-details" style="margin-top:4px">
+          <summary class="text-sm font-bold" style="color:var(--theme-text-secondary);cursor:pointer">${tipLabel}</summary>
+          ${tips.map(ann => {
+            idCounter.value++
+            return `<div class="ann-tip-content" style="margin-top:4px;padding:4px 8px;border-left:2px solid var(--ann-tip-border);border-radius:4px;background:var(--ann-tip-bg)">
+            <span class="text-base">${escapeHtml(ann.text)}</span>
+            <span class="text-sm" style="color:var(--theme-text-secondary)"> — ${escapeHtml(ann.contributor)}</span>
+          </div>`
+          }).join('\n          ')}
+        </details>`
+    : ''
+
+  return `<li class="text-lg leading-relaxed ann-item">
+        <span class="ann-original-text">${escapeHtml(stripMarkers(item.text))}</span>
+        <span class="ann-swapped-text" hidden></span>
+        ${subsHtml}
+        ${tipsHtml}
+      </li>`
 }
 
 function renderIngredients(components: Recipe['components'], idCounter: { value: number }): string {
@@ -65,7 +75,7 @@ function renderDirections(directions: Recipe['directions'], idCounter: { value: 
       items.push(`<li class="text-lg leading-relaxed">
       <label class="cursor-pointer">
         <input type="checkbox" class="peer sr-only">
-        <span class="peer-checked:line-through peer-checked:text-gray-400">${escapeHtml(entry)}</span>
+        <span class="peer-checked:line-through peer-checked:text-gray-400">${escapeHtml(stripMarkers(entry))}</span>
       </label>
     </li>`)
     } else if (Array.isArray(entry)) {
@@ -77,7 +87,7 @@ function renderDirections(directions: Recipe['directions'], idCounter: { value: 
           items.push(`<li class="text-lg leading-relaxed">
       <label class="cursor-pointer">
         <input type="checkbox" class="peer sr-only">
-        <span class="peer-checked:line-through peer-checked:text-gray-400">${escapeHtml(sub as string)}</span>
+        <span class="peer-checked:line-through peer-checked:text-gray-400">${escapeHtml(stripMarkers(sub as string))}</span>
       </label>
     </li>`)
         }
@@ -127,6 +137,9 @@ function renderRecipe(recipe: Recipe, slug: string): string {
   </div>`
     : ''
 
+  let verb = recipe.make_verb || 'Make'
+  let verbIng = verb.endsWith('e') ? verb.slice(0, -1) + 'ing' : verb + 'ing'
+
   return `<main class="max-w-2xl mx-auto px-4 py-8">
   <header class="flex items-start gap-4 mb-8">
     <img src="/recipes/${encodeURIComponent(getRecipeFilename(slug))}.jpg" alt="${escapeHtml(recipe.title)}" width="80" height="80"
@@ -137,9 +150,9 @@ function renderRecipe(recipe: Recipe, slug: string): string {
     </div>
   </header>
 
-  <a id="start-cooking-link" href="/recipes/${encodeURIComponent(slug)}/cook"
+  <a id="start-making-link" href="/recipes/${encodeURIComponent(slug)}/make"
      class="block w-full py-3 text-center text-xl font-bold rounded-lg hover:opacity-90 focus:outline-2 focus:outline-offset-2 print:hidden mb-8" style="background:var(--theme-accent);color:var(--theme-accent-text)">
-    Start Cooking
+    Start ${escapeHtml(verbIng)}
   </a>
 
   ${selectionBarHtml}

@@ -43,26 +43,26 @@
   }
 }
 
-/* Cooking mode — fallback defaults (overridden by theme) */
-.cook-mode {
-  --cook-bg: #fdf6e3;
-  --cook-surface: #f0ead4;
-  --cook-text: #111827;
-  --cook-text-secondary: #4b5563;
-  --cook-accent: #2d5016;
-  --cook-btn-bg: #2d5016;
-  --cook-btn-text: #ffffff;
+/* Make mode — fallback defaults (overridden by theme) */
+.make-mode {
+  --make-bg: #fdf6e3;
+  --make-surface: #f0ead4;
+  --make-text: #111827;
+  --make-text-secondary: #4b5563;
+  --make-accent: #2d5016;
+  --make-btn-bg: #2d5016;
+  --make-btn-text: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
-  .cook-mode {
-    --cook-bg: #1c1917;
-    --cook-surface: #292524;
-    --cook-text: #fafaf9;
-    --cook-text-secondary: #a8a29e;
-    --cook-accent: #86c166;
-    --cook-btn-bg: #86c166;
-    --cook-btn-text: #1c1917;
+  .make-mode {
+    --make-bg: #1c1917;
+    --make-surface: #292524;
+    --make-text: #fafaf9;
+    --make-text-secondary: #a8a29e;
+    --make-accent: #86c166;
+    --make-btn-bg: #86c166;
+    --make-btn-text: #1c1917;
   }
 }
 
@@ -102,31 +102,31 @@ body {
   --ann-toggle-track-active: var(--theme-accent);
   --ann-toggle-thumb: #ffffff;
 
-  /* Cooking mode inherits theme */
-  --cook-bg: #faf5eb;
-  --cook-surface: #f0e6d3;
-  --cook-text: #292017;
-  --cook-text-secondary: #6b5c4d;
-  --cook-accent: #c2410c;
-  --cook-btn-bg: #c2410c;
-  --cook-btn-text: #ffffff;
+  /* Make mode inherits theme */
+  --make-bg: #faf5eb;
+  --make-surface: #f0e6d3;
+  --make-text: #292017;
+  --make-text-secondary: #6b5c4d;
+  --make-accent: #c2410c;
+  --make-btn-bg: #c2410c;
+  --make-btn-text: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
-  .theme-autumn-harvest .cook-mode {
-    --cook-bg: #1c1917;
-    --cook-surface: #292524;
-    --cook-text: #fafaf9;
-    --cook-text-secondary: #a8a29e;
-    --cook-accent: #fb923c;
-    --cook-btn-bg: #fb923c;
-    --cook-btn-text: #1c1917;
+  .theme-autumn-harvest .make-mode {
+    --make-bg: #1c1917;
+    --make-surface: #292524;
+    --make-text: #fafaf9;
+    --make-text-secondary: #a8a29e;
+    --make-accent: #fb923c;
+    --make-btn-bg: #fb923c;
+    --make-btn-text: #1c1917;
   }
 }
 
-.cook-mode {
-  background: var(--cook-bg);
-  color: var(--cook-text);
+.make-mode {
+  background: var(--make-bg);
+  color: var(--make-text);
   font-family: var(--font-sans, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif);
   margin: 0;
   min-height: 100vh;
@@ -135,7 +135,7 @@ body {
   flex-direction: column;
 }
 
-.cook-top-bar {
+.make-top-bar {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,12 +143,12 @@ body {
   padding: 8px 16px;
 }
 
-.cook-exit {
+.make-exit {
   position: absolute;
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--cook-text-secondary);
+  color: var(--make-text-secondary);
   font-size: 14px;
   text-decoration: none;
   padding: 12px;
@@ -159,37 +159,37 @@ body {
   justify-content: center;
 }
 
-.cook-step-counter {
+.make-step-counter {
   font-size: 16px;
   font-weight: 700;
-  color: var(--cook-text-secondary);
+  color: var(--make-text-secondary);
 }
 
-.cook-progress {
+.make-progress {
   width: 100%;
   height: 4px;
-  background: var(--cook-surface);
+  background: var(--make-surface);
 }
 
-.cook-progress-fill {
+.make-progress-fill {
   height: 100%;
-  background: var(--cook-accent);
+  background: var(--make-accent);
   transition: width 200ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cook-progress-fill {
+  .make-progress-fill {
     transition: none;
   }
 }
 
-#cook-steps {
+#make-steps {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.cook-step {
+.make-step {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -202,35 +202,56 @@ body {
   overflow-y: auto;
 }
 
-.cook-step-text {
+.make-step-text {
   font-size: 24px;
   font-weight: 400;
   line-height: 1.5;
-  color: var(--cook-text);
+  color: var(--make-text);
   outline: none;
 }
 
-.cook-section-label {
+.make-section-label {
   font-size: 14px;
   font-weight: 700;
-  color: var(--cook-text-secondary);
+  color: var(--make-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 12px;
 }
 
-.cook-nav {
+.make-tip summary {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--make-text-secondary);
+  cursor: pointer;
+  list-style: none;
+}
+.make-tip summary::-webkit-details-marker { display: none; }
+.make-tip:not([open]) summary::after { content: ' ▸'; }
+.make-tip[open] summary::after { content: ' ▾'; }
+
+.make-tip-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--make-text-secondary);
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-left: 2px solid var(--make-text-secondary);
+  border-radius: 4px;
+}
+
+.make-nav {
   display: flex;
   gap: 16px;
   padding: 16px;
   padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
 }
 
-.cook-btn {
+.make-btn {
   flex: 1;
   height: 56px;
-  background: var(--cook-btn-bg);
-  color: var(--cook-btn-text);
+  background: var(--make-btn-bg);
+  color: var(--make-btn-text);
   font-size: 20px;
   font-weight: 700;
   border: none;
@@ -239,114 +260,90 @@ body {
   min-width: 0;
 }
 
-.cook-btn:focus-visible {
-  outline: 2px solid var(--cook-accent);
+.make-btn:focus-visible {
+  outline: 2px solid var(--make-accent);
   outline-offset: 2px;
 }
 
 /* Tablet+ */
 @media (min-width: 768px) {
-  .cook-step { padding: 24px; }
-  .cook-nav { max-width: 640px; margin: 0 auto; width: 100%; }
+  .make-step { padding: 24px; }
+  .make-nav { max-width: 640px; margin: 0 auto; width: 100%; }
 }
 
 /* Desktop */
 @media (min-width: 1024px) {
-  .cook-step {
+  .make-step {
     max-width: 900px;
   }
 }
 
 /* Print */
 @media print {
-  .cook-mode {
+  .make-mode {
     min-height: auto;
   }
-  .cook-step-text {
+  .make-step-text {
     font-size: 14px;
     line-height: 1.4;
   }
-  .cook-step {
+  .make-step {
     padding: 8px 0;
     page-break-inside: avoid;
   }
-  .cook-nav,
-  .cook-top-bar,
-  .cook-progress {
+  .make-nav,
+  .make-top-bar,
+  .make-progress {
     display: none;
   }
-  .cook-step[hidden] {
+  .make-step[hidden] {
     display: flex !important;
   }
-  .cook-ingredient-heading {
+  .make-ingredient-heading {
     font-size: 14px;
   }
-  .cook-ingredient-list li {
+  .make-ingredient-list li {
     font-size: 14px;
   }
-  .cook-section-label {
+  .make-section-label {
     font-size: 11px;
   }
 }
 
-/* Annotation toggles — hidden without JS, shown when .ann-js-ready on body */
-.ann-toggle,
-.ann-tip-trigger {
-  display: none;
-}
-.ann-js-ready .ann-toggle,
-.ann-js-ready .ann-tip-trigger {
-  display: inline-flex;
-}
-.ann-substitution-text {
-  display: none;
-}
-.ann-js-ready .ann-active .ann-substitution-text {
-  display: block;
-}
-.ann-js-ready .ann-active .ann-original-text {
-  text-decoration: line-through;
-  color: #9ca3af;
+/* Inline ingredient highlighting in make mode */
+.make-ingredient {
+  color: var(--make-accent);
 }
 
-/* Annotation toggle switch */
-.ann-toggle-switch {
-  width: 44px;
-  height: 24px;
-  border-radius: 12px;
-  background: var(--ann-toggle-track);
-  position: relative;
-  cursor: pointer;
-  border: 2px solid var(--ann-toggle-track);
-  padding: 0;
-  flex-shrink: 0;
-  margin-top: 2px;
+.make-qty {
+  font-weight: 700;
 }
-.ann-toggle-switch::after {
-  content: '';
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--ann-toggle-thumb);
-  position: absolute;
-  left: 1px;
-  top: 1px;
-  transition: transform 150ms ease;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+
+/* Annotation cards — substitutions & tips */
+.ann-sub.ann-active {
+  border-left-color: var(--ann-toggle-track-active, var(--theme-accent));
+  background: color-mix(in srgb, var(--ann-substitution-bg) 80%, var(--theme-accent) 20%);
 }
-.ann-toggle-switch[aria-checked="true"] {
-  background: var(--ann-toggle-track-active);
-  border-color: var(--ann-toggle-track-active);
+
+.ann-tip-details summary {
+  list-style: none;
 }
-.ann-toggle-switch[aria-checked="true"]::after {
-  transform: translateX(20px);
+.ann-tip-details summary::-webkit-details-marker {
+  display: none;
 }
-.ann-toggle-switch:focus-visible {
-  outline: 2px solid var(--ann-toggle-track-active);
-  outline-offset: 2px;
+.ann-tip-details[open] summary::after {
+  content: ' ▴';
 }
-@media (prefers-reduced-motion: reduce) {
-  .ann-toggle-switch::after { transition: none; }
+.ann-tip-details:not([open]) summary::after {
+  content: ' ▾';
+}
+
+@media print {
+  .ann-sub,
+  .ann-tip-details,
+  .ann-selection-bar {
+    display: none !important;
+  }
 }
 
 /* Tip disclosure */

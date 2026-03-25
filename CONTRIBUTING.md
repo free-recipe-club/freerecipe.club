@@ -40,17 +40,6 @@ If you're comfortable with Git and GitHub, here's the full walkthrough:
 
 Not comfortable with Git? No problem! Open a [Recipe Submission](../../issues/new?template=recipe_submission.md) issue and paste your recipe details. A maintainer will format it and create the PR for you.
 
-### Via Email or Letter
-
-Don't use GitHub at all? That's completely fine!
-
-**Email:** recipes@freerecipe.club
-**Mail:** Address TBD
-
-Include: recipe name, who made it, where you're from, ingredients (grouped by component), numbered steps, the story behind it, and source links if applicable. Attach a photo of the finished dish if you have one.
-
-**The process:** Your recipe is received → a maintainer creates a GitHub issue → the recipe is formatted as YAML and added via PR → you're credited as the contributor.
-
 ## Recipe Format Reference
 
 Recipes are YAML files in `data/recipes/`. Here's the full structure:
@@ -148,4 +137,4 @@ Visit `http://localhost:3000`
 
 ## Questions?
 
-Open an issue or email recipes@freerecipe.club
+Open an issue on GitHub.

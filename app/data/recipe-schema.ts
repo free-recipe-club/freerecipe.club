@@ -9,6 +9,7 @@ export const AnnotationSchema = z.object({
   text: z.string().min(1),
   type: z.enum(['substitution', 'tip']),
   contributor: z.string().min(1),
+  explanation: z.string().optional(),
 })
 
 export const AnnotatedItemSchema = z.object({
@@ -46,6 +47,7 @@ export const RecipeSchema = z.object({
   flavor: z.string().default(''),
   pack: z.string().optional(),
   variant_of: z.string().optional(),
+  make_verb: z.string().default('Make'),
 })
 
 export type Recipe = z.infer<typeof RecipeSchema>

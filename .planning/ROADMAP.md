@@ -115,7 +115,7 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Annotation schema evolution + sample annotated recipe
+- [x] 06-01-PLAN.md — Annotation schema evolution + sample annotated recipe
 - [ ] 06-02-PLAN.md — Annotation display rendering + client JS + cooking mode integration
 - [ ] 06-03-PLAN.md — Variant forking + contribution workflow + CI validation
 **UI hint**: yes

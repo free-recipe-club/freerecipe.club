@@ -4,7 +4,7 @@ export let routes = route({
   home: '/',
   recipes: {
     index: '/recipes',
-    cook: '/recipes/:slug/cook',
+    make: '/recipes/:slug/make',
     show: '/recipes/:slug',
   },
   packs: {

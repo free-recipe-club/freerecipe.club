@@ -53,7 +53,41 @@ for (let file of files) {
     warnings.push(`${file}: background exceeds 2000 characters (${recipe.background.length})`)
   }
 
-  // Step 3: Image presence check
+  // Step 3: Validate {ingredient} markers in directions match component list
+  let ingredientTexts = new Set<string>()
+  for (let group of recipe.components) {
+    for (let i = 1; i < group.length; i++) {
+      let item = group[i]
+      ingredientTexts.add(typeof item === 'string' ? item : item.text)
+    }
+  }
+
+  let markerRe = /\{([^}]+)\}/g
+  function checkMarkers(text: string, location: string) {
+    let match
+    while ((match = markerRe.exec(text)) !== null) {
+      let ref = match[1]
+      if (!ingredientTexts.has(ref)) {
+        errors.push(`${file}: ${location}: {${ref}} does not match any ingredient in components`)
+      }
+    }
+  }
+
+  for (let entry of recipe.directions) {
+    if (typeof entry === 'string') {
+      checkMarkers(entry, 'directions')
+    } else if (Array.isArray(entry)) {
+      for (let i = 1; i < entry.length; i++) {
+        let sub = entry[i]
+        let text = typeof sub === 'string' ? sub : sub.text
+        checkMarkers(text, 'directions')
+      }
+    } else {
+      checkMarkers(entry.text, 'directions')
+    }
+  }
+
+  // Step 4: Image presence check
   let baseName = file.replace(/\.yml$/, '')
   let imagePath = path.join(IMAGES_DIR, `${baseName}.jpg`)
   if (!fs.existsSync(imagePath)) {
