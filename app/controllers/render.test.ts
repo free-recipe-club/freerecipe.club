@@ -1,4 +1,4 @@
-import { render } from './app/controllers/render.tsx'
+import { render } from './render.tsx'
 
 // Test with description
 let r = render('Test', '<p>hi</p>', { description: 'A test' })

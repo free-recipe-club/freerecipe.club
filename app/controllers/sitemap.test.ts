@@ -1,4 +1,4 @@
-import { createAppRouter } from './app/router.ts'
+import { createAppRouter } from '../router.ts'
 
 let router = createAppRouter()
 
