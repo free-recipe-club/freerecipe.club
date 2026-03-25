@@ -9,7 +9,7 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 
 ### Constraints
 
-- **Framework**: React Router v7 (framework mode) — stable since Nov 2024, successor to Remix
+- **Framework**: [Remix 3](https://github.com/remix-run/remix) (alpha)
 - **Hosting**: Must be free and tied to GitHub repo — no paid hosting services
 - **Privacy**: Zero tracking, zero cookies beyond technical necessity, no third-party scripts
 - **Data**: Recipes stored as flat files in the repo — no database
@@ -22,101 +22,98 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 ## Languages & Runtime
 | Language | Version | Usage |
 |----------|---------|-------|
-| TypeScript | ^4.8.3 | Primary language for components, interfaces, config |
-| JavaScript | ES2022 | Astro config files (.mjs, .cjs) |
-| YAML | — | Recipe data format |
+| TypeScript | ^5.7.0 | Primary language — controllers, data layer, scripts |
+| YAML | — | Recipe and pack data format |
 ## Framework
 | Framework | Version | Role |
 |-----------|---------|------|
-| Astro | ^1.1.2 | Static site generator — core framework |
-| React | ^18.2.0 | UI components (via `@astrojs/react` integration) |
-| Tailwind CSS | via `@astrojs/tailwind` ^1.0.0 | Utility-first CSS framework |
+| Remix 3 (alpha) | `remix@next` | Server framework — fetch-router, static-middleware, component JSX |
+| Tailwind CSS | v4 (CSS-first) | Utility-first styling via `@tailwindcss/cli` |
 ## Dependencies
-### Production (bundled as devDependencies)
+### Production
 | Package | Version | Purpose |
 |---------|---------|---------|
-| `astro` | ^1.1.2 | Core SSG framework |
-| `@astrojs/react` | ^1.1.1 | React integration for Astro |
-| `@astrojs/tailwind` | ^1.0.0 | Tailwind CSS integration |
-| `react` | ^18.2.0 | Component library |
-| `react-dom` | ^18.2.0 | React DOM renderer |
-| `typescript` | ^4.8.3 | Type checking |
-| `yaml` | ^2.1.1 | YAML parser for recipe files |
+| `remix` | next | Remix 3 alpha — routing, server, JSX components |
+| `yaml` | ^2.7.0 | YAML parser for recipe/pack files |
+| `zod` | ^3.24.0 | Schema validation for recipe and pack data |
 ### Dev-only
 | Package | Version | Purpose |
 |---------|---------|---------|
-| `@types/jest` | ^29.0.0 | Jest type definitions (no tests exist yet) |
-| `@types/node` | ^18.7.16 | Node.js type definitions |
-| `@types/react` | ^18.0.18 | React type definitions |
-| `@types/react-dom` | ^18.0.6 | ReactDOM type definitions |
+| `@tailwindcss/cli` | ^4.2.0 | Tailwind v4 CLI for CSS builds |
+| `tailwindcss` | ^4.2.0 | Tailwind CSS engine |
+| `@types/node` | ^22.0.0 | Node.js type definitions |
+| `esbuild` | ^0.25.0 | Bundles client-side TypeScript scripts |
+| `tsx` | ^4.19.0 | TypeScript execution for dev server and scripts |
+| `typescript` | ^5.7.0 | Type checking |
 ## Build & Scripts
 | Script | Command | Purpose |
 |--------|---------|---------|
-| `dev` | `astro dev` | Development server |
-| `start` | `astro dev` | Alias for dev |
-| `build` | `astro check && tsc --noEmit && astro build` | Type-check + build |
-| `preview` | `astro preview` | Preview production build |
+| `dev` | `dev:server & dev:css & dev:js` | Parallel dev server, CSS watch, JS watch |
+| `dev:server` | `tsx watch server.ts` | Development server with hot reload |
+| `dev:css` | `@tailwindcss/cli ... --watch` | Tailwind CSS watch mode |
+| `dev:js` | `tsx scripts/build-scripts.ts --watch` | Client script rebuild on change |
+| `start` | `tsx server.ts` | Production server |
+| `build` | `build:css && build:js && build:static` | Full static site build |
+| `build:static` | `tsx scripts/build-static.ts` | Static site generation → `dist/` |
+| `validate` | `tsx scripts/validate-recipes.ts` | Recipe YAML validation |
 ## Configuration
-- **Astro config:** `astro.config.mjs` — enables Tailwind and React integrations
-- **TypeScript:** `tsconfig.json` — extends `astro/tsconfigs/base`, JSX set to `react-jsx`
-- **Tailwind:** `tailwind.config.cjs` — content glob for all src files, custom `wiggle` keyframe animation
+- **TypeScript:** `tsconfig.json` — JSX via `remix/component` (`jsxImportSource`)
+- **Tailwind:** CSS-first config in `app/styles/input.css` (no JS config file)
+- **No bundler:** No Vite/Webpack — Tailwind CLI + esbuild for client scripts
 <!-- GSD:stack-end -->
 
 <!-- GSD:conventions-start source:CONVENTIONS.md -->
 ## Conventions
 
 ## Code Style
-- **TypeScript** used throughout with strict-ish config (extends Astro base)
-- **React JSX** configured via `"jsx": "react-jsx"` in tsconfig
-- **Semicolons:** Not used consistently — trailing commas in interfaces, no semicolons in some places
-- **Quotes:** Single quotes in TypeScript, double quotes in Astro templates
-- **No linter/formatter configured** (no ESLint, Prettier, or similar in package.json)
+- **TypeScript** used throughout with strict config
+- **JSX** via `remix/component` (Preact-based, NOT React)
+- **Single quotes** in TypeScript
+- **No linter/formatter configured** (no ESLint, Prettier)
 ## Component Patterns
-- **React class components:** `RecipeCard` uses `Component` base class (older pattern vs. functional components)
-- **Astro frontmatter:** TypeScript logic in `---` fenced blocks at top of `.astro` files
-- **Props typing:** Astro uses `export interface Props`, React uses explicit `type` declarations
+- **TSX server rendering:** Controllers return `new Response(html)` with TSX templates
+- **No client-side framework:** Server-rendered HTML + vanilla TypeScript for interactivity
+- **Controller pattern:** Route handlers in `app/controllers/` return Response objects
 ## Data Handling
-- **File-based data:** Recipes stored as individual YAML files, read at build time with `fs.readdirSync()`
-- **No content collections:** Uses raw filesystem reads instead of Astro's content collection API
-- **Type casting:** YAML parse results cast with `as Recipe` (no runtime validation)
+- **File-based data:** Recipes/packs stored as YAML files in `data/`
+- **Zod validation:** Schemas in `app/data/recipe-schema.ts` and `pack-schema.ts`
+- **Loaders:** `app/data/recipes.ts` and `packs.ts` parse + validate at load time
 ## Styling
-- **Tailwind CSS:** Used in templates for utility classes (e.g., `class="h-96"`)
-- **Scoped styles:** Astro `<style>` blocks with CSS custom properties (`:root` variables)
-- **Global styles:** Base typography and colors defined in `Layout.astro`
-- **CSS custom properties:** Font sizes use `clamp()` for responsive scaling
-- **Animation:** Custom `wiggle` keyframe defined in Tailwind config, applied with `animate-[wiggle_1s_ease-in-out_infinite]`
-## Error Handling
-- **None implemented.** No try/catch around file reads, YAML parsing, or component rendering. Build would fail on malformed YAML.
-## TypeScript Interfaces
-- **`Recipe`:** 8 fields (title, byline, location, components, directions, background, links, flavor)
-- **`Link`:** 2 fields (text, url)
-- **Components field:** `string[][]` — nested arrays for grouped ingredients (e.g., "Doughnuts", "Topping")
+- **Tailwind v4 CSS-first:** Config via `@theme` in `app/styles/input.css`
+- **CSS custom properties:** Pack themes use CSS variables for theming
+- **Print stylesheet:** Strips chrome, shows link URLs
+## Client Scripts
+- **TypeScript source:** `app/scripts/` compiled via esbuild to `public/`
+- **Progressive enhancement:** JS enhances but is never required to read recipes
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
 ## Architecture
 
 ## Pattern
+Server-rendered TSX with Remix 3 alpha fetch-router. Controllers handle requests and return HTML Response objects.
 ## Data Flow
 ```
+Request → remix/fetch-router → controller → load data (YAML+Zod) → render TSX → Response
 ```
 ## Layers
 | Layer | Technology | Files |
 |-------|-----------|-------|
-| Pages | Astro (.astro) | `src/pages/index.astro`, `src/pages/recipes.astro` |
-| Layout | Astro (.astro) | `src/layouts/Layout.astro` |
-| Components | React (.tsx) | `src/components/RecipeCard.tsx` |
-| Data | YAML files | `src/recipes/*.yml` |
-| Types | TypeScript interfaces | `src/interfaces/Recipe.ts`, `src/interfaces/Link.ts` |
-| Static Assets | Images, SVG | `public/` |
+| Server | Node.js + `remix/node-fetch-server` | `server.ts` |
+| Router | `remix/fetch-router` | `app/router.ts`, `app/routes.ts` |
+| Controllers | TSX (remix/component) | `app/controllers/` |
+| Data | YAML + Zod schemas | `data/`, `app/data/` |
+| Client scripts | TypeScript → esbuild | `app/scripts/` → `public/` |
+| Static Assets | CSS, images, JS | `public/` |
 ## Entry Points
-- `src/pages/index.astro` — Landing page ("Something exciting is cooking")
-- `src/pages/recipes.astro` — Lists all recipes by scanning `src/recipes/` directory
+- `server.ts` — HTTP server via `createRequestListener`
+- `app/router.ts` — Route matching with static file middleware
+- `app/routes.ts` — Explicit route definitions
 ## Key Abstractions
-- **`Recipe` interface** (`src/interfaces/Recipe.ts`): Typed recipe data with title, byline, location, components, directions, background, links, flavor
-- **`Link` interface** (`src/interfaces/Link.ts`): Simple text + URL pair used for recipe source attribution
-- **`RecipeCard` component** (`src/components/RecipeCard.tsx`): React class component that renders a recipe (currently only renders title)
-- **`Layout` component** (`src/layouts/Layout.astro`): Base HTML wrapper with head, meta, global styles
+- **Recipe schema** (`app/data/recipe-schema.ts`): Zod schema with annotations, components, directions
+- **Pack schema** (`app/data/pack-schema.ts`): Zod schema for themed recipe collections
+- **Controller pattern**: Each route handler returns `new Response(renderToString(<Component />))`
+- **Render helper** (`app/controllers/render.tsx`): Shared HTML shell for all pages
 <!-- GSD:architecture-end -->
 
 <!-- GSD:workflow-start source:GSD defaults -->

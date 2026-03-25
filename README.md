@@ -37,11 +37,11 @@ Visit `http://localhost:3000`
 
 ## Tech Stack
 
-- [Remix](https://github.com/remix-run/remix) (alpha) — Server framework
+- [Remix 3](https://github.com/remix-run/remix) (alpha) — Server framework
 - [Tailwind CSS v4](https://tailwindcss.com/) — Utility-first styling
 - [TypeScript](https://www.typescriptlang.org/) — Type safety
 - [Zod](https://zod.dev/) — Recipe data validation
-- Deployed on [Fly.io](https://fly.io/)
+- Static site build for deployment
 
 ## Project Structure
 
