@@ -311,36 +311,35 @@ body {
 
 /* Annotation toggle switch */
 .ann-toggle-switch {
-  width: 36px;
-  height: 20px;
-  border-radius: 10px;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
   background: var(--ann-toggle-track);
   position: relative;
   cursor: pointer;
-  border: none;
-  padding: 12px;
-  min-width: 44px;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
+  border: 2px solid var(--ann-toggle-track);
+  padding: 0;
   flex-shrink: 0;
+  margin-top: 2px;
 }
 .ann-toggle-switch::after {
   content: '';
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--ann-toggle-thumb);
   position: absolute;
-  left: 14px;
-  top: 14px;
+  left: 1px;
+  top: 1px;
   transition: transform 150ms ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 .ann-toggle-switch[aria-checked="true"] {
   background: var(--ann-toggle-track-active);
+  border-color: var(--ann-toggle-track-active);
 }
 .ann-toggle-switch[aria-checked="true"]::after {
-  transform: translateX(16px);
+  transform: translateX(20px);
 }
 .ann-toggle-switch:focus-visible {
   outline: 2px solid var(--ann-toggle-track-active);

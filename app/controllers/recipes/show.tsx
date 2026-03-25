@@ -17,11 +17,11 @@ function renderAnnotatedItem(item: AnnotatedItem, idCounter: { value: number }):
     let id = idCounter.value++
     if (ann.type === 'substitution') {
       parts.push(`<li class="text-lg leading-relaxed ann-item" data-ann-id="${id}">
-        <div class="flex items-start gap-2">
-          <button type="button" role="switch" aria-checked="false" aria-label="Substitution: ${escapeHtml(ann.text)}, by ${escapeHtml(ann.contributor)}" class="ann-toggle ann-toggle-switch" data-ann-id="${id}"></button>
+        <div class="flex items-start gap-3">
+          <button type="button" role="switch" aria-checked="false" aria-label="Swap: ${escapeHtml(ann.text)}, by ${escapeHtml(ann.contributor)}" class="ann-toggle ann-toggle-switch" data-ann-id="${id}"><span class="sr-only">Toggle substitution</span></button>
           <div>
             <span class="ann-original-text">${escapeHtml(item.text)}</span>
-            <div class="ann-substitution-text text-base pl-2 mt-1" style="background:var(--ann-substitution-bg);border-left:2px solid var(--ann-substitution-border)">
+            <div class="ann-substitution-text text-base pl-2 mt-1" style="background:var(--ann-substitution-bg);border-left:2px solid var(--ann-substitution-border);padding:4px 8px;border-radius:4px">
               ${escapeHtml(ann.text)}
               <span class="text-sm" style="color:var(--theme-text-secondary)"> — ${escapeHtml(ann.contributor)}</span>
             </div>
@@ -31,8 +31,8 @@ function renderAnnotatedItem(item: AnnotatedItem, idCounter: { value: number }):
     } else {
       parts.push(`<li class="text-lg leading-relaxed">
         ${escapeHtml(item.text)}
-        <button type="button" aria-expanded="false" aria-controls="tip-${id}" class="ann-tip-trigger text-sm font-bold ml-2" style="color:var(--theme-text-secondary)">💡 Tip <span class="ann-chevron">▾</span></button>
-        <div id="tip-${id}" class="ann-tip-body">
+        <button type="button" aria-expanded="false" aria-controls="tip-${id}" class="ann-tip-trigger text-sm font-bold ml-2" style="color:var(--theme-text-secondary);cursor:pointer;background:none;border:none;padding:2px 6px">💡 Tip <span class="ann-chevron">▾</span></button>
+        <div id="tip-${id}" class="ann-tip-body" style="display:none">
           <span class="text-base">${escapeHtml(ann.text)}</span>
           <span class="text-sm" style="color:var(--theme-text-secondary)"> — ${escapeHtml(ann.contributor)}</span>
         </div>

@@ -41,6 +41,11 @@ document.addEventListener('DOMContentLoaded', function () {
       trigger.setAttribute('aria-expanded', expanded ? 'false' : 'true')
       var chevron = trigger.querySelector('.ann-chevron')
       if (chevron) chevron.textContent = expanded ? '▾' : '▴'
+      var controlsId = trigger.getAttribute('aria-controls')
+      if (controlsId) {
+        var body = document.getElementById(controlsId)
+        if (body) body.style.display = expanded ? 'none' : 'block'
+      }
     })
   })
 
