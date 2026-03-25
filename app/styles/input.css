@@ -93,6 +93,15 @@ body {
   --theme-badge-icon: "🍂";
   --theme-nav-bg: #f5ece0;
 
+  /* Annotation custom properties */
+  --ann-substitution-bg: var(--theme-surface);
+  --ann-substitution-border: var(--theme-accent);
+  --ann-tip-bg: var(--theme-bg-muted);
+  --ann-tip-border: var(--theme-text-secondary);
+  --ann-toggle-track: var(--theme-border);
+  --ann-toggle-track-active: var(--theme-accent);
+  --ann-toggle-thumb: #ffffff;
+
   /* Cooking mode inherits theme */
   --cook-bg: #faf5eb;
   --cook-surface: #f0e6d3;
@@ -278,4 +287,83 @@ body {
   .cook-section-label {
     font-size: 11px;
   }
+}
+
+/* Annotation toggles — hidden without JS, shown when .ann-js-ready on body */
+.ann-toggle,
+.ann-tip-trigger {
+  display: none;
+}
+.ann-js-ready .ann-toggle,
+.ann-js-ready .ann-tip-trigger {
+  display: inline-flex;
+}
+.ann-substitution-text {
+  display: none;
+}
+.ann-js-ready .ann-active .ann-substitution-text {
+  display: block;
+}
+.ann-js-ready .ann-active .ann-original-text {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+/* Annotation toggle switch */
+.ann-toggle-switch {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: var(--ann-toggle-track);
+  position: relative;
+  cursor: pointer;
+  border: none;
+  padding: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ann-toggle-switch::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ann-toggle-thumb);
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  transition: transform 150ms ease;
+}
+.ann-toggle-switch[aria-checked="true"] {
+  background: var(--ann-toggle-track-active);
+}
+.ann-toggle-switch[aria-checked="true"]::after {
+  transform: translateX(16px);
+}
+.ann-toggle-switch:focus-visible {
+  outline: 2px solid var(--ann-toggle-track-active);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ann-toggle-switch::after { transition: none; }
+}
+
+/* Tip disclosure */
+.ann-tip-body {
+  display: none;
+  background: var(--ann-tip-bg);
+  border-left: 2px solid var(--ann-tip-border);
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 8px;
+}
+.ann-tip-trigger[aria-expanded="true"] + .ann-tip-body {
+  display: block;
+}
+
+/* Print: hide all annotation chrome */
+@media print {
+  .ann-toggle, .ann-tip-trigger, .ann-tip-body, .ann-badge, .ann-selection-bar { display: none !important; }
 }
