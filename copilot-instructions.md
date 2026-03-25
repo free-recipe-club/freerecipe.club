@@ -3,7 +3,7 @@
 
 **freerecipe.club**
 
-A community-driven recipe website that's the antithesis of ad-bloated recipe sites. No accounts, no tracking, no dark patterns — just recipes. Contributors submit via GitHub PRs (or email/letters converted to issues), recipes get community annotations (inline substitutions and tips), and a full cooking mode guides you step by step. Seasonal themed packs transform the site's look alongside curated recipe collections. Open source, Hacktoberfest-ready, built transparently in a public repo.
+A community-driven recipe website that's the antithesis of ad-bloated recipe sites. No accounts, no tracking, no dark patterns — just recipes. Contributors submit via GitHub PRs or issues, recipes get community annotations (inline substitutions and tips), and a full cooking mode guides you step by step. Themed packs transform the site's look alongside curated recipe collections. Open source, Hacktoberfest-ready, built transparently in a public repo.
 
 **Core Value:** Someone finds a recipe and actually cooks from it.
 

@@ -6,13 +6,13 @@ No tracking. No accounts. No dark patterns. Just recipes.
 
 ## What Is This?
 
-A community-driven recipe website built as the antithesis of ad-bloated recipe sites. Contributors submit recipes via GitHub PRs, issues, or even email. Seasonal themed packs transform the site's look alongside curated recipe collections. Open source and built transparently in a public repo.
+A community-driven recipe website built as the antithesis of ad-bloated recipe sites. Contributors submit recipes via GitHub PRs or issues. Themed packs transform the site's look alongside curated recipe collections. Open source and built transparently in a public repo.
 
 ## Features
 
 - Clean, recipe-first display — no preamble, no life stories before ingredients
 - Cooking mode — step-by-step with wake lock for kitchen use
-- Themed recipe packs — seasonal visual editions
+- Themed recipe packs — curated collections with matching visual themes
 - Print-friendly — clean printout without browser chrome
 - Zero tracking, zero cookies, zero third-party scripts
 
@@ -22,7 +22,6 @@ We'd love your recipes! See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
 
 **Quick paths:**
 - **Submit a recipe** — [Create a PR](CONTRIBUTING.md#via-pull-request-recommended) or [open an issue](CONTRIBUTING.md#via-github-issue)
-- **Not a developer?** — Email recipes@freerecipe.club
 - **Hacktoberfest** — Look for issues labeled `good first issue` and `hacktoberfest`
 
 ## Running Locally
