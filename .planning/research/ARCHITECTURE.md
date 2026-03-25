@@ -119,7 +119,7 @@ slug: pumpkin-doughnut
 title: Pumpkin Doughnut
 version: 1
 parent: null                    # null for originals, slug for community versions
-byline: Michelle Weinfeld-Geller
+byline: Michelle
 location: Michigan
 tags: [baking, fall, pumpkin, doughnuts]
 prep_time: 15                   # minutes

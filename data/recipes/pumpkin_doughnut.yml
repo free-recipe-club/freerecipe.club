@@ -1,5 +1,5 @@
 title: Pumpkin Doughnut
-byline: Michelle Weinfeld-Geller
+byline: Michelle
 location: Michigan
 make_verb: Bake
 components:
@@ -10,7 +10,7 @@ components:
         - text: 2 c gluten-free 1-to-1 baking flour
           explanation: Use this for a gluten-free version
           type: substitution
-          contributor: jared
+          contributor: Jared
     - 2 tsp pumpkin pie spice
     - 2 tsp baking powder
     - 1 tsp kosher salt
@@ -37,7 +37,7 @@ directions:
       annotations:
         - text: Gluten-free batter may need 2-3 extra minutes. Look for golden edges and a clean toothpick.
           type: tip
-          contributor: jared
+          contributor: Jared
   -
     - Topping
     - Stir {3/4 c sugar} and {2 tsp ground cinnamon} in bowl. Brush doughnuts with {3 tbsp unsalted butter, melted} and dip in cinnamon sugar.

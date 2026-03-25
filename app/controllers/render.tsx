@@ -14,7 +14,7 @@ export function render(title: string, content: string, options?: { description?:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${title} — freerecipe.club</title>${descriptionTag}
+  <title>${escapeHtml(title)} — freerecipe.club</title>${descriptionTag}
   <link rel="stylesheet" href="/styles/output.css">
 </head>
 <body class="${themeClass} min-h-screen">

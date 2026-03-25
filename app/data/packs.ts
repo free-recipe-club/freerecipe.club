@@ -9,6 +9,10 @@ const PACKS_DIR = path.join(process.cwd(), 'data', 'packs')
 
 export function loadPack(slug: string): Pack {
   let filePath = path.join(PACKS_DIR, `${slug}.yml`)
+  let resolved = path.resolve(filePath)
+  if (!resolved.startsWith(path.resolve(PACKS_DIR) + path.sep)) {
+    throw new Error(`Pack not found: ${slug}`)
+  }
   if (!fs.existsSync(filePath)) {
     throw new Error(`Pack not found: ${slug}`)
   }

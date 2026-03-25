@@ -12,6 +12,10 @@ export function loadRecipes(recipesDir: string = RECIPES_DIR): Recipe[] {
 
 export function loadRecipe(slug: string, recipesDir: string = RECIPES_DIR): Recipe {
   let filePath = path.join(recipesDir, `${slug}.yml`)
+  let resolved = path.resolve(filePath)
+  if (!resolved.startsWith(path.resolve(recipesDir) + path.sep)) {
+    throw new Error(`Recipe not found: ${slug}`)
+  }
   if (!fs.existsSync(filePath)) {
     throw new Error(`Recipe not found: ${slug}`)
   }

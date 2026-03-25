@@ -358,7 +358,7 @@ Full theme immersion — the page renders using that pack's theme class regardle
 │                                      │
 │  ┌─────────────────────────────────┐ │
 │  │  Pumpkin Doughnut          🍂  │ │
-│  │  Michelle Weinfeld-Geller      │ │
+│  │  Michelle                      │ │
 │  │  Michigan                      │ │
 │  │  Start Cooking →               │ │
 │  └─────────────────────────────────┘ │

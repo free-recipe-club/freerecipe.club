@@ -47,7 +47,7 @@ Recipes are YAML files in `data/recipes/`. Here's the full structure:
 ```yaml
 # Required fields
 title: Pumpkin Doughnut                 # Recipe name (max 100 characters)
-byline: Michelle Weinfeld-Geller       # Who made/submitted it
+byline: Michelle                        # Who made/submitted it
 location: Michigan                      # Where the contributor is from
 
 # Ingredient groups — each group starts with a header, followed by ingredients

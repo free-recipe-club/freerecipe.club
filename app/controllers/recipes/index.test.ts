@@ -12,7 +12,7 @@ let checks: [string, boolean][] = [
   ['pumpkin-doughnut link', html.includes('pumpkin-doughnut')],
   ['Pumpkin Doughnut title', html.includes('Pumpkin Doughnut')],
   ['theme-aware divider', html.includes('var(--theme-divider)')],
-  ['byline', html.includes('Michelle Weinfeld-Geller')],
+  ['byline', html.includes('Michelle')],
   ['flavor', html.includes('Pumpkin spice season')],
   ['nav bar', html.includes('<nav')],
 ]
