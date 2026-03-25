@@ -7,33 +7,39 @@ function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }
 
-function renderIngredients(components: string[][]): string {
+function itemText(item: string | { text: string }): string {
+  return typeof item === 'string' ? item : item.text
+}
+
+function renderIngredients(components: Recipe['components']): string {
   return components.map(group => {
-    let name = group[0]
+    let name = itemText(group[0])
     let items = group.slice(1)
     return `<div class="mb-6">
       <h3 class="text-xl font-bold mb-2">${escapeHtml(name)}</h3>
       <ul class="space-y-2">
-        ${items.map(item => `<li class="text-lg leading-relaxed">${escapeHtml(item)}</li>`).join('\n        ')}
+        ${items.map(item => `<li class="text-lg leading-relaxed">${escapeHtml(itemText(item))}</li>`).join('\n        ')}
       </ul>
     </div>`
   }).join('\n  ')
 }
 
-function flattenDirections(directions: (string | string[])[]): string[] {
+function flattenDirections(directions: Recipe['directions']): string[] {
   let steps: string[] = []
   for (let entry of directions) {
     if (typeof entry === 'string') {
       steps.push(entry)
-    } else {
+    } else if (Array.isArray(entry)) {
       // Grouped: first element is section name, rest are steps
-      for (let i = 1; i < entry.length; i++) steps.push(entry[i])
+      for (let i = 1; i < entry.length; i++) steps.push(itemText(entry[i]))
+    } else {
+      steps.push(entry.text)
     }
   }
   return steps
 }
 
-function renderDirections(directions: (string | string[])[]): string {
+function renderDirections(directions: Recipe['directions']): string {
   return flattenDirections(directions).map((step, i) => `<li class="text-lg leading-relaxed">
       <label class="cursor-pointer">
         <input type="checkbox" class="peer sr-only">

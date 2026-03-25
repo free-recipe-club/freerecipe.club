@@ -8,16 +8,22 @@ function escapeHtml(str: string): string {
 
 type CookStep = { text: string; section: string | null }
 
-function flattenDirections(directions: (string | string[])[]): CookStep[] {
+function dirItemText(item: string | { text: string }): string {
+  return typeof item === 'string' ? item : item.text
+}
+
+function flattenDirections(directions: Recipe['directions']): CookStep[] {
   let steps: CookStep[] = []
   for (let entry of directions) {
     if (typeof entry === 'string') {
       steps.push({ text: entry, section: null })
-    } else {
-      let section = entry[0]
+    } else if (Array.isArray(entry)) {
+      let section = dirItemText(entry[0])
       for (let i = 1; i < entry.length; i++) {
-        steps.push({ text: entry[i], section })
+        steps.push({ text: dirItemText(entry[i]), section })
       }
+    } else {
+      steps.push({ text: entry.text, section: null })
     }
   }
   return steps

@@ -4,7 +4,11 @@ location: Michigan
 components:
   -
     - Doughnuts
-    - 2 c all-purpose flour
+    - text: 2 c all-purpose flour
+      annotations:
+        - text: Use 2 c gluten-free 1-to-1 baking flour for a gluten-free version
+          type: substitution
+          contributor: jared
     - 2 tsp pumpkin pie spice
     - 2 tsp baking powder
     - 1 tsp kosher salt
@@ -27,7 +31,11 @@ directions:
     - Beat pumpkin puree, sugar, vegetable oil, butter, vanilla, and eggs in a bowl until smooth.
     - Add flour mixture to the pumpkin mixture and beat until combined.
     - Fill doughnut pants with batter until almost full. Smooth tops with moistened finger.
-    - Bake doughnuts about 15 minutes. Check with toothpick.
+    - text: Bake doughnuts about 15 minutes. Check with toothpick.
+      annotations:
+        - text: Gluten-free batter may need 2-3 extra minutes. Look for golden edges and a clean toothpick.
+          type: tip
+          contributor: jared
   -
     - Topping
     - Stir sugar and cinnamon in bowl. Brush doughnuts with butter and dip in cinnamon sugar.

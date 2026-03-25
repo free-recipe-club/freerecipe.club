@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { parse as parseYaml } from 'yaml'
-import { RecipeSchema, type Recipe } from './recipe-schema.ts'
+import { RecipeSchema, type Recipe, type Annotation, type AnnotatedItem } from './recipe-schema.ts'
 
 const RECIPES_DIR = path.join(process.cwd(), 'data', 'recipes')
 
@@ -43,4 +43,48 @@ export function listRecipeSlugs(recipesDir: string = RECIPES_DIR): string[] {
   return fs.readdirSync(recipesDir)
     .filter(f => f.endsWith('.yml'))
     .map(f => getRecipeSlug(f))
+}
+
+export type CollectedAnnotation = {
+  id: number
+  annotation: Annotation
+  source: 'component' | 'direction'
+  itemText: string
+}
+
+export function collectAnnotations(recipe: Recipe): CollectedAnnotation[] {
+  let results: CollectedAnnotation[] = []
+  let id = 1
+
+  for (let group of recipe.components) {
+    for (let i = 1; i < group.length; i++) {
+      let item = group[i]
+      if (typeof item !== 'string' && 'annotations' in item) {
+        for (let ann of item.annotations) {
+          results.push({ id: id++, annotation: ann, source: 'component', itemText: item.text })
+        }
+      }
+    }
+  }
+
+  for (let entry of recipe.directions) {
+    if (typeof entry === 'string') continue
+    if (!Array.isArray(entry) && 'annotations' in entry) {
+      for (let ann of entry.annotations) {
+        results.push({ id: id++, annotation: ann, source: 'direction', itemText: entry.text })
+      }
+    }
+    if (Array.isArray(entry)) {
+      for (let i = 1; i < entry.length; i++) {
+        let item = entry[i]
+        if (typeof item !== 'string' && 'annotations' in item) {
+          for (let ann of item.annotations) {
+            results.push({ id: id++, annotation: ann, source: 'direction', itemText: item.text })
+          }
+        }
+      }
+    }
+  }
+
+  return results
 }
