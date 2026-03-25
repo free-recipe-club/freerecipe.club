@@ -8,6 +8,13 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 
 Someone finds a recipe and actually cooks from it.
 
+## Current State
+
+**Shipped:** v1.0 MVP (2026-03-24)
+**Next Milestone:** TBD — run `/gsd-new-milestone` to define
+
+v1.0 delivered all 6 phases (16 plans): foundation & data layer, recipe display & SEO, cooking mode, themed packs, community contributions, and annotations & versioning. The site is a fully functional community-driven recipe platform built on alpha Remix with Tailwind v4, Zod-validated YAML recipes, immersive cooking mode, themed pack system, and inline annotations with variant forking.
+
 ## Requirements
 
 ### Validated
@@ -19,22 +26,18 @@ Someone finds a recipe and actually cooks from it.
 - ✓ Alpha Remix 3 scaffold with Tailwind v4 — Validated in Phase 01
 - ✓ Zod-validated YAML recipe loading — Validated in Phase 01
 - ✓ GitHub Actions CI/CD pipeline — Validated in Phase 01
-- ✓ Fly.io hosting deployment — Validated in Phase 01
-- ✓ No ads, no tracking, no accounts, no dark patterns — Validated in Phase 01 (zero third-party scripts)
+- ✓ Hosting deployment — Validated in Phase 01 (Fly.io → static build)
+- ✓ No ads, no tracking, no accounts, no dark patterns — Validated in Phase 01
+- ✓ Recipe display — clean, no-nonsense, recipe-first layout — Validated in Phase 02
+- ✓ Multi-device responsive design (kitchen-friendly) — Validated in Phase 02
+- ✓ Full cooking mode — step-by-step, large text, screen-on, ingredient highlighting — Validated in Phase 03
+- ✓ CSS theme system with Autumn Harvest pack — Validated in Phase 04
+- ✓ PR/issue templates, CI validation, contributor docs — Validated in Phase 05
+- ✓ Community annotations (substitutions, tips) + variant forking — Validated in Phase 06
 
 ### Active
 
-- [ ] Free hosting tied to GitHub (supports SSR — Cloudflare Pages recommended)
-- [x] Recipe display — clean, no-nonsense, recipe-first layout — Validated in Phase 02
-- [ ] Full cooking mode — step-by-step checkboxes, large text, screen-on
-- [ ] Recipe organization — by ingredients (shopping view) and by steps (cooking view)
-- [ ] Community annotations — inline substitutions, tips, and modifications on specific recipe parts
-- [ ] Recipe versioning — substantial annotation sets can become standalone recipe versions
-- [ ] Git-native contribution flow (PRs for recipes)
-- [x] Multi-device responsive design (kitchen-friendly) — Validated in Phase 02
-- [ ] Themed recipe packs with matching site visual themes (seasonal editions)
-- [ ] Hacktoberfest participation and contributor-friendly repo setup
-- [ ] Enhance YAML recipe schema (structured ingredients, timing, Schema.org fields)
+_(No active requirements — next milestone will define new requirements via `/gsd-new-milestone`)_
 
 ### Out of Scope
 
@@ -47,14 +50,13 @@ Someone finds a recipe and actually cooks from it.
 
 ## Context
 
-- **Existing codebase:** Alpha Remix 3 app with Tailwind v4, Zod-validated YAML recipes, and GitHub Actions CI/CD deploying to Fly.io. Phase 01 complete — foundation is live.
-- **Hosting migration:** Moving from Digital Ocean to free GitHub-tied hosting. Cloudflare Pages recommended — free tier with unlimited bandwidth, edge SSR, and an official React Router v7 template.
-- **Framework correction:** Remix has fully merged into React Router v7 (stable since Nov 2024). Use `react-router` packages exclusively — `@remix-run/*` is legacy. Same concepts (loaders, actions, nested routes), new package names.
-- **Contribution philosophy:** Git-first for developers. For non-technical contributors, email and physical letters are accepted and converted to GitHub issues by maintainers. Accessible to anyone.
-- **Analog ethos:** Despite being a website, the feel should be minimal tech footprint — no dark patterns, no aggressive interactivity, no mandatory JavaScript for reading recipes.
-- **Anti-pattern:** Every design decision is informed by what mainstream recipe sites do wrong — scroll-to-recipe syndrome, popup/ad hell, bad navigation, life stories before ingredients.
-- **Annotation model:** Inspired by recipe site comment sections where the best content is substitution tips. Instead of flat comments, annotations pin to specific recipe lines (an ingredient, a step). Significant annotation sets can graduate to standalone recipe versions.
-- **Hacktoberfest:** The repo should be welcoming for first-time contributors. Good issue labels, clear contribution guide, recipe submission template.
+- **Shipped v1.0 MVP:** Alpha Remix 3 app with Tailwind v4, Zod-validated YAML recipes, recipe display, cooking mode, themed packs, community contributions infrastructure, and annotations with variant forking. 6 phases, 16 plans, 30/30 requirements complete.
+- **Hosting:** Started on Fly.io, migrated to static build for DigitalOcean during development.
+- **Framework:** Alpha Remix (`remix-run/remix`) — NOT React Router v7, per user override.
+- **Contribution philosophy:** Git-first for developers. For non-technical contributors, email and physical letters are accepted and converted to GitHub issues by maintainers.
+- **Analog ethos:** Minimal tech footprint — no dark patterns, no aggressive interactivity, no mandatory JavaScript for reading recipes.
+- **Anti-pattern:** Every design decision is informed by what mainstream recipe sites do wrong.
+- **Annotation model:** Substitutions and tips pinned to specific ingredients or steps. Significant annotation sets can graduate to standalone recipe variants (forks).
 
 ## Constraints
 
@@ -93,4 +95,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-24 after Phase 01 completion*
+*Last updated: 2026-03-24 after v1.0 milestone completion*
