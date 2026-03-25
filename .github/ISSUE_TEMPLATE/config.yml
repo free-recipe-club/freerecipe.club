@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Submit a recipe via email
+    url: mailto:recipes@freerecipe.club
+    about: Not comfortable with GitHub? Email us your recipe!
