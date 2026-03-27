@@ -5,6 +5,7 @@ export const PackSchema = z.object({
   slug: z.string().min(1),
   description: z.string().min(1),
   icon: z.string().min(1),
+  sigil: z.string().default(''),
   theme_class: z.string().min(1),
   colors: z.object({
     bg: z.string(),

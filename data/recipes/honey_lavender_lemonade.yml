@@ -1,0 +1,21 @@
+title: Honey Lavender Lemonade
+byline: Placeholder
+location: Garden
+make_verb: Make
+components:
+  -
+    - Lemonade
+    - 1 c fresh lemon juice
+    - 3/4 c honey
+    - 4 c cold water
+    - 2 tbsp dried culinary lavender
+directions:
+  -
+    - Lemonade
+    - Steep {2 tbsp dried culinary lavender} in 1 cup boiling water for 10 minutes. Strain and cool.
+    - Combine {1 c fresh lemon juice}, {3/4 c honey}, and lavender tea in a pitcher.
+    - Add {4 c cold water} and stir until honey dissolves.
+  - Serve over ice with a sprig of lavender.
+background: A refreshing garden drink that pairs floral lavender with bright citrus.
+flavor: Sunshine in a glass.
+pack: wildflower

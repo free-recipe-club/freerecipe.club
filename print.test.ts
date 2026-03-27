@@ -12,7 +12,7 @@ let checks: [string, boolean][] = [
   ['body black text', css.includes('color: black !important')],
   ['link URL after', css.includes('a[href]::after')],
   ['content attr href', css.includes('content:') && css.includes('attr(href)')],
-  ['theme custom properties', css.includes('.theme-autumn-harvest')],
+  ['theme custom properties', css.includes('.theme-wildflower')],
   ['theme tokens preserved', css.includes('--color-brand-green') && css.includes('--color-brand-cream:') && css.includes('--color-brand-cream-muted') && css.includes('--font-sans')],
 ]
 

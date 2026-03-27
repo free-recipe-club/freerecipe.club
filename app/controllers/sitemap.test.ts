@@ -14,7 +14,7 @@ let checks: [string, boolean][] = [
   ['urlset element', xml.includes('urlset')],
   ['home url', xml.includes('http://localhost:3000/')],
   ['/recipes url', xml.includes('/recipes</loc>')],
-  ['pumpkin-doughnut url', xml.includes('/recipes/pumpkin-doughnut')],
+  ['basil-strawberry-salad url', xml.includes('/recipes/basil-strawberry-salad')],
   ['sitemaps namespace', xml.includes('sitemaps.org')],
 ]
 

@@ -73,25 +73,25 @@ body {
   font-family: var(--theme-body-font);
 }
 
-/* Autumn Harvest theme */
-.theme-autumn-harvest {
-  --theme-bg: #faf5eb;
-  --theme-bg-muted: #f0e6d3;
-  --theme-surface: #fff8f0;
-  --theme-surface-hover: #f5ece0;
-  --theme-text: #292017;
-  --theme-text-secondary: #6b5c4d;
-  --theme-accent: #c2410c;
-  --theme-accent-hover: #9a3412;
+/* Wildflower theme */
+.theme-wildflower {
+  --theme-bg: #f6faf6;
+  --theme-bg-muted: #e8f0e5;
+  --theme-surface: #f9fdf9;
+  --theme-surface-hover: #edf5eb;
+  --theme-text: #1a2e1a;
+  --theme-text-secondary: #4a6741;
+  --theme-accent: #2d6a4f;
+  --theme-accent-hover: #1b4332;
   --theme-accent-text: #ffffff;
-  --theme-border: #ddd0be;
-  --theme-divider: #e8dcc8;
+  --theme-border: #c8dcc0;
+  --theme-divider: #d4e4cc;
   --theme-heading-font: Georgia, "Times New Roman", serif;
   --theme-body-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --theme-badge-bg: #c2410c;
+  --theme-badge-bg: #2d6a4f;
   --theme-badge-text: #ffffff;
-  --theme-badge-icon: "🍂";
-  --theme-nav-bg: #f5ece0;
+  --theme-badge-icon: "🌿";
+  --theme-nav-bg: #edf5eb;
 
   /* Annotation custom properties */
   --ann-substitution-bg: var(--theme-surface);
@@ -103,24 +103,24 @@ body {
   --ann-toggle-thumb: #ffffff;
 
   /* Make mode inherits theme */
-  --make-bg: #faf5eb;
-  --make-surface: #f0e6d3;
-  --make-text: #292017;
-  --make-text-secondary: #6b5c4d;
-  --make-accent: #c2410c;
-  --make-btn-bg: #c2410c;
+  --make-bg: #f6faf6;
+  --make-surface: #e8f0e5;
+  --make-text: #1a2e1a;
+  --make-text-secondary: #4a6741;
+  --make-accent: #2d6a4f;
+  --make-btn-bg: #2d6a4f;
   --make-btn-text: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
-  .theme-autumn-harvest .make-mode {
-    --make-bg: #1c1917;
-    --make-surface: #292524;
-    --make-text: #fafaf9;
-    --make-text-secondary: #a8a29e;
-    --make-accent: #fb923c;
-    --make-btn-bg: #fb923c;
-    --make-btn-text: #1c1917;
+  .theme-wildflower .make-mode {
+    --make-bg: #1a2e1a;
+    --make-surface: #243524;
+    --make-text: #f0faf0;
+    --make-text-secondary: #8aab82;
+    --make-accent: #6fcf97;
+    --make-btn-bg: #6fcf97;
+    --make-btn-text: #1a2e1a;
   }
 }
 

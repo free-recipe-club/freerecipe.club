@@ -1,0 +1,26 @@
+title: Garden Herb Pasta
+byline: Placeholder
+location: Garden
+make_verb: Cook
+components:
+  -
+    - Pasta
+    - 1 lb spaghetti
+    - 1/4 c olive oil
+    - 4 cloves garlic, minced
+    - 1/2 c fresh basil, torn
+    - 1/4 c fresh parsley, chopped
+    - 2 tbsp fresh chives, snipped
+    - 1/2 tsp red pepper flakes
+    - 1/2 c grated parmesan
+directions:
+  -
+    - Pasta
+    - Cook {1 lb spaghetti} according to package directions. Reserve 1 cup pasta water before draining.
+    - Heat {1/4 c olive oil} in a large skillet over medium heat. Add {4 cloves garlic, minced} and {1/2 tsp red pepper flakes}. Cook 1 minute.
+    - Toss drained pasta into the skillet. Add reserved pasta water a splash at a time.
+    - Remove from heat. Fold in {1/2 c fresh basil, torn}, {1/4 c fresh parsley, chopped}, and {2 tbsp fresh chives, snipped}.
+  - Top with {1/2 c grated parmesan} and serve.
+background: The best pasta is the simplest — just good olive oil and whatever herbs are growing outside.
+flavor: Straight from the garden to the plate.
+pack: wildflower
