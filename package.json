@@ -17,7 +17,10 @@
     "validate": "tsx scripts/validate-recipes.ts"
   },
   "dependencies": {
-    "remix": "next",
+    "@remix-run/component": "^0.6.0",
+    "@remix-run/fetch-router": "^0.18.0",
+    "@remix-run/node-fetch-server": "^0.13.0",
+    "@remix-run/static-middleware": "^0.4.5",
     "yaml": "^2.7.0",
     "zod": "^3.24.0"
   },

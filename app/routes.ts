@@ -1,4 +1,4 @@
-import { route } from 'remix/fetch-router/routes'
+import { route } from '@remix-run/fetch-router/routes'
 
 export let routes = route({
   home: '/',
