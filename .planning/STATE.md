@@ -65,6 +65,7 @@ Recent decisions affecting current work:
 | ID | Task | Date |
 |----|------|------|
 | 260327-bfk | Replace remix umbrella package with individual @remix-run/* packages | 2026-03-27 |
+| 260327-qd9 | Replace autumn-harvest with wildflower botanical theme, 5 placeholder recipes, sigil field | 2026-03-27 |
 
 ### Pending Todos
 
@@ -76,6 +77,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T03:09:48.283Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-foundation-data-layer/01-CONTEXT.md
+Last session: 2026-03-27T22:59:06.294Z
+Stopped at: Quick task 260327-qd9 completed
+Resume file: N/A
