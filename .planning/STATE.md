@@ -54,10 +54,17 @@ Next: Run `/gsd-new-milestone` to start v1.1 or v2.0
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- [Quick 260327-bfk]: Using individual @remix-run/* packages instead of remix umbrella
 - [Roadmap]: Framework is alpha Remix (remix-run/remix), NOT React Router v7 — user explicitly rejected RR7
 - [Roadmap]: Hosting TBD — may consider Astro if Remix can't easily generate static/SPA output
 - [Roadmap]: Keep current YAML format as-is — no enhanced schema in v1, Zod validation only
 - [Roadmap]: Site launches WITH a first themed pack (Phase 4 before community phases)
+
+### Quick Tasks Completed
+
+| ID | Task | Date |
+|----|------|------|
+| 260327-bfk | Replace remix umbrella package with individual @remix-run/* packages | 2026-03-27 |
 
 ### Pending Todos
 
