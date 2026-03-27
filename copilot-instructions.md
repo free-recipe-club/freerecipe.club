@@ -27,13 +27,16 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 ## Framework
 | Framework | Version | Role |
 |-----------|---------|------|
-| Remix 3 (alpha) | `remix@next` | Server framework — fetch-router, static-middleware, component JSX |
+| Remix 3 (alpha) | `@remix-run/*` | Server framework — fetch-router, static-middleware, component JSX |
 | Tailwind CSS | v4 (CSS-first) | Utility-first styling via `@tailwindcss/cli` |
 ## Dependencies
 ### Production
 | Package | Version | Purpose |
 |---------|---------|---------|
-| `remix` | next | Remix 3 alpha — routing, server, JSX components |
+| `@remix-run/fetch-router` | ^0.18.0 | Minimal, composable router for the web Fetch API |
+| `@remix-run/node-fetch-server` | ^0.13.0 | Node.js server using the web fetch API |
+| `@remix-run/static-middleware` | ^0.4.5 | Middleware for serving static files |
+| `@remix-run/component` | ^0.6.0 | UI components / JSX runtime |
 | `yaml` | ^2.7.0 | YAML parser for recipe/pack files |
 | `zod` | ^3.24.0 | Schema validation for recipe and pack data |
 ### Dev-only
@@ -57,7 +60,7 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 | `build:static` | `tsx scripts/build-static.ts` | Static site generation → `dist/` |
 | `validate` | `tsx scripts/validate-recipes.ts` | Recipe YAML validation |
 ## Configuration
-- **TypeScript:** `tsconfig.json` — JSX via `remix/component` (`jsxImportSource`)
+- **TypeScript:** `tsconfig.json` — JSX via `@remix-run/component` (`jsxImportSource`)
 - **Tailwind:** CSS-first config in `app/styles/input.css` (no JS config file)
 - **No bundler:** No Vite/Webpack — Tailwind CLI + esbuild for client scripts
 <!-- GSD:stack-end -->
@@ -67,7 +70,7 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 
 ## Code Style
 - **TypeScript** used throughout with strict config
-- **JSX** via `remix/component` (Preact-based, NOT React)
+- **JSX** via `@remix-run/component` (Preact-based, NOT React)
 - **Single quotes** in TypeScript
 - **No linter/formatter configured** (no ESLint, Prettier)
 ## Component Patterns
@@ -94,14 +97,14 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 Server-rendered TSX with Remix 3 alpha fetch-router. Controllers handle requests and return HTML Response objects.
 ## Data Flow
 ```
-Request → remix/fetch-router → controller → load data (YAML+Zod) → render TSX → Response
+Request → @remix-run/fetch-router → controller → load data (YAML+Zod) → render TSX → Response
 ```
 ## Layers
 | Layer | Technology | Files |
 |-------|-----------|-------|
-| Server | Node.js + `remix/node-fetch-server` | `server.ts` |
-| Router | `remix/fetch-router` | `app/router.ts`, `app/routes.ts` |
-| Controllers | TSX (remix/component) | `app/controllers/` |
+| Server | Node.js + `@remix-run/node-fetch-server` | `server.ts` |
+| Router | `@remix-run/fetch-router` | `app/router.ts`, `app/routes.ts` |
+| Controllers | TSX (@remix-run/component) | `app/controllers/` |
 | Data | YAML + Zod schemas | `data/`, `app/data/` |
 | Client scripts | TypeScript → esbuild | `app/scripts/` → `public/` |
 | Static Assets | CSS, images, JS | `public/` |
@@ -115,6 +118,15 @@ Request → remix/fetch-router → controller → load data (YAML+Zod) → rende
 - **Controller pattern**: Each route handler returns `new Response(renderToString(<Component />))`
 - **Render helper** (`app/controllers/render.tsx`): Shared HTML shell for all pages
 <!-- GSD:architecture-end -->
+
+<!-- GSD:remix-skills-start -->
+## Remix Agent Skills
+
+This project includes Remix 3 agent skills in `skills/`:
+
+- `remix-project-layout` at `skills/remix-project-layout/SKILL.md`: Use when defining or scaffolding the on-disk layout and file conventions of a Remix app.
+- `remix-ui` at `skills/remix-ui/SKILL.md`: Use when building pages, layouts, interactions, styling, navigation, and UI tests in a Remix app.
+<!-- GSD:remix-skills-end -->
 
 <!-- GSD:workflow-start source:GSD defaults -->
 ## GSD Workflow Enforcement
