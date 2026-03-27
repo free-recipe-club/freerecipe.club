@@ -1,7 +1,7 @@
 import { createRouter } from '@remix-run/fetch-router'
 import { staticFiles } from '@remix-run/static-middleware'
 import { routes } from './routes.ts'
-import { home } from './controllers/home/controller.tsx'
+import { home } from './controllers/home.tsx'
 import { recipesIndex } from './controllers/recipes/index.tsx'
 import { recipeShow } from './controllers/recipes/show.tsx'
 import { recipeMake } from './controllers/recipes/make.tsx'

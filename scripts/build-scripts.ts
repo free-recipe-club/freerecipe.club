@@ -3,7 +3,7 @@ import * as esbuild from 'esbuild'
 const watch = process.argv.includes('--watch')
 
 const options: esbuild.BuildOptions = {
-  entryPoints: ['app/scripts/make.ts', 'app/scripts/annotations.ts'],
+  entryPoints: ['app/assets/make.ts', 'app/assets/annotations.ts'],
   bundle: true,
   outdir: 'public',
   format: 'iife',

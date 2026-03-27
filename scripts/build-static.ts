@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { home } from '../app/controllers/home/controller.tsx'
+import { home } from '../app/controllers/home.tsx'
 import { recipesIndex } from '../app/controllers/recipes/index.tsx'
 import { recipeShow } from '../app/controllers/recipes/show.tsx'
 import { recipeMake } from '../app/controllers/recipes/make.tsx'
@@ -50,20 +50,20 @@ async function build() {
   let pages = 0
 
   // Static pages
-  await writePage(path.join(DIST, 'index.html'), home())
+  await writePage(path.join(DIST, 'index.html'), await home())
   pages++
 
-  await writePage(path.join(DIST, 'recipes', 'index.html'), recipesIndex())
+  await writePage(path.join(DIST, 'recipes', 'index.html'), await recipesIndex())
   pages++
 
-  await writePage(path.join(DIST, 'packs', 'index.html'), packsIndex())
+  await writePage(path.join(DIST, 'packs', 'index.html'), await packsIndex())
   pages++
 
   // Recipe pages
   for (let slug of recipeSlugs) {
     await writePage(
       path.join(DIST, 'recipes', slug, 'index.html'),
-      recipeShow(fakeContext(`/recipes/${slug}`, { slug }))
+      await recipeShow(fakeContext(`/recipes/${slug}`, { slug }))
     )
     pages++
 
@@ -72,13 +72,13 @@ async function build() {
     let totalSteps = countSteps(recipe)
     await writePage(
       path.join(DIST, 'recipes', slug, 'make', 'index.html'),
-      recipeMake(fakeContext(`/recipes/${slug}/make`, { slug, step: '1' }))
+      await recipeMake(fakeContext(`/recipes/${slug}/make`, { slug, step: '1' }))
     )
     pages++
     for (let step = 2; step <= totalSteps; step++) {
       await writePage(
         path.join(DIST, 'recipes', slug, 'make', String(step), 'index.html'),
-        recipeMake(fakeContext(`/recipes/${slug}/make/${step}`, { slug, step: String(step) }))
+        await recipeMake(fakeContext(`/recipes/${slug}/make/${step}`, { slug, step: String(step) }))
       )
       pages++
     }
@@ -88,7 +88,7 @@ async function build() {
   for (let slug of packSlugs) {
     await writePage(
       path.join(DIST, 'packs', slug, 'index.html'),
-      packShow(fakeContext(`/packs/${slug}`, { slug }))
+      await packShow(fakeContext(`/packs/${slug}`, { slug }))
     )
     pages++
   }

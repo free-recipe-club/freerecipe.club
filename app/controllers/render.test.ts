@@ -1,7 +1,7 @@
 import { render } from './render.tsx'
 
 // Test with description
-let r = render('Test', '<p>hi</p>', { description: 'A test' })
+let r = await render('Test', '<p>hi</p>', { description: 'A test' })
 let html = await r.text()
 let checks = [
   ['nav', html.includes('<nav')],
@@ -12,7 +12,7 @@ let checks = [
 ] as const
 
 // Test without description
-let r2 = render('Test', '<p>hi</p>')
+let r2 = await render('Test', '<p>hi</p>')
 let html2 = await r2.text()
 checks = [...checks,
   ['no meta without desc', !html2.includes('meta name="description"')],
