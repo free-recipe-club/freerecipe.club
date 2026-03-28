@@ -10,7 +10,7 @@ let checks: [string, boolean][] = [
   ['status 200', res.status === 200],
   ['Recipes heading', html.includes('Recipes')],
   ['basil-strawberry-salad link', html.includes('basil-strawberry-salad')],
-  ['Basil Strawberry Salad title', html.includes('Basil Strawberry Salad')],
+  ['Basil Strawberry Salad title', html.includes('[Placeholder] Basil Strawberry Salad')],
   ['theme-aware divider', html.includes('var(--theme-divider)')],
   ['byline', html.includes('Placeholder')],
   ['flavor', html.includes('Sweet meets savory')],

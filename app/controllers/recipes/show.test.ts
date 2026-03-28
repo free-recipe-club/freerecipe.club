@@ -9,7 +9,7 @@ let html = await res.text()
 
 let checks: [string, boolean][] = [
   ['status 200', res.status === 200],
-  ['Basil Strawberry Salad title', html.includes('Basil Strawberry Salad')],
+  ['Basil Strawberry Salad title', html.includes('[Placeholder] Basil Strawberry Salad')],
   ['Ingredients section', html.includes('Ingredients')],
   ['Directions section', html.includes('Directions')],
   ['peer-checked:line-through', html.includes('peer-checked:line-through')],
