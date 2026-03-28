@@ -1,0 +1,92 @@
+import { render } from '../render.tsx'
+import { loadPack } from '../../data/packs.ts'
+import { loadRecipes, listRecipeSlugs } from '../../data/recipes.ts'
+import type { Pack } from '../../data/pack-schema.ts'
+
+export async function packShow(context: { params: Record<string, string> }): Promise<Response> {
+  let slug = context.params.slug || ''
+
+  let pack: Pack
+  try {
+    pack = loadPack(slug)
+  } catch {
+    let resp = await render(
+      'Pack not found',
+      <main class="max-w-2xl mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-4">Pack not found</h1>
+        <p style="color:var(--theme-text-secondary)">
+          This collection doesn't exist. Browse{' '}
+          <a href="/packs" class="hover:underline" style="color:var(--theme-accent)">all packs</a>
+          {' '}or head{' '}
+          <a href="/" class="hover:underline" style="color:var(--theme-accent)">home</a>.
+        </p>
+      </main>
+    )
+    return new Response(resp.body, {
+      status: 404,
+      headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    })
+  }
+
+  let allRecipes = loadRecipes()
+  let allSlugs = listRecipeSlugs()
+  let packRecipes = allRecipes
+    .map((recipe, i) => ({ recipe, slug: allSlugs[i] }))
+    .filter(({ recipe }) => recipe.pack === slug)
+
+  let recipesContent
+  if (packRecipes.length === 0) {
+    recipesContent = (
+      <div class="text-center py-16">
+        <h2 class="text-xl font-bold mb-2">Recipes coming soon</h2>
+        <p style="color:var(--theme-text-secondary)">This collection is being curated. Recipes will appear here shortly.</p>
+      </div>
+    )
+  } else {
+    recipesContent = (
+      <div class="flex flex-col gap-4">
+        {packRecipes.map(({ recipe, slug: recipeSlug }) => {
+          let verb = recipe.make_verb || 'Make'
+          let verbIng = verb.endsWith('e') ? verb.slice(0, -1) + 'ing' : verb + 'ing'
+          return (
+            <a
+              href={`/recipes/${encodeURIComponent(recipeSlug)}`}
+              class="block rounded-lg p-4 transition-colors"
+              style="background:var(--theme-surface);border:1px solid var(--theme-border)"
+              {...{ onmouseover: "this.style.background='var(--theme-surface-hover)'", onmouseout: "this.style.background='var(--theme-surface)'" } as Record<string, string>}
+            >
+              <div class="flex items-start justify-between">
+                <div>
+                  <h2 class="text-2xl font-bold mb-1" style="font-family:var(--theme-heading-font)">{recipe.title}</h2>
+                  <p class="text-sm font-bold" style="color:var(--theme-text-secondary)">{recipe.byline}, {recipe.location}</p>
+                  <p class="text-base font-bold mt-2" style="color:var(--theme-accent)">Start {verbIng} →</p>
+                </div>
+                <span
+                  class="flex items-center justify-center w-6 h-6 rounded-full text-sm flex-shrink-0"
+                  style="background:var(--theme-badge-bg);color:var(--theme-badge-text)"
+                  aria-hidden="true"
+                >
+                  {pack.icon}
+                </span>
+              </div>
+            </a>
+          )
+        })}
+      </div>
+    )
+  }
+
+  return render(
+    pack.name,
+    <main class="max-w-2xl mx-auto px-4 py-8">
+      <div class="text-center mb-8">
+        <div class="text-5xl mb-4">{pack.icon}</div>
+        <h1 class="text-4xl font-bold mb-4" style="font-family:var(--theme-heading-font);color:var(--theme-text)">{pack.name}</h1>
+        <p class="leading-relaxed max-w-lg mx-auto" style="color:var(--theme-text-secondary)">{pack.description}</p>
+      </div>
+      <hr class="my-8" style="border-color:var(--theme-divider)" />
+      {recipesContent}
+    </main>,
+    { themeClass: pack.theme_class }
+  )
+}

@@ -1,0 +1,18 @@
+name: "Wildflower"
+slug: "wildflower"
+description: "Fresh herbs, bright flavors, and sunlit kitchens. A collection of recipes inspired by the garden."
+icon: "🌿"
+sigil: "🌸"
+theme_class: "theme-wildflower"
+colors:
+  bg: "#f6faf6"
+  bg_muted: "#e8f0e5"
+  surface: "#f9fdf9"
+  accent: "#2d6a4f"
+  accent_hover: "#1b4332"
+  text: "#1a2e1a"
+  text_secondary: "#4a6741"
+  border: "#c8dcc0"
+typography:
+  heading_font: 'Georgia, "Times New Roman", serif'
+  body_font: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'

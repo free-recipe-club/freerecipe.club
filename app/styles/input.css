@@ -1,0 +1,369 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-green: #2d5016;
+  --color-brand-cream: #fdf6e3;
+  --color-brand-cream-muted: #f0ead4;
+  --font-sans: "system-ui", "-apple-system", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", sans-serif;
+}
+
+@media print {
+  nav { display: none; }
+  .recipe-image { display: none; }
+  .recipe-background-text { display: none; }
+  input[type="checkbox"] { display: none; }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+
+  main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  h1 { font-size: 18pt; }
+  h2 { font-size: 14pt; }
+  h3 { font-size: 12pt; }
+
+  li, p {
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  a {
+    color: black !important;
+    text-decoration: none !important;
+  }
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+  }
+}
+
+/* Make mode — fallback defaults (overridden by theme) */
+.make-mode {
+  --make-bg: #fdf6e3;
+  --make-surface: #f0ead4;
+  --make-text: #111827;
+  --make-text-secondary: #4b5563;
+  --make-accent: #2d5016;
+  --make-btn-bg: #2d5016;
+  --make-btn-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .make-mode {
+    --make-bg: #1c1917;
+    --make-surface: #292524;
+    --make-text: #fafaf9;
+    --make-text-secondary: #a8a29e;
+    --make-accent: #86c166;
+    --make-btn-bg: #86c166;
+    --make-btn-text: #1c1917;
+  }
+}
+
+/* Base theme properties — consumed by all templates */
+body {
+  background: var(--theme-bg);
+  color: var(--theme-text);
+  font-family: var(--theme-body-font);
+}
+
+/* Wildflower theme */
+.theme-wildflower {
+  --theme-bg: #f6faf6;
+  --theme-bg-muted: #e8f0e5;
+  --theme-surface: #f9fdf9;
+  --theme-surface-hover: #edf5eb;
+  --theme-text: #1a2e1a;
+  --theme-text-secondary: #4a6741;
+  --theme-accent: #2d6a4f;
+  --theme-accent-hover: #1b4332;
+  --theme-accent-text: #ffffff;
+  --theme-border: #c8dcc0;
+  --theme-divider: #d4e4cc;
+  --theme-heading-font: Georgia, "Times New Roman", serif;
+  --theme-body-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --theme-badge-bg: #2d6a4f;
+  --theme-badge-text: #ffffff;
+  --theme-badge-icon: "🌿";
+  --theme-nav-bg: #edf5eb;
+
+  /* Annotation custom properties */
+  --ann-substitution-bg: var(--theme-surface);
+  --ann-substitution-border: var(--theme-accent);
+  --ann-tip-bg: var(--theme-bg-muted);
+  --ann-tip-border: var(--theme-text-secondary);
+  --ann-toggle-track: var(--theme-border);
+  --ann-toggle-track-active: var(--theme-accent);
+  --ann-toggle-thumb: #ffffff;
+
+  /* Make mode inherits theme */
+  --make-bg: #f6faf6;
+  --make-surface: #e8f0e5;
+  --make-text: #1a2e1a;
+  --make-text-secondary: #4a6741;
+  --make-accent: #2d6a4f;
+  --make-btn-bg: #2d6a4f;
+  --make-btn-text: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme-wildflower .make-mode {
+    --make-bg: #1a2e1a;
+    --make-surface: #243524;
+    --make-text: #f0faf0;
+    --make-text-secondary: #8aab82;
+    --make-accent: #6fcf97;
+    --make-btn-bg: #6fcf97;
+    --make-btn-text: #1a2e1a;
+  }
+}
+
+.make-mode {
+  background: var(--make-bg);
+  color: var(--make-text);
+  font-family: var(--font-sans, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif);
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.make-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 8px 16px;
+}
+
+.make-exit {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--make-text-secondary);
+  font-size: 14px;
+  text-decoration: none;
+  padding: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.make-step-counter {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--make-text-secondary);
+}
+
+.make-progress {
+  width: 100%;
+  height: 4px;
+  background: var(--make-surface);
+}
+
+.make-progress-fill {
+  height: 100%;
+  background: var(--make-accent);
+  transition: width 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .make-progress-fill {
+    transition: none;
+  }
+}
+
+#make-steps {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.make-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.make-step-text {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--make-text);
+  outline: none;
+}
+
+.make-section-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--make-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.make-tip summary {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--make-text-secondary);
+  cursor: pointer;
+  list-style: none;
+}
+.make-tip summary::-webkit-details-marker { display: none; }
+.make-tip:not([open]) summary::after { content: ' ▸'; }
+.make-tip[open] summary::after { content: ' ▾'; }
+
+.make-tip-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--make-text-secondary);
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-left: 2px solid var(--make-text-secondary);
+  border-radius: 4px;
+}
+
+.make-nav {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+}
+
+.make-btn {
+  flex: 1;
+  height: 56px;
+  background: var(--make-btn-bg);
+  color: var(--make-btn-text);
+  font-size: 20px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.make-btn:focus-visible {
+  outline: 2px solid var(--make-accent);
+  outline-offset: 2px;
+}
+
+/* Tablet+ */
+@media (min-width: 768px) {
+  .make-step { padding: 24px; }
+  .make-nav { max-width: 640px; margin: 0 auto; width: 100%; }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .make-step {
+    max-width: 900px;
+  }
+}
+
+/* Print */
+@media print {
+  .make-mode {
+    min-height: auto;
+  }
+  .make-step-text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .make-step {
+    padding: 8px 0;
+    page-break-inside: avoid;
+  }
+  .make-nav,
+  .make-top-bar,
+  .make-progress {
+    display: none;
+  }
+  .make-step[hidden] {
+    display: flex !important;
+  }
+  .make-ingredient-heading {
+    font-size: 14px;
+  }
+  .make-ingredient-list li {
+    font-size: 14px;
+  }
+  .make-section-label {
+    font-size: 11px;
+  }
+}
+
+/* Inline ingredient highlighting in make mode */
+.make-ingredient {
+  color: var(--make-accent);
+}
+
+.make-qty {
+  font-weight: 700;
+}
+
+/* Annotation cards — substitutions & tips */
+.ann-sub.ann-active {
+  border-left-color: var(--ann-toggle-track-active, var(--theme-accent));
+  background: color-mix(in srgb, var(--ann-substitution-bg) 80%, var(--theme-accent) 20%);
+}
+
+.ann-tip-details summary {
+  list-style: none;
+}
+.ann-tip-details summary::-webkit-details-marker {
+  display: none;
+}
+.ann-tip-details[open] summary::after {
+  content: ' ▴';
+}
+.ann-tip-details:not([open]) summary::after {
+  content: ' ▾';
+}
+
+@media print {
+  .ann-sub,
+  .ann-tip-details,
+  .ann-selection-bar {
+    display: none !important;
+  }
+}
+
+/* Tip disclosure */
+.ann-tip-body {
+  display: none;
+  background: var(--ann-tip-bg);
+  border-left: 2px solid var(--ann-tip-border);
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 8px;
+}
+.ann-tip-trigger[aria-expanded="true"] + .ann-tip-body {
+  display: block;
+}
+
+/* Print: hide all annotation chrome */
+@media print {
+  .ann-toggle, .ann-tip-trigger, .ann-tip-body, .ann-badge, .ann-selection-bar { display: none !important; }
+}
