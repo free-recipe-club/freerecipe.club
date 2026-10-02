@@ -22,7 +22,7 @@ let checks: [string, boolean][] = [
   ['packs index url', xml.includes(`${siteOrigin}/packs</loc>`) ],
   ['first recipe url', xml.includes(`/recipes/${recipeSlug}</loc>`)],
   ['first pack url', xml.includes(`/packs/${packSlug}</loc>`)],
-  ['sitemaps namespace', xml.includes('sitemaps.org')],
+  ['sitemaps namespace', xml.includes('xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"')],
 ]
 
 for (let [name, pass] of checks) {
