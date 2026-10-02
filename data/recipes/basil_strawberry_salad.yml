@@ -1,0 +1,23 @@
+title: "[Placeholder] Basil Strawberry Salad"
+byline: Placeholder
+location: Garden
+make_verb: Make
+components:
+  -
+    - Salad
+    - 1 lb fresh strawberries, sliced
+    - 1/2 c fresh basil leaves, torn
+    - 4 oz fresh mozzarella, torn
+    - 2 tbsp balsamic glaze
+    - 1 tbsp olive oil
+    - pinch of flaky sea salt
+directions:
+  -
+    - Salad
+    - Arrange {1 lb fresh strawberries, sliced} on a plate.
+    - Scatter {1/2 c fresh basil leaves, torn} and {4 oz fresh mozzarella, torn} over the berries.
+    - Drizzle with {2 tbsp balsamic glaze} and {1 tbsp olive oil}.
+  - Finish with {pinch of flaky sea salt} and serve immediately.
+background: The combination of sweet strawberries and fresh basil is summer on a plate.
+flavor: Sweet meets savory meets garden-fresh.
+pack: wildflower

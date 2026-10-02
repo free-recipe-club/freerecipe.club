@@ -1,6 +1,9 @@
 # build output
-#dist/
 .output/
+dist/
+public/styles/output.css
+public/make.js
+public/annotations.js
 
 # dependencies
 node_modules/

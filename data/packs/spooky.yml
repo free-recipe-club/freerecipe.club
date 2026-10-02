@@ -1,0 +1,18 @@
+name: "Spooky Season"
+slug: "spooky"
+status: building
+description: "A community-built collection of original recipes for cozy, eerie October kitchens. Contributions welcome through October."
+sigil: "🎃"
+theme_class: "theme-spooky"
+colors:
+  bg: "#17131c"
+  bg_muted: "#251d2d"
+  surface: "#211a29"
+  accent: "#d87936"
+  accent_hover: "#f09a50"
+  text: "#f8f1e5"
+  text_secondary: "#c8b8ce"
+  border: "#49334e"
+typography:
+  heading_font: 'Georgia, "Times New Roman", serif'
+  body_font: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'

@@ -1,25 +1,71 @@
-# Welcome to [Free Recipe Club](https://www.freerecipe.club/)
+# freerecipe.club
 
-Your always-ad-free source for recipes from the heart.
+Your ad-free, tracking-free place to find a recipe and cook it.
 
-> 🎃 **Here for Hacktoberfest?** More details are coming. Think about a recipe that means something special to you!
+No tracking. No accounts. No dark patterns. Just recipes.
 
-## 🥖 Project Structure
+## What Is This?
 
-This project uses [Astro](https://astro.build/), as well as React, and Typescript.
+A community-driven recipe website built as the antithesis of ad-bloated recipe sites. Contributors submit recipes via GitHub PRs or issues. Themed packs transform the site's look alongside curated recipe collections. Open source and built transparently in a public repo.
 
-Inside the project, the recipes and associated images are placed in the following directories:
+## Features
+
+- Clean, recipe-first display — no preamble, no life stories before ingredients
+- Cooking mode — step-by-step with wake lock for kitchen use
+- Themed recipe packs — curated collections with matching visual themes
+- Print-friendly — clean printout without browser chrome
+- Zero tracking, zero cookies, zero third-party scripts
+
+## Contributing
+
+We'd love your recipes! See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
+
+**Quick paths:**
+- **Submit a recipe** — [Create a PR](CONTRIBUTING.md#via-pull-request-recommended) or [open an issue](.github/ISSUE_TEMPLATE/recipe_submission.md)
+- **Spooky Season pack drive** — Help build an original October recipe collection. See open issues for recipe and theme tasks. This is not a Hacktoberfest PR/reward program.
+
+## Running Locally
+
+Requires Node.js 20+.
+
+```bash
+npm install
+npm run dev
+```
+
+Visit `http://localhost:3000`
+
+## Tech Stack
+
+- [Remix](https://github.com/remix-run/remix) component and fetch-router packages — SSR framework
+- [Tailwind CSS v4](https://tailwindcss.com/) — Utility-first styling
+- [TypeScript](https://www.typescriptlang.org/) — Type safety
+- [Zod](https://zod.dev/) — Recipe data validation
+- Static site build for deployment
+
+## Project Structure
 
 ```
-/
-├── public/
-│   └── images/
-│       └── example_recipe.jpg
-├── src/
-│   ├── recipes/
-│   │   └── example_recipe.yml
+data/recipes/       Recipe YAML files
+data/packs/         Themed pack metadata
+public/recipes/     Recipe images
+app/                Controllers, routes, data loading
+scripts/            Validation scripts
+.github/            Templates and CI
 ```
 
-This website looks for `.yml` files in the `src/recipes/` directory.
+## Deployment
 
-The recipe should have a `.jpg` file with a matching name located in the `public/images/` folder.
+The production site is statically generated into `dist/` and deployed as a DigitalOcean App Platform static site from `main`. The App Platform spec is `app.yaml`; configure the `freerecipe.club` custom domain and DNS in the DigitalOcean control panel. Builds run `npm ci && npm run build` and publish `dist/`.
+
+## Content license
+
+Code is MIT-licensed. Community recipe text and photos are licensed under CC BY-SA 4.0. Contributors must own or have permission to share submitted photos.
+
+## License
+
+[MIT](LICENSE)
+
+## Code of Conduct
+
+[Contributor Covenant v2.1](CODE_OF_CONDUCT.md)

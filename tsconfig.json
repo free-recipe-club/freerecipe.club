@@ -1,6 +1,16 @@
 {
-  "extends": "astro/tsconfigs/base",
   "compilerOptions": {
-    "jsx": "react-jsx"
-  }
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "jsxImportSource": "@remix-run/component",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true
+  },
+  "include": ["app/**/*", "server.ts", "scripts/**/*"]
 }
