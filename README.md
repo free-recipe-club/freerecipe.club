@@ -1,6 +1,6 @@
 # freerecipe.club
 
-Your always-ad-free source for recipes from the heart.
+Your ad-free, tracking-free place to find a recipe and cook it.
 
 No tracking. No accounts. No dark patterns. Just recipes.
 
@@ -21,8 +21,8 @@ A community-driven recipe website built as the antithesis of ad-bloated recipe s
 We'd love your recipes! See [CONTRIBUTING.md](CONTRIBUTING.md) for full details.
 
 **Quick paths:**
-- **Submit a recipe** — [Create a PR](CONTRIBUTING.md#via-pull-request-recommended) or [open an issue](CONTRIBUTING.md#via-github-issue)
-- **Hacktoberfest** — Look for issues labeled `good first issue` and `hacktoberfest`
+- **Submit a recipe** — [Create a PR](CONTRIBUTING.md#via-pull-request-recommended) or [open an issue](.github/ISSUE_TEMPLATE/recipe_submission.md)
+- **Spooky Season pack drive** — Help build an original October recipe collection. See open issues for recipe and theme tasks. This is not a Hacktoberfest PR/reward program.
 
 ## Running Locally
 
@@ -37,7 +37,7 @@ Visit `http://localhost:3000`
 
 ## Tech Stack
 
-- [Remix 3](https://github.com/remix-run/remix) (alpha) — Server framework
+- [Remix](https://github.com/remix-run/remix) component and fetch-router packages — SSR framework
 - [Tailwind CSS v4](https://tailwindcss.com/) — Utility-first styling
 - [TypeScript](https://www.typescriptlang.org/) — Type safety
 - [Zod](https://zod.dev/) — Recipe data validation
@@ -53,6 +53,14 @@ app/                Controllers, routes, data loading
 scripts/            Validation scripts
 .github/            Templates and CI
 ```
+
+## Deployment
+
+The production site is statically generated into `dist/` and deployed as a DigitalOcean App Platform static site from `main`. The App Platform spec is `app.yaml`; configure the `freerecipe.club` custom domain and DNS in the DigitalOcean control panel. Builds run `npm ci && npm run build` and publish `dist/`.
+
+## Content license
+
+Code is MIT-licensed. Community recipe text and photos are licensed under CC BY-SA 4.0. Contributors must own or have permission to share submitted photos.
 
 ## License
 

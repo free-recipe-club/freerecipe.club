@@ -7,12 +7,12 @@ import { recipeMake } from '../app/controllers/recipes/make.tsx'
 import { packsIndex } from '../app/controllers/packs/index.tsx'
 import { packShow } from '../app/controllers/packs/show.tsx'
 import { sitemap } from '../app/controllers/sitemap.ts'
-import { listRecipeSlugs, loadRecipe, countSteps } from '../app/data/recipes.ts'
-import { loadPacks } from '../app/data/packs.ts'
+import { listStaticPagePaths } from '../app/data/pages.ts'
+import { notFound } from '../app/controllers/not-found.tsx'
 
 const DIST = path.join(process.cwd(), 'dist')
 const PUBLIC = path.join(process.cwd(), 'public')
-const ORIGIN = 'https://freerecipe.club'
+const ORIGIN = process.env.SITE_ORIGIN || 'https://freerecipe.club'
 
 function fakeContext(pathname: string, params: Record<string, string> = {}): { params: Record<string, string>; url: URL } {
   return { params, url: new URL(`${ORIGIN}${pathname}`) }
@@ -45,60 +45,52 @@ async function build() {
   }
   fs.mkdirSync(DIST, { recursive: true })
 
-  let recipeSlugs = listRecipeSlugs()
-  let packSlugs = loadPacks().map(p => p.slug)
   let pages = 0
 
-  // Static pages
-  await writePage(path.join(DIST, 'index.html'), await home())
-  pages++
+  // Render the shared page inventory so newly added pages cannot be omitted from the build.
+  for (let pagePath of listStaticPagePaths()) {
+    let match = pagePath.match(/^\/recipes\/([^/]+)\/make(?:\/(\d+))?$/)
+    let response: Response
+    let outputPath: string
 
-  await writePage(path.join(DIST, 'recipes', 'index.html'), await recipesIndex())
-  pages++
-
-  await writePage(path.join(DIST, 'packs', 'index.html'), await packsIndex())
-  pages++
-
-  // Recipe pages
-  for (let slug of recipeSlugs) {
-    await writePage(
-      path.join(DIST, 'recipes', slug, 'index.html'),
-      await recipeShow(fakeContext(`/recipes/${slug}`, { slug }))
-    )
-    pages++
-
-    // Make mode: one page per step
-    let recipe = loadRecipe(slug.replace(/-/g, '_'))
-    let totalSteps = countSteps(recipe)
-    await writePage(
-      path.join(DIST, 'recipes', slug, 'make', 'index.html'),
-      await recipeMake(fakeContext(`/recipes/${slug}/make`, { slug, step: '1' }))
-    )
-    pages++
-    for (let step = 2; step <= totalSteps; step++) {
-      await writePage(
-        path.join(DIST, 'recipes', slug, 'make', String(step), 'index.html'),
-        await recipeMake(fakeContext(`/recipes/${slug}/make/${step}`, { slug, step: String(step) }))
-      )
-      pages++
+    if (pagePath === '/') {
+      response = await home()
+      outputPath = path.join(DIST, 'index.html')
+    } else if (pagePath === '/recipes') {
+      response = await recipesIndex()
+      outputPath = path.join(DIST, 'recipes', 'index.html')
+    } else if (pagePath === '/packs') {
+      response = await packsIndex()
+      outputPath = path.join(DIST, 'packs', 'index.html')
+    } else if (pagePath === '/sitemap.xml') {
+      response = sitemap(fakeContext(pagePath))
+      outputPath = path.join(DIST, 'sitemap.xml')
+    } else if (pagePath === '/404.html') {
+      response = await notFound()
+      outputPath = path.join(DIST, '404.html')
+    } else if (pagePath === '/robots.txt') {
+      // These deployment files are copied from public/ after rendering pages.
+      continue
+    } else if (match) {
+      let slug = decodeURIComponent(match[1])
+      let step = match[2] || '1'
+      response = await recipeMake(fakeContext(pagePath, { slug, step }))
+      outputPath = path.join(DIST, 'recipes', slug, 'make', ...(step === '1' ? [] : [step]), 'index.html')
+    } else if (pagePath.startsWith('/recipes/')) {
+      let slug = decodeURIComponent(pagePath.slice('/recipes/'.length))
+      response = await recipeShow(fakeContext(pagePath, { slug }))
+      outputPath = path.join(DIST, 'recipes', slug, 'index.html')
+    } else if (pagePath.startsWith('/packs/')) {
+      let slug = decodeURIComponent(pagePath.slice('/packs/'.length))
+      response = await packShow(fakeContext(pagePath, { slug }))
+      outputPath = path.join(DIST, 'packs', slug, 'index.html')
+    } else {
+      throw new Error(`No static renderer for ${pagePath}`)
     }
-  }
 
-  // Pack pages
-  for (let slug of packSlugs) {
-    await writePage(
-      path.join(DIST, 'packs', slug, 'index.html'),
-      await packShow(fakeContext(`/packs/${slug}`, { slug }))
-    )
+    await writePage(outputPath, response)
     pages++
   }
-
-  // Sitemap
-  await writePage(
-    path.join(DIST, 'sitemap.xml'),
-    sitemap(fakeContext('/sitemap.xml'))
-  )
-  pages++
 
   // Copy static assets from public/
   copyDir(PUBLIC, DIST)

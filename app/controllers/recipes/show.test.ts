@@ -1,21 +1,24 @@
 import { createAppRouter } from '../../router.ts'
+import { loadRecipes, listRecipeSlugs } from '../../data/recipes.ts'
 
 let router = createAppRouter()
+let recipe = loadRecipes()[0]
+let slug = listRecipeSlugs()[0]
 
 // Test valid recipe
-let req = new Request('http://localhost:3000/recipes/basil-strawberry-salad')
+let req = new Request(`http://localhost:3000/recipes/${slug}`)
 let res = await router.fetch(req)
 let html = await res.text()
 
 let checks: [string, boolean][] = [
   ['status 200', res.status === 200],
-  ['Basil Strawberry Salad title', html.includes('[Placeholder] Basil Strawberry Salad')],
+  ['recipe title', html.includes(recipe.title)],
   ['Ingredients section', html.includes('Ingredients')],
   ['Directions section', html.includes('Directions')],
   ['peer-checked:line-through', html.includes('peer-checked:line-through')],
   ['recipe-background-text', html.includes('recipe-background-text')],
   ['theme-aware divider', html.includes('var(--theme-')],
-  ['Salad group', html.includes('Salad')],
+  ['ingredient group heading', html.includes(typeof recipe.components[0][0] === 'string' ? recipe.components[0][0] : recipe.components[0][0].text)],
   ['meta description', html.includes('meta name="description"')],
   ['sr-only checkbox', html.includes('sr-only')],
   ['nav bar', html.includes('<nav')],

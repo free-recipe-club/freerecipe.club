@@ -13,8 +13,10 @@
     "build:css": "npx @tailwindcss/cli -i ./app/styles/input.css -o ./public/styles/output.css --minify",
     "build:js": "tsx scripts/build-scripts.ts",
     "build:static": "tsx scripts/build-static.ts",
+    "check:dist": "tsx scripts/check-dist.ts",
     "typecheck": "tsc --noEmit",
-    "validate": "tsx scripts/validate-recipes.ts"
+    "validate": "tsx scripts/validate-recipes.ts",
+    "test": "tsx print.test.ts && tsx app/controllers/render.test.ts && tsx app/controllers/sitemap.test.ts && tsx app/controllers/recipes/index.test.ts && tsx app/controllers/recipes/show.test.ts && tsx app/controllers/recipes/make.test.ts"
   },
   "dependencies": {
     "@remix-run/component": "^0.6.0",

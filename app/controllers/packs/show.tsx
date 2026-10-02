@@ -12,7 +12,7 @@ export async function packShow(context: { params: Record<string, string> }): Pro
   } catch {
     let resp = await render(
       'Pack not found',
-      <main class="max-w-2xl mx-auto px-4 py-8">
+      <main id="main-content" class="max-w-2xl mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-4">Pack not found</h1>
         <p style="color:var(--theme-text-secondary)">
           This collection doesn't exist. Browse{' '}
@@ -51,9 +51,8 @@ export async function packShow(context: { params: Record<string, string> }): Pro
           return (
             <a
               href={`/recipes/${encodeURIComponent(recipeSlug)}`}
-              class="block rounded-lg p-4 transition-colors"
+              class="pack-card block rounded-lg p-4 transition-colors"
               style="background:var(--theme-surface);border:1px solid var(--theme-border)"
-              {...{ onmouseover: "this.style.background='var(--theme-surface-hover)'", onmouseout: "this.style.background='var(--theme-surface)'" } as Record<string, string>}
             >
               <div class="flex items-start justify-between">
                 <div>
@@ -62,11 +61,11 @@ export async function packShow(context: { params: Record<string, string> }): Pro
                   <p class="text-base font-bold mt-2" style="color:var(--theme-accent)">Start {verbIng} →</p>
                 </div>
                 <span
-                  class="flex items-center justify-center w-6 h-6 rounded-full text-sm flex-shrink-0"
+                  class="flex items-center justify-center w-6 h-6 rounded-full text-sm shrink-0"
                   style="background:var(--theme-badge-bg);color:var(--theme-badge-text)"
                   aria-hidden="true"
                 >
-                  {pack.icon}
+                  {pack.sigil}
                 </span>
               </div>
             </a>
@@ -78,15 +77,19 @@ export async function packShow(context: { params: Record<string, string> }): Pro
 
   return render(
     pack.name,
-    <main class="max-w-2xl mx-auto px-4 py-8">
+    <main id="main-content" class="max-w-2xl mx-auto px-4 py-8">
       <div class="text-center mb-8">
-        <div class="text-5xl mb-4">{pack.icon}</div>
+        <div class="text-5xl mb-4">{pack.sigil}</div>
         <h1 class="text-4xl font-bold mb-4" style="font-family:var(--theme-heading-font);color:var(--theme-text)">{pack.name}</h1>
+        {pack.status === 'building' ? <p class="font-bold mb-3" style="color:var(--theme-accent)">Being built this October</p> : null}
         <p class="leading-relaxed max-w-lg mx-auto" style="color:var(--theme-text-secondary)">{pack.description}</p>
       </div>
       <hr class="my-8" style="border-color:var(--theme-divider)" />
       {recipesContent}
     </main>,
-    { themeClass: pack.theme_class }
+    {
+      themeClass: pack.theme_class,
+      canonicalUrl: `https://freerecipe.club/packs/${encodeURIComponent(slug)}`,
+    }
   )
 }

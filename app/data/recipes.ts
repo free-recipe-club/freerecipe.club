@@ -43,6 +43,14 @@ export function getRecipeFilename(slug: string): string {
   return slug.replace(/-/g, '_')
 }
 
+export function getRecipeImageUrl(slug: string): string {
+  let filename = getRecipeFilename(slug)
+  let imagePath = path.join(process.cwd(), 'public', 'recipes', `${filename}.jpg`)
+  return fs.existsSync(imagePath)
+    ? `/recipes/${encodeURIComponent(filename)}.jpg`
+    : '/recipes/placeholder.svg'
+}
+
 export function listRecipeSlugs(recipesDir: string = RECIPES_DIR): string[] {
   return fs.readdirSync(recipesDir)
     .filter(f => f.endsWith('.yml'))

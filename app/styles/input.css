@@ -37,10 +37,37 @@
     color: black !important;
     text-decoration: none !important;
   }
-  a[href]::after {
+  a[href^="http"]::after {
     content: " (" attr(href) ")";
     font-size: 0.8em;
   }
+}
+
+.pack-card:hover {
+  background: var(--theme-surface-hover) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.recipe-step-checkbox:focus-visible + span {
+  outline: 2px solid var(--theme-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -5rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--theme-surface);
+  color: var(--theme-accent);
+  border: 2px solid var(--theme-accent);
+  border-radius: 0.5rem;
+}
+
+.skip-link:focus {
+  top: 1rem;
 }
 
 /* Make mode — fallback defaults (overridden by theme) */
@@ -112,15 +139,62 @@ body {
   --make-btn-text: #ffffff;
 }
 
+/* Spooky Season pack, kept in sync with data/packs/spooky.yml */
+.theme-spooky {
+  --theme-bg: #17131c;
+  --theme-bg-muted: #251d2d;
+  --theme-surface: #211a29;
+  --theme-surface-hover: #30243a;
+  --theme-text: #f8f1e5;
+  --theme-text-secondary: #d2c3d8;
+  --theme-accent: #f09a50;
+  --theme-accent-hover: #ffb36e;
+  --theme-accent-text: #21150c;
+  --theme-border: #604766;
+  --theme-divider: #49334e;
+  --theme-heading-font: Georgia, "Times New Roman", serif;
+  --theme-body-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --theme-badge-bg: #d87936;
+  --theme-badge-text: #21150c;
+  --theme-badge-icon: "🎃";
+  --theme-nav-bg: #251d2d;
+
+  --ann-substitution-bg: var(--theme-surface);
+  --ann-substitution-border: var(--theme-accent);
+  --ann-tip-bg: var(--theme-bg-muted);
+  --ann-tip-border: var(--theme-text-secondary);
+  --ann-toggle-track: var(--theme-border);
+  --ann-toggle-track-active: var(--theme-accent);
+  --ann-toggle-thumb: #ffffff;
+
+  --make-bg: #17131c;
+  --make-surface: #251d2d;
+  --make-text: #f8f1e5;
+  --make-text-secondary: #d2c3d8;
+  --make-accent: #f09a50;
+  --make-btn-bg: #d87936;
+  --make-btn-text: #21150c;
+}
+
 @media (prefers-color-scheme: dark) {
-  .theme-wildflower .make-mode {
-    --make-bg: #1a2e1a;
-    --make-surface: #243524;
-    --make-text: #f0faf0;
-    --make-text-secondary: #8aab82;
-    --make-accent: #6fcf97;
-    --make-btn-bg: #6fcf97;
-    --make-btn-text: #1a2e1a;
+  .theme-wildflower.make-mode {
+    --make-bg: #1c1917;
+    --make-surface: #292524;
+    --make-text: #fafaf9;
+    --make-text-secondary: #a8a29e;
+    --make-accent: #86c166;
+    --make-btn-bg: #86c166;
+    --make-btn-text: #1c1917;
+  }
+
+  .theme-spooky.make-mode {
+    --make-bg: #100d14;
+    --make-surface: #251d2d;
+    --make-text: #fffaf1;
+    --make-text-secondary: #e1d5e5;
+    --make-accent: #ffb36e;
+    --make-btn-bg: #ffb36e;
+    --make-btn-text: #21150c;
   }
 }
 

@@ -1,5 +1,5 @@
 import { render } from '../render.tsx'
-import { loadRecipe, getRecipeFilename, collectAnnotations, findVariants } from '../../data/recipes.ts'
+import { loadRecipe, getRecipeFilename, getRecipeImageUrl, collectAnnotations, findVariants } from '../../data/recipes.ts'
 import { loadPack } from '../../data/packs.ts'
 import type { Recipe, AnnotatedItem } from '../../data/recipe-schema.ts'
 
@@ -93,7 +93,7 @@ function renderDirections(directions: Recipe['directions'], idCounter: { value: 
       items.push(
         <li class="text-lg leading-relaxed">
           <label class="cursor-pointer">
-            <input type="checkbox" class="peer sr-only" />
+            <input type="checkbox" class="peer sr-only recipe-step-checkbox" />
             <span class="peer-checked:line-through peer-checked:text-gray-400">{stripMarkers(entry)}</span>
           </label>
         </li>
@@ -107,7 +107,7 @@ function renderDirections(directions: Recipe['directions'], idCounter: { value: 
           items.push(
             <li class="text-lg leading-relaxed">
               <label class="cursor-pointer">
-                <input type="checkbox" class="peer sr-only" />
+                <input type="checkbox" class="peer sr-only recipe-step-checkbox" />
                 <span class="peer-checked:line-through peer-checked:text-gray-400">{stripMarkers(sub as string)}</span>
               </label>
             </li>
@@ -130,7 +130,7 @@ function getBadge(recipe: Recipe) {
         class="inline-flex items-center gap-1 px-2 py-1 text-sm font-bold rounded-full mt-1 print:hidden"
         style="background:var(--theme-badge-bg);color:var(--theme-badge-text)"
       >
-        <span aria-hidden="true">{pack.icon}</span> {pack.name}
+        <span role="img" aria-label={pack.name}>{pack.sigil}</span>
       </span>
     )
   } catch {
@@ -162,15 +162,32 @@ function renderRecipe(recipe: Recipe, slug: string) {
 
   let variants = findVariants(slug)
 
+  let jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Recipe',
+    name: recipe.title,
+    description: recipe.flavor || recipe.background || undefined,
+    image: `https://freerecipe.club${getRecipeImageUrl(slug)}`,
+    author: { '@type': 'Person', name: recipe.byline },
+    recipeIngredient: recipe.components.flatMap(group => group.slice(1).map(item => typeof item === 'string' ? item : item.text)),
+    recipeInstructions: recipe.directions.flatMap(entry => {
+      if (typeof entry === 'string') return [entry]
+      if (Array.isArray(entry)) return entry.slice(1).map(item => typeof item === 'string' ? item : item.text)
+      return [entry.text]
+    }).map(text => ({ '@type': 'HowToStep', text: text.replace(/[{}]/g, '') })),
+  }
+
   return (
-    <main class="max-w-2xl mx-auto px-4 py-8">
+    <main id="main-content" class="max-w-2xl mx-auto px-4 py-8">
+      <script type="application/ld+json">{JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>
       <header class="flex items-start gap-4 mb-8">
         <img
-          src={`/recipes/${encodeURIComponent(getRecipeFilename(slug))}.jpg`}
+          src={getRecipeImageUrl(slug)}
           alt={recipe.title}
           width="80"
           height="80"
-          class="w-20 h-20 rounded object-cover flex-shrink-0 recipe-image"
+          loading="lazy"
+          class="w-20 h-20 rounded object-cover shrink-0 recipe-image"
         />
         <div>
           <h1 class="text-3xl font-bold" style="color:var(--theme-accent)">{recipe.title}</h1>
@@ -265,6 +282,7 @@ export async function recipeShow(context: { params: Record<string, string> }): P
     let recipe = loadRecipe(filename)
     return render(recipe.title, renderRecipe(recipe, slug), {
       description: recipe.flavor || undefined,
+      canonicalUrl: `https://freerecipe.club/recipes/${encodeURIComponent(slug)}`,
     })
   } catch {
     let resp = await render(

@@ -5,10 +5,10 @@ import { Document } from '../ui/document.tsx'
 export async function render(
   title: string,
   content: RemixNode,
-  options?: { description?: string; themeClass?: string }
+  options?: { description?: string; themeClass?: string; canonicalUrl?: string }
 ): Promise<Response> {
   let html = await renderToString(
-    <Document title={title} description={options?.description} themeClass={options?.themeClass}>
+    <Document title={title} description={options?.description} canonicalUrl={options?.canonicalUrl} themeClass={options?.themeClass}>
       {content}
     </Document>
   )

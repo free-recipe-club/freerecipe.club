@@ -1,20 +1,27 @@
 import { createAppRouter } from '../router.ts'
+import { listRecipeSlugs } from '../data/recipes.ts'
+import { loadPacks } from '../data/packs.ts'
 
 let router = createAppRouter()
 
 // Test sitemap
 let req = new Request('http://localhost:3000/sitemap.xml')
+let siteOrigin = process.env.SITE_ORIGIN || new URL('http://localhost:3000').origin
 let res = await router.fetch(req)
 let xml = await res.text()
 let ct = res.headers.get('content-type')
+let recipeSlug = listRecipeSlugs()[0]
+let packSlug = loadPacks()[0].slug
 
 let checks: [string, boolean][] = [
   ['sitemap 200', res.status === 200],
   ['content-type xml', ct?.includes('xml') ?? false],
   ['urlset element', xml.includes('urlset')],
-  ['home url', xml.includes('http://localhost:3000/')],
+  ['home url', xml.includes(`${siteOrigin}/</loc>`)],
   ['/recipes url', xml.includes('/recipes</loc>')],
-  ['basil-strawberry-salad url', xml.includes('/recipes/basil-strawberry-salad')],
+  ['packs index url', xml.includes(`${siteOrigin}/packs</loc>`) ],
+  ['first recipe url', xml.includes(`/recipes/${recipeSlug}</loc>`)],
+  ['first pack url', xml.includes(`/packs/${packSlug}</loc>`)],
   ['sitemaps namespace', xml.includes('sitemaps.org')],
 ]
 

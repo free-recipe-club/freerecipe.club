@@ -26,6 +26,9 @@ jobs:
       - name: Validate recipes
         run: npm run validate
 
+      - name: Run tests
+        run: npm test
+
       - name: Build CSS
         run: npm run build:css
 
@@ -34,3 +37,6 @@ jobs:
 
       - name: Build static site
         run: npm run build:static
+
+      - name: Check built site
+        run: npm run check:dist

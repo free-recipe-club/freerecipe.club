@@ -1,7 +1,7 @@
 name: "Wildflower"
 slug: "wildflower"
+status: released
 description: "Fresh herbs, bright flavors, and sunlit kitchens. A collection of recipes inspired by the garden."
-icon: "🌿"
 sigil: "🌸"
 theme_class: "theme-wildflower"
 colors:

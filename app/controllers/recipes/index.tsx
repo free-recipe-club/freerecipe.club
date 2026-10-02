@@ -9,18 +9,19 @@ export async function recipesIndex() {
   if (recipes.length === 0) {
     return render(
       'Recipes',
-      <main class="max-w-2xl mx-auto px-4 py-8">
+      <main id="main-content" class="max-w-2xl mx-auto px-4 py-8">
         <div class="text-center py-16">
           <h2 class="text-xl font-bold mb-2">No recipes yet</h2>
           <p class="text-gray-600">Recipes are coming soon. Check back shortly.</p>
         </div>
-      </main>
+      </main>,
+      { canonicalUrl: 'https://freerecipe.club/recipes' }
     )
   }
 
   return render(
     'Recipes',
-    <main class="max-w-2xl mx-auto px-4 py-8">
+    <main id="main-content" class="max-w-2xl mx-auto px-4 py-8">
       <h1 class="text-3xl font-bold mb-8">Recipes</h1>
       <ul class="divide-y" style="border-color:var(--theme-divider)">
         {recipes.map((recipe, i) => {
@@ -30,8 +31,8 @@ export async function recipesIndex() {
             try {
               let pack = loadPack(recipe.pack)
               badge = (
-                <span class="inline-flex items-center gap-1 px-2 py-1 text-sm font-bold rounded-full flex-shrink-0" style="background:var(--theme-badge-bg);color:var(--theme-badge-text)">
-                  <span aria-hidden="true">{pack.icon}</span> {pack.name}
+                <span class="inline-flex items-center gap-1 px-2 py-1 text-sm font-bold rounded-full shrink-0" style="background:var(--theme-badge-bg);color:var(--theme-badge-text)">
+                  <span role="img" aria-label={pack.name}>{pack.sigil}</span>
                 </span>
               )
             } catch {}
@@ -50,6 +51,7 @@ export async function recipesIndex() {
           )
         })}
       </ul>
-    </main>
+    </main>,
+    { canonicalUrl: 'https://freerecipe.club/recipes' }
   )
 }

@@ -60,21 +60,20 @@ function extractQuantity(ingredient: string): string {
   return ingredient.substring(0, idx).trim()
 }
 
-function renderInlineIngredients(text: string, subMap?: Map<string, string>) {
+function renderInlineIngredients(text: string, substitutions?: Map<string, string>) {
   let parts: any[] = []
   let lastIndex = 0
   let re = /\{([^}]+)\}/g
   let match
   while ((match = re.exec(text)) !== null) {
     parts.push(text.slice(lastIndex, match.index))
-    let ref = match[1]
-    let display = subMap?.get(ref) || ref
-    let qty = extractQuantity(display)
-    let name = extractIngredientName(display)
+    let ref = substitutions?.get(match[1]) || match[1]
+    let qty = extractQuantity(ref)
+    let name = extractIngredientName(ref)
     if (qty) {
-      parts.push(<span class="make-ingredient"><b class="make-qty">{qty}</b> {name}</span>)
+      parts.push(<span class="make-ingredient" data-make-ingredient={ref}><b class="make-qty">{qty}</b> {name}</span>)
     } else {
-      parts.push(<span class="make-ingredient">{display}</span>)
+      parts.push(<span class="make-ingredient" data-make-ingredient={ref}>{ref}</span>)
     }
     lastIndex = re.lastIndex
   }
@@ -90,6 +89,7 @@ function stepUrl(slug: string, stepNum: number, annQuery: string): string {
 }
 
 async function renderMakeMode(recipe: Recipe, slug: string, activeAnnIds: Set<number>, currentStep: number): Promise<Response> {
+  let componentSubstitutions: { id: number; ingredient: string; text: string }[] = []
   let subMap = new Map<string, string>()
   let idCounter = { value: 1 }
   for (let group of recipe.components) {
@@ -98,8 +98,9 @@ async function renderMakeMode(recipe: Recipe, slug: string, activeAnnIds: Set<nu
       if (typeof item !== 'string' && 'annotations' in item) {
         for (let ann of item.annotations) {
           let id = idCounter.value++
-          if (ann.type === 'substitution' && activeAnnIds.has(id)) {
-            subMap.set(item.text, ann.text)
+          if (ann.type === 'substitution') {
+            componentSubstitutions.push({ id, ingredient: item.text, text: ann.text })
+            if (activeAnnIds.has(id)) subMap.set(item.text, ann.text)
           }
         }
       }
@@ -118,6 +119,9 @@ async function renderMakeMode(recipe: Recipe, slug: string, activeAnnIds: Set<nu
   let step = steps[idx]
 
   let displayText = resolveStepText(step, activeAnnIds)
+  let directionSubstitutions = (step.annotations || [])
+    .filter(({ annotation }) => annotation.type === 'substitution')
+    .map(({ id, annotation }) => ({ id, text: annotation.text }))
   let tips = (step.annotations || []).filter(a => a.annotation.type === 'tip')
 
   let prevHref = currentStep > 1 ? stepUrl(slug, currentStep - 1, annQuery) : null
@@ -129,13 +133,16 @@ async function renderMakeMode(recipe: Recipe, slug: string, activeAnnIds: Set<nu
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#2d6a4f" />
         <title>{recipe.title} — Step {currentStep} — {verbIng} — freerecipe.club</title>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="stylesheet" href="/styles/output.css" />
       </head>
       <body
         class={`${themeClass} make-mode`}
         style="background:var(--make-bg);color:var(--make-text);margin:0;min-height:100vh;min-height:100dvh"
         data-next={nextHref || undefined}
+        data-component-substitutions={JSON.stringify(componentSubstitutions)}
       >
         <div class="make-top-bar">
           <a href={exitHref} aria-label={`Exit ${verbIng.toLowerCase()} mode`} class="make-exit">✕</a>
@@ -153,7 +160,11 @@ async function renderMakeMode(recipe: Recipe, slug: string, activeAnnIds: Set<nu
         </div>
         <div class="make-step" aria-live="polite">
           {step.section ? <div class="make-section-label">{step.section}</div> : null}
-          <div class="make-step-text">{renderInlineIngredients(displayText, subMap)}</div>
+          <div
+            class="make-step-text"
+            data-original-text={step.text}
+            data-direction-substitutions={JSON.stringify(directionSubstitutions)}
+          >{renderInlineIngredients(displayText, subMap)}</div>
           {tips.length > 0 ? (
             <details class="make-tip" style="margin-top:12px">
               <summary>💡 {tips.length === 1 ? 'Tip' : `${tips.length} Tips`}</summary>

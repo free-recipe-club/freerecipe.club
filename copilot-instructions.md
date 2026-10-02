@@ -3,14 +3,14 @@
 
 **freerecipe.club**
 
-A community-driven recipe website that's the antithesis of ad-bloated recipe sites. No accounts, no tracking, no dark patterns — just recipes. Contributors submit via GitHub PRs or issues, recipes get community annotations (inline substitutions and tips), and a full cooking mode guides you step by step. Themed packs transform the site's look alongside curated recipe collections. Open source, Hacktoberfest-ready, built transparently in a public repo.
+A community-driven recipe website that's the antithesis of ad-bloated recipe sites. No accounts, no tracking, no dark patterns — just recipes. Contributors submit via GitHub PRs or issues, recipes get community annotations (inline substitutions and tips), and a full cooking mode guides you step by step. Themed packs transform the site's look alongside curated recipe collections. Open source, built transparently in a public repo. The October 2026 community effort is an independent Spooky Season recipe-pack drive, not a Hacktoberfest PR/reward program.
 
 **Core Value:** Someone finds a recipe and actually cooks from it.
 
 ### Constraints
 
-- **Framework**: [Remix 3](https://github.com/remix-run/remix) (alpha)
-- **Hosting**: Must be free and tied to GitHub repo — no paid hosting services
+- **Framework**: Remix component + fetch-router packages; static output from `scripts/build-static.ts`
+- **Hosting**: GitHub Pages (custom domain) is the planned free static host
 - **Privacy**: Zero tracking, zero cookies beyond technical necessity, no third-party scripts
 - **Data**: Recipes stored as flat files in the repo — no database
 - **Accessibility**: Must work on phones in a kitchen (wet hands, small screen, distractions)
@@ -27,7 +27,7 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 ## Framework
 | Framework | Version | Role |
 |-----------|---------|------|
-| Remix 3 (alpha) | `@remix-run/*` | Server framework — fetch-router, static-middleware, component JSX |
+| Remix packages | `@remix-run/*` | Fetch router, static middleware, component JSX and SSR |
 | Tailwind CSS | v4 (CSS-first) | Utility-first styling via `@tailwindcss/cli` |
 ## Dependencies
 ### Production
@@ -86,7 +86,7 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 - **CSS custom properties:** Pack themes use CSS variables for theming
 - **Print stylesheet:** Strips chrome, shows link URLs
 ## Client Scripts
-- **TypeScript source:** `app/scripts/` compiled via esbuild to `public/`
+- **TypeScript source:** `app/assets/` compiled via esbuild to `public/`
 - **Progressive enhancement:** JS enhances but is never required to read recipes
 <!-- GSD:conventions-end -->
 
@@ -94,7 +94,7 @@ A community-driven recipe website that's the antithesis of ad-bloated recipe sit
 ## Architecture
 
 ## Pattern
-Server-rendered TSX with Remix 3 alpha fetch-router. Controllers handle requests and return HTML Response objects.
+Server-rendered TSX with Remix fetch-router. Controllers handle requests and return HTML Response objects; the same controllers are used by the local server and static builder.
 ## Data Flow
 ```
 Request → @remix-run/fetch-router → controller → load data (YAML+Zod) → render TSX → Response
@@ -106,7 +106,7 @@ Request → @remix-run/fetch-router → controller → load data (YAML+Zod) → 
 | Router | `@remix-run/fetch-router` | `app/router.ts`, `app/routes.ts` |
 | Controllers | TSX (@remix-run/component) | `app/controllers/` |
 | Data | YAML + Zod schemas | `data/`, `app/data/` |
-| Client scripts | TypeScript → esbuild | `app/scripts/` → `public/` |
+| Client scripts | TypeScript → esbuild | `app/assets/` → `public/` |
 | Static Assets | CSS, images, JS | `public/` |
 ## Entry Points
 - `server.ts` — HTTP server via `createRequestListener`
@@ -122,26 +122,11 @@ Request → @remix-run/fetch-router → controller → load data (YAML+Zod) → 
 <!-- GSD:remix-skills-start -->
 ## Remix Agent Skills
 
-This project includes Remix 3 agent skills in `skills/`:
+This project includes Remix agent skills in `skills/`:
 
 - `remix-project-layout` at `skills/remix-project-layout/SKILL.md`: Use when defining or scaffolding the on-disk layout and file conventions of a Remix app.
 - `remix-ui` at `skills/remix-ui/SKILL.md`: Use when building pages, layouts, interactions, styling, navigation, and UI tests in a Remix app.
 <!-- GSD:remix-skills-end -->
-
-<!-- GSD:workflow-start source:GSD defaults -->
-## GSD Workflow Enforcement
-
-Before using Edit, Write, or other file-changing tools, start work through a GSD command so planning artifacts and execution context stay in sync.
-
-Use these entry points:
-- `/gsd-quick` for small fixes, doc updates, and ad-hoc tasks
-- `/gsd-debug` for investigation and bug fixing
-- `/gsd-execute-phase` for planned phase work
-
-Do not make direct repo edits outside a GSD workflow unless the user explicitly asks to bypass it.
-<!-- GSD:workflow-end -->
-
-
 
 <!-- GSD:profile-start -->
 ## Developer Profile

@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A community-driven recipe website that's the antithesis of ad-bloated recipe sites. No accounts, no tracking, no dark patterns — just recipes. Contributors submit via GitHub PRs (or email/letters converted to issues), recipes get community annotations (inline substitutions and tips), and a full cooking mode guides you step by step. Seasonal themed packs transform the site's look alongside curated recipe collections. Open source, Hacktoberfest-ready, built transparently in a public repo.
+A community-driven recipe website that's the antithesis of ad-bloated recipe sites. No accounts, no tracking, no dark patterns — just recipes. Contributors submit via GitHub PRs or issues, recipes get community annotations (inline substitutions and tips), and a full cooking mode guides you step by step. Seasonal themed packs transform the site's look alongside curated recipe collections. Open source, built transparently in a public repo.
 
 ## Core Value
 
@@ -51,8 +51,8 @@ _(No active requirements — next milestone will define new requirements via `/g
 ## Context
 
 - **Shipped v1.0 MVP:** Alpha Remix 3 app with Tailwind v4, Zod-validated YAML recipes, recipe display, cooking mode, themed packs, community contributions infrastructure, and annotations with variant forking. 6 phases, 16 plans, 30/30 requirements complete.
-- **Hosting:** Started on Fly.io, migrated to static build for DigitalOcean during development.
-- **Framework:** Alpha Remix (`remix-run/remix`) — NOT React Router v7, per user override.
+- **Hosting:** Static output in `dist/`; GitHub Pages with `freerecipe.club` custom domain is the current launch plan. DigitalOcean static hosting is the fallback.
+- **Framework:** Remix Component + Fetch Router packages in `@remix-run/*`; static build through `scripts/build-static.ts`. Keep current locked versions through launch; evaluate Remix 1.0 after launch.
 - **Contribution philosophy:** Git-first for developers. For non-technical contributors, email and physical letters are accepted and converted to GitHub issues by maintainers.
 - **Analog ethos:** Minimal tech footprint — no dark patterns, no aggressive interactivity, no mandatory JavaScript for reading recipes.
 - **Anti-pattern:** Every design decision is informed by what mainstream recipe sites do wrong.
@@ -60,8 +60,8 @@ _(No active requirements — next milestone will define new requirements via `/g
 
 ## Constraints
 
-- **Framework**: React Router v7 (framework mode) — stable since Nov 2024, successor to Remix
-- **Hosting**: Must be free and tied to GitHub repo — no paid hosting services
+- **Framework**: Remix SSR controllers reused by a home-grown static site generator
+- **Hosting**: Free GitHub Pages deployment tied to GitHub repo; DigitalOcean static hosting is the contingency
 - **Privacy**: Zero tracking, zero cookies beyond technical necessity, no third-party scripts
 - **Data**: Recipes stored as flat files in the repo — no database
 - **Accessibility**: Must work on phones in a kitchen (wet hands, small screen, distractions)
@@ -70,10 +70,10 @@ _(No active requirements — next milestone will define new requirements via `/g
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Migrate from Astro to React Router v7 | Astro v1 outdated, RR7 offers SSR + modern React + is what Remix became | — Pending |
-| Cloudflare Pages for hosting | Free tier, unlimited bandwidth, edge SSR, official RR7 template | — Pending |
+| Keep Remix with the home-grown SSG | Reuses server-rendered controllers, simple flat-file recipes, static deployment | — Current |
+| GitHub Pages for hosting | Free and tied to the public repo; custom domain via DNS | — Planned |
 | No user accounts | Minimal tech footprint; reduces complexity and privacy concerns | — Pending |
-| Git-first contributions | Public repo, developer audience, Hacktoberfest alignment | — Pending |
+| Git-first contributions | Public repo; October Spooky Season pack drive is independent of Hacktoberfest rewards | — Current |
 | Inline annotations over flat comments | Better signal-to-noise than comment sections; pins context to specific recipe parts | — Pending |
 | Recipe data format TBD | Will evaluate YAML, MDX, JSON during research — pick what's most idiomatic for Remix | — Pending |
 

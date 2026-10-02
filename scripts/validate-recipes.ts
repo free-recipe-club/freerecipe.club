@@ -2,14 +2,27 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { parse as parseYaml } from 'yaml'
 import { RecipeSchema } from '../app/data/recipe-schema.ts'
+import { PackSchema } from '../app/data/pack-schema.ts'
 
 const RECIPES_DIR = path.join(process.cwd(), 'data', 'recipes')
 const IMAGES_DIR = path.join(process.cwd(), 'public', 'recipes')
+const PACKS_DIR = path.join(process.cwd(), 'data', 'packs')
 
 let errors: string[] = []
 let warnings: string[] = []
 
 let files = fs.readdirSync(RECIPES_DIR).filter(f => f.endsWith('.yml'))
+let packSlugs = new Set<string>()
+
+for (let file of fs.readdirSync(PACKS_DIR).filter(f => f.endsWith('.yml') && !f.startsWith('_'))) {
+  let data = parseYaml(fs.readFileSync(path.join(PACKS_DIR, file), 'utf-8'))
+  let result = PackSchema.safeParse(data)
+  if (!result.success) {
+    errors.push(`${file}: invalid pack metadata: ${result.error.issues.map(issue => `${issue.path.join('.')}: ${issue.message}`).join('; ')}`)
+    continue
+  }
+  packSlugs.add(result.data.slug)
+}
 
 if (files.length === 0) {
   console.error('✗ No recipe files found in data/recipes/')
@@ -31,6 +44,10 @@ for (let file of files) {
   }
 
   let recipe = result.data
+
+  if (recipe.pack && !packSlugs.has(recipe.pack)) {
+    errors.push(`${file}: pack references "${recipe.pack}", but no matching data/packs/<slug>.yml exists`)
+  }
 
   // Step 2: Content quality checks
   if (recipe.title.length > 100) {
@@ -133,7 +150,11 @@ for (let file of files) {
   let baseName = file.replace(/\.yml$/, '')
   let imagePath = path.join(IMAGES_DIR, `${baseName}.jpg`)
   if (!fs.existsSync(imagePath)) {
-    errors.push(`${file}: missing image at public/recipes/${baseName}.jpg`)
+    if (recipe.title.startsWith('[Placeholder]')) {
+      warnings.push(`${file}: placeholder image will be used until public/recipes/${baseName}.jpg is supplied`)
+    } else {
+      errors.push(`${file}: missing image at public/recipes/${baseName}.jpg`)
+    }
   }
 }
 

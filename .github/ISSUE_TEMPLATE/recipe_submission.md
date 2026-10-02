@@ -1,8 +1,8 @@
 ---
 name: Recipe Submission
-description: Submit a recipe (we'll format it for you!)
-title: "[Recipe]: "
-labels: ["recipe", "good first issue"]
+description: Submit an original recipe (we'll format it for you!)
+title: "[Spooky recipe]: "
+labels: ["recipe"]
 ---
 
 Thanks for sharing a recipe! Fill in what you can — a maintainer will format it and create the PR for you.
@@ -39,3 +39,7 @@ Why does this recipe matter to you? Where did it come from?
 ## Photo
 
 Upload a photo of the finished dish here (drag and drop or paste):
+
+## Content rights
+
+- [ ] I created or have permission to submit this recipe and any attached image, and agree to CC BY-SA 4.0 for these contributions.

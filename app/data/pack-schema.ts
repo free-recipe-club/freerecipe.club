@@ -3,9 +3,9 @@ import { z } from 'zod'
 export const PackSchema = z.object({
   name: z.string().min(1),
   slug: z.string().min(1),
+  status: z.enum(['building', 'released']).default('released'),
   description: z.string().min(1),
-  icon: z.string().min(1),
-  sigil: z.string().default(''),
+  sigil: z.string().min(1),
   theme_class: z.string().min(1),
   colors: z.object({
     bg: z.string(),

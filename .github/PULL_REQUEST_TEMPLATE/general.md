@@ -16,3 +16,4 @@ How was this change tested?
 
 - [ ] `npm run typecheck` passes
 - [ ] `npm run validate` passes
+- [ ] I created or have permission to submit all recipe text and images in this PR, and agree to CC BY-SA 4.0 for those contributions.

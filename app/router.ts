@@ -8,13 +8,16 @@ import { recipeMake } from './controllers/recipes/make.tsx'
 import { packsIndex } from './controllers/packs/index.tsx'
 import { packShow } from './controllers/packs/show.tsx'
 import { sitemap } from './controllers/sitemap.ts'
+import { notFound } from './controllers/not-found.tsx'
 
 export function createAppRouter() {
+  let isDevelopment = process.env.NODE_ENV !== 'production'
   let router = createRouter({
+    defaultHandler: () => notFound(),
     middleware: [
-      staticFiles('./public', {
-        cacheControl: 'no-store, must-revalidate',
-      }),
+      staticFiles('./public', isDevelopment
+        ? { cacheControl: 'no-store, must-revalidate' }
+        : {}),
     ],
   })
 

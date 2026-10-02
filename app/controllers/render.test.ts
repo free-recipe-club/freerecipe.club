@@ -7,6 +7,7 @@ let checks = [
   ['nav', html.includes('<nav')],
   ['print:hidden', html.includes('print:hidden')],
   ['meta description', html.includes('meta name="description"')],
+  ['open graph metadata', html.includes('property="og:title"')],
   ['freerecipe.club link', html.includes('href="/"')],
   ['Recipes link', html.includes('href="/recipes"')],
 ] as const

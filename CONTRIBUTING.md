@@ -1,6 +1,6 @@
 # Contributing to freerecipe.club
 
-Welcome! We'd love your recipes (and code contributions too).
+Welcome! We'd love your recipes (and code contributions too). The Spooky Season pack is being built through October; look for issues marked `spooky-pack`.
 
 ## How to Submit a Recipe
 
@@ -123,6 +123,12 @@ Want to contribute code instead of (or in addition to) recipes? Great!
    npm run validate     # Recipe validation
    ```
 5. Commit, push, and open a pull request
+
+## Content license and attribution
+
+The repository's MIT license applies to code. By submitting recipe text or an image, you confirm that you created it or have permission to contribute it, and agree to license that contribution under **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**. Include attribution and a source link when a recipe is adapted or an image is not your own. Do not submit copied recipes or images without permission.
+
+The October Spooky Season drive is a community project, not an official Hacktoberfest PR/reward program. Pull requests are reviewed for originality, recipe clarity, image rights, and respectful conduct; no rewards are promised.
 
 ## Running Locally
 
