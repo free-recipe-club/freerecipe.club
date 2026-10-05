@@ -1,6 +1,5 @@
 # build output
 .output/
-dist/
 public/styles/output.css
 public/make.js
 public/annotations.js

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Recipe photo placeholder</title>
+  <desc id="desc">A bowl and spoon illustration on a warm cream background.</desc>
+  <rect width="800" height="600" fill="#f0ead4"/>
+  <circle cx="400" cy="308" r="170" fill="#fffdf8" stroke="#2d6a4f" stroke-width="18"/>
+  <circle cx="400" cy="308" r="116" fill="#e8f0e5"/>
+  <path d="M322 314c32-63 124-65 156 0-27 51-129 51-156 0Z" fill="#d3a654"/>
+  <path d="M346 293c18-18 39-18 55 0m10 38c18-20 43-20 61 0" fill="none" stroke="#2d6a4f" stroke-linecap="round" stroke-width="12"/>
+  <path d="M533 109c-42 44-51 86-16 115 30 24 61 4 83-24 21-27 21-59 4-89-19 31-40 35-71-2Z" fill="#83a66b"/>
+  <path d="M551 204c-5 52-38 76-72 92" fill="none" stroke="#2d6a4f" stroke-linecap="round" stroke-width="10"/>
+  <text x="400" y="544" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="#4a6741">Photo coming soon</text>
+</svg>
