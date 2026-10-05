@@ -56,7 +56,7 @@ scripts/            Validation scripts
 
 ## Deployment
 
-The production site is statically generated into `dist/` and deployed as a DigitalOcean App Platform static site from `main`. The App Platform spec is `app.yaml`; configure the `freerecipe.club` custom domain and DNS in the DigitalOcean control panel. Builds run `npm ci && npm run build` and publish `dist/`.
+The production site is built locally into `dist/`, which is committed to the repository and served by a DigitalOcean App Platform static site. The App Platform spec is `app.yaml`; its source directory is `dist/` and it has no build command. Before committing site changes, run `npm run typecheck`, `npm run validate`, `npm test`, `npm run build`, and `npm run check:dist`. Configure the `freerecipe.club` custom domain and DNS in the DigitalOcean control panel.
 
 ## Content license
 
